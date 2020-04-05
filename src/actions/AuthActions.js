@@ -1,33 +1,41 @@
-import axios from 'axios';
 import setAuthorizationToken from "../utils/SetAuthorizationToken";
-import {SET_CURRENT_USER} from "./types"
+import {SET_CURRENT_USER} from "./types";
+import api from '../api';
+import * as JWT from "jwt-decode";
 
 export function setCurrentUser(user) {
-    return{
-        type : SET_CURRENT_USER,
+    return {
+        type: SET_CURRENT_USER,
         user
     }
 }
-export function setLoginUser() {
-    return function(dispatch) {
-        return axios.get('http://192.168.7.30:8000/api/accounts/user-info/').then(
-            res =>{ dispatch(setCurrentUser(res.data));}
-        );
-    };
-}
+
+// export function setLoginUser() {
+//     return function (dispatch) {
+//         return api.user.setUserLogin().then(res => {
+//             dispatch(setCurrentUser(res))
+//         })
+//     };
+// }
 
 export function login(data) {
-    return dispatch =>{
-        return axios.post('http://192.168.7.30:8000/api/accounts/token-auth/',data).then(res =>{
-            const token = res.data.token;
-            localStorage.setItem('jwtToken',token);
+    return dispatch => {
+        return api.user.login(data).then(res => {
+            const {token} = res;
+            localStorage.setItem('jwtToken', token);
             setAuthorizationToken(token);
+            const payload = JWT(token);
+            const user = {
+                email: payload.email,
+                confirmed: payload.email_verified,
+            };
+            dispatch(setCurrentUser(user));
         })
     }
 }
 
 export function logout() {
-    return dispatch =>{
+    return dispatch => {
         localStorage.removeItem('jwtToken');
         setAuthorizationToken(false);
         dispatch(setCurrentUser({}));

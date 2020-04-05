@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import TextFiledGroup from "../common/TextFiledGroup";
-import {ValidateLogin} from '../common/Validator';
 import {connect} from 'react-redux';
-import {login} from '../../actions/AuthActions';
 import PropTypes from 'prop-types';
 import Alert from '@material-ui/lab/Alert';
+import TextFiledGroup from "../common/TextFiledGroup";
+import {ValidateLogin} from '../common/Validator';
+import {login} from '../../actions/AuthActions';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -12,15 +12,17 @@ class LoginForm extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
-            email: '',
-            password: '',
+            data: {
+                email: "",
+                password: ""
+            },
             errors: {},
             isLoading: false,
         };
     }
 
     isValid() {
-        const {errors, isValid} = ValidateLogin(this.state);
+        const {errors, isValid} = ValidateLogin(this.state.data);
         if (!isValid) {
             this.setState({errors})
         }
@@ -32,20 +34,22 @@ class LoginForm extends Component {
         e.preventDefault();
         if (this.isValid()) {
             this.setState({errors: {}, isLoading: true});
-            this.props.login(this.state).then(
-                (res) => this.context.router.push("/"),
-                (err) => this.setState({errors: err.response.data, isLoading: false})
-            );
+            this.props.submit(this.state.data)
+                .catch(err =>
+                    this.setState({errors: err.response.data, loading: false})
+                );
         }
 
     }
 
     onChange(e) {
-        this.setState({[e.target.name]: e.target.value})
+        this.setState({
+            data: {...this.state.data, [e.target.name]: e.target.value}
+        });
     }
 
     render() {
-        const {errors, email, password, isLoading} = this.state;
+        const {errors, data, isLoading} = this.state;
         return (
             <div>
                 {errors.non_field_errors && <Alert severity="error">{errors.non_field_errors}</Alert>}
@@ -53,7 +57,7 @@ class LoginForm extends Component {
                     <TextFiledGroup
                         field="email"
                         label="Email"
-                        value={email}
+                        value={data.email}
                         error={errors.email}
                         onChange={this.onChange}
                     />
@@ -61,7 +65,7 @@ class LoginForm extends Component {
                         field="password"
                         label="Password"
                         type="password"
-                        value={password}
+                        value={data.password}
                         error={errors.password}
                         onChange={this.onChange}
                     />
@@ -75,11 +79,7 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-    login: PropTypes.func.isRequired,
-}
-
-LoginForm.contextTypes = {
-    router: PropTypes.object.isRequired,
-}
+    submit: PropTypes.func.isRequired
+};
 
 export default connect(null, {login})(LoginForm);

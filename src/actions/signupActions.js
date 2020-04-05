@@ -1,7 +1,7 @@
-import axios from 'axios';
+import api from '../api';
 
 export function userSignupRequest(userData) {
     return dispatch =>{
-        return axios.post('http://192.168.7.30:8000/api/accounts/register/',userData)
+        return api.user.userSignup(userData)
     }
 }

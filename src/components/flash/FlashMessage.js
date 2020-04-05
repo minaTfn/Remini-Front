@@ -17,14 +17,13 @@ class FlashMessage extends Component {
 
     handleClose() {
         this.props.deleteFlashMessage(this.props.message.id);
-        this.setState({open: false});
     };
 
     render() {
         const {type, text} = this.props.message;
         return (
             <div>
-                <Snackbar open={this.state.open} autoHideDuration={6000} onExited={this.handleClose} onClose={this.handleClose}>
+                <Snackbar open={this.state.open} autoHideDuration={6000} onExit={this.handleClose} onClose={this.handleClose}>
                     <Alert action={
                         <button
                             onClick={this.handleClose}
