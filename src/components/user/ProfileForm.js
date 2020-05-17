@@ -1,8 +1,11 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import TextFiledGroup from "../common/TextFiledGroup";
-import {ValidateProfile, ValidateChangePassword} from '../common/Validator';
-import api from "../../api";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import PropTypes from "prop-types";
+import TextFieldGroup from "../common/TextFieldGroup";
+import {ValidateProfile, ValidateChangePassword} from "../common/Validator";
+import api from "../../utils/api";
+import Button from "react-bootstrap/Button";
+import {Alert} from "react-bootstrap";
 
 class ProfileForm extends Component {
     constructor(props) {
@@ -13,102 +16,116 @@ class ProfileForm extends Component {
         this.onChgPassClick = this.onChgPassClick.bind(this);
         this.onBlurValidate = this.onBlurValidate.bind(this);
         this.onBlurValidatePassword = this.onBlurValidatePassword.bind(this);
+        this.verifyEmail = this.verifyEmail.bind(this);
         this.state = {
             dataProfile: {
-                email: '',
-                last_name: '',
+                email: "",
+                last_name: "",
                 first_name: "",
-                cell_number: '',
+                cell_number: "",
             },
             dataChangePass: {
-                new_password: '',
-                passwordConfirmation: '',
-                old_password: '',
+                new_password: "",
+                passwordConfirmation: "",
+                old_password: "",
             },
             errors: {},
             isEditing: false,
             isLoading: false,
             isPasswordChanging: false,
-
+            isSendingEmail: false,
+            emailSent: 0,
         };
     }
 
     componentDidMount() {
-        api.user.getUserInfo().then(res => this.setState({
-            dataProfile: res
-        }));
+        api.user.fetchCurrentUser().then((res) =>
+            this.setState({
+                dataProfile: res,
+            })
+        );
     }
-
 
     onEditClick() {
         this.setState({isEditing: !this.state.isEditing});
     }
 
     onChgPassClick() {
-
         this.setState({isPasswordChanging: !this.state.isPasswordChanging});
         if (!this.state.isPasswordChanging) {
             this.setState({
                 dataChangePass: {
-                    new_password: '',
-                    passwordConfirmation: '',
-                    old_password: '',
+                    new_password: "",
+                    passwordConfirmation: "",
+                    old_password: "",
                 },
-                errors: {}
+                errors: {},
             });
         }
     }
 
     onSubmit(e) {
         e.preventDefault();
-        if (this.state.isEditing) { // submit for edit profile
+        if (this.state.isEditing) {
+            // submit for edit profile
             if (this.isValid()) {
                 this.setState({errors: {}, isLoading: true});
-                api.user.editUserInfo(this.state.dataProfile).then(() => {
-                    this.setState({
-                        isEditing: false,
-                        isLoading: false,
+                api.user
+                    .editUserInfo(this.state.dataProfile)
+                    .then(() => {
+                        this.setState({
+                            isEditing: false,
+                            isLoading: false,
+                        });
+                        this.props.addFlashMessage({
+                            type: "success",
+                            text: "You've Changed your profile successfully!",
+                        });
+                    })
+                    .catch((error) => {
+                        this.setState({errors: error.response.data, isLoading: false});
                     });
-                    this.props.addFlashMessage({
-                        type: "success",
-                        text: "You've Changed your profile successfully!"
-                    });
-                }).catch(error => {
-                    this.setState({errors: error.response.data, isLoading: false})
-                });
             }
-        } else if (this.state.isPasswordChanging) { // submit for edit password
+        } else if (this.state.isPasswordChanging) {
+            // submit for edit password
             if (this.isValidPasswordChange()) {
                 this.setState({errors: {}, isLoading: true});
-                api.user.changePassword(this.state.dataChangePass).then(res => {
-                    this.setState({
-                        isPasswordChanging: false,
-                        isLoading: false,
+                api.user
+                    .changePassword(this.state.dataChangePass)
+                    .then((res) => {
+                        this.setState({
+                            isPasswordChanging: false,
+                            isLoading: false,
+                        });
+                        this.props.addFlashMessage({
+                            type: "success",
+                            text: res.message,
+                        });
+                    })
+                    .catch((error) => {
+                        this.setState({errors: error.response.data, isLoading: false});
                     });
-                    this.props.addFlashMessage({
-                        type: "success",
-                        text: res.message
-                    });
-                }).catch(error => {
-                    this.setState({errors: error.response.data, isLoading: false})
-                });
             }
         }
     }
 
     onChange(e) {
-        if(this.state.isPasswordChanging){
+        if (this.state.isPasswordChanging) {
             this.setState({
-                dataChangePass: {...this.state.dataChangePass, [e.target.name]: e.target.value}
+                dataChangePass: {
+                    ...this.state.dataChangePass,
+                    [e.target.name]: e.target.value,
+                },
             });
-        }else{
+        } else {
             this.setState({
-                dataProfile: {...this.state.dataProfile, [e.target.name]: e.target.value}
+                dataProfile: {
+                    ...this.state.dataProfile,
+                    [e.target.name]: e.target.value,
+                },
             });
         }
-
     }
-
 
     onBlurValidate(e) {
         const field = e.target.name;
@@ -118,143 +135,199 @@ class ProfileForm extends Component {
             if (!isValid) {
                 varErrors[field] = errors[field];
             } else {
-                varErrors[field] = '';
+                varErrors[field] = "";
             }
-            this.setState({errors: varErrors})
+            this.setState({errors: varErrors});
         }
     }
 
     onBlurValidatePassword(e) {
         const field = e.target.name;
-        const {errors, isValid} = ValidateChangePassword(this.state.dataChangePass);
+        const {errors, isValid} = ValidateChangePassword(
+            this.state.dataChangePass
+        );
         if (!isValid) {
             const varErrors = this.state.errors;
             if (!isValid) {
                 varErrors[field] = errors[field];
             } else {
-                varErrors[field] = '';
+                varErrors[field] = "";
             }
-            this.setState({errors: varErrors})
+            this.setState({errors: varErrors});
         }
     }
 
     isValid() {
         const {errors, isValid} = ValidateProfile(this.state.dataProfile);
         if (!isValid) {
-            this.setState({errors})
+            this.setState({errors});
         }
 
         return isValid;
     }
 
     isValidPasswordChange() {
-        const {errors, isValid} = ValidateChangePassword(this.state.dataChangePass);
+        const {errors, isValid} = ValidateChangePassword(
+            this.state.dataChangePass
+        );
         if (!isValid) {
-            this.setState({errors})
+            this.setState({errors});
         }
         return isValid;
     }
 
+    verifyEmail() {
+        this.setState({isSendingEmail: true});
+        api.user
+            .VerifyEmailRequest()
+            .then(() => this.setState({isSendingEmail: false, emailSent: 1}))
+            .catch(() => this.setState({isSendingEmail: false, emailSent: 2}));
+    }
+
     render() {
-        const {errors, dataProfile , isLoading, isEditing, isPasswordChanging, dataChangePass} = this.state;
+        const {
+            errors,
+            dataProfile,
+            isLoading,
+            isEditing,
+            isPasswordChanging,
+            dataChangePass,
+            isSendingEmail,
+            emailSent
+        } = this.state;
         return (
             <div>
-
                 <form onSubmit={this.onSubmit}>
+                    {isPasswordChanging && (
+                        <div>
+                            <TextFieldGroup
+                                error={errors.old_password}
+                                label="Password"
+                                onBlur={this.onBlurValidatePassword}
+                                onChange={this.onChange}
+                                field="old_password"
+                                value={dataChangePass.old_password}
+                                type="password"
+                            />
+                            <TextFieldGroup
+                                error={errors.new_password}
+                                label="New Password"
+                                onBlur={this.onBlurValidatePassword}
+                                onChange={this.onChange}
+                                field="new_password"
+                                value={dataChangePass.new_password}
+                                type="password"
+                            />
+                            <TextFieldGroup
+                                error={errors.passwordConfirmation}
+                                label="Confirm New Password"
+                                onBlur={this.onBlurValidatePassword}
+                                onChange={this.onChange}
+                                field="passwordConfirmation"
+                                value={dataChangePass.passwordConfirmation}
+                                type="password"
+                            />
+                        </div>
+                    )}
+                    {!isPasswordChanging && (
+                        <div>
+                            {emailSent === 1 ? <Alert variant="success">
+                                <Alert.Heading>Verify email has been sent successfully.</Alert.Heading>
+                                <p>Please check your email to verify</p>
+                            </Alert> : emailSent === 2 ? <Alert variant="danger">
+                                <Alert.Heading>Something went wrong.</Alert.Heading>
+                                <p>Please try in again</p>
+                            </Alert> : ""}
 
-                    {isPasswordChanging &&
-                    <div>
-
-                        <TextFiledGroup
-                            error={errors.old_password}
-                            label="Password"
-                            onBlur={this.onBlurValidatePassword}
-                            onChange={this.onChange}
-                            field="old_password"
-                            value={dataChangePass.old_password}
-                            type="password"
-                        />
-                        < TextFiledGroup
-                            error={errors.new_password}
-                            label="New Password"
-                            onBlur={this.onBlurValidatePassword}
-                            onChange={this.onChange}
-                            field="new_password"
-                            value={dataChangePass.new_password}
-                            type="password"
-                        />
-                        <TextFiledGroup
-                            error={errors.passwordConfirmation}
-                            label="Confirm New Password"
-                            onBlur={this.onBlurValidatePassword}
-                            onChange={this.onChange}
-                            field="passwordConfirmation"
-                            value={dataChangePass.passwordConfirmation}
-                            type="password"
-                        />
-                    </div>
-                    }
-                    {!isPasswordChanging &&
-                    <div>
-                        <TextFiledGroup
-                            label="Email"
-                            onChange={this.onChange}
-                            value={dataProfile.email}
-                            disabled={true}
-                            classType="inRow"
-                        />
-                        < TextFiledGroup
-                            error={errors.first_name}
-                            label="First Name"
-                            onChange={this.onChange}
-                            onBlur={this.onBlurValidate}
-                            field="first_name"
-                            value={dataProfile.first_name}
-                            type="text"
-                            disabled={!isEditing}
-                            classType="inRow"
-                        />
-                        <TextFiledGroup
-                            error={errors.last_name}
-                            label="Last Name"
-                            onChange={this.onChange}
-                            onBlur={this.onBlurValidate}
-                            field="last_name"
-                            value={dataProfile.last_name}
-                            type="text"
-                            disabled={!isEditing}
-                            classType="inRow"
-                        />
-                        <TextFiledGroup
-                            error={errors.cell_number}
-                            label="Cell Number"
-                            onChange={this.onChange}
-                            onBlur={this.onBlurValidate}
-                            field="cell_number"
-                            value={dataProfile.cell_number}
-                            type="number"
-                            disabled={!isEditing}
-                            classType="inRow"
-                        />
-                    </div>
-                    }
+                            <TextFieldGroup
+                                label="Email"
+                                onChange={this.onChange}
+                                value={dataProfile.email}
+                                disabled
+                                classType="inRow"
+                                description={
+                                    !this.props.isEmailConfirmed && (
+                                        <Button
+                                            type="button"
+                                            onClick={this.verifyEmail}
+                                            variant="outline-info"
+                                            disabled={isSendingEmail}
+                                        >
+                                            {isSendingEmail ? "Sending Email…" : "Verify Email"}
+                                        </Button>
+                                    )
+                                }
+                            />
+                            <TextFieldGroup
+                                error={errors.first_name}
+                                label="First Name"
+                                onChange={this.onChange}
+                                onBlur={this.onBlurValidate}
+                                field="first_name"
+                                value={dataProfile.first_name}
+                                type="text"
+                                disabled={!isEditing}
+                                classType="inRow"
+                            />
+                            <TextFieldGroup
+                                error={errors.last_name}
+                                label="Last Name"
+                                onChange={this.onChange}
+                                onBlur={this.onBlurValidate}
+                                field="last_name"
+                                value={dataProfile.last_name}
+                                type="text"
+                                disabled={!isEditing}
+                                classType="inRow"
+                            />
+                            <TextFieldGroup
+                                error={errors.cell_number}
+                                label="Cell Number"
+                                onChange={this.onChange}
+                                onBlur={this.onBlurValidate}
+                                field="cell_number"
+                                value={dataProfile.cell_number}
+                                type="number"
+                                disabled={!isEditing}
+                                classType="inRow"
+                            />
+                        </div>
+                    )}
                     <div className="form-group">
-                        {!isPasswordChanging &&
-                        <button type="button" disabled={isLoading} onClick={this.onEditClick}
-                                className={`btn ${isEditing ? "btn-light border-primary" : "btn-primary"}`}>
-                            {isEditing ? "Cancel" : "Edit Profile"}
-                        </button>
-                        }
-                        {(isEditing || isPasswordChanging) &&
-                        <button type="submit" onSubmit={this.onSubmit} disabled={isLoading} style={{marginLeft: 10}}
-                                className="btn btn-primary">Submit</button>}
-                        {!isEditing &&
-                        <button type="button" style={{marginLeft: 10}} disabled={isLoading}
+                        {!isPasswordChanging && (
+                            <button
+                                type="button"
+                                disabled={isLoading}
+                                onClick={this.onEditClick}
+                                className={`btn ${
+                                    isEditing ? "btn-light border-primary" : "btn-primary"
+                                }`}
+                            >
+                                {isEditing ? "Cancel" : "Edit Profile"}
+                            </button>
+                        )}
+                        {(isEditing || isPasswordChanging) && (
+                            <button
+                                type="submit"
+                                onSubmit={this.onSubmit}
+                                disabled={isLoading}
+                                style={{marginLeft: 10}}
+                                className="btn btn-primary"
+                            >
+                                Submit
+                            </button>
+                        )}
+                        {!isEditing && (
+                            <button
+                                type="button"
+                                style={{marginLeft: 10}}
+                                disabled={isLoading}
                                 onClick={this.onChgPassClick}
-                                className="btn btn-light border-primary">
-                            {isPasswordChanging ? "Cancel" : "Change Password"}
-                        </button>
-                        }
+                                className="btn btn-light border-primary"
+                            >
+                                {isPasswordChanging ? "Cancel" : "Change Password"}
+                            </button>
+                        )}
                     </div>
                 </form>
             </div>
@@ -264,6 +337,13 @@ class ProfileForm extends Component {
 
 ProfileForm.propTypes = {
     addFlashMessage: PropTypes.func.isRequired,
+    isEmailConfirmed: PropTypes.bool.isRequired,
+};
+
+function mapStateToProps(state) {
+    return {
+        isEmailConfirmed: state.user.email_verified,
+    };
 }
 
-export default ProfileForm;
+export default connect(mapStateToProps)(ProfileForm);

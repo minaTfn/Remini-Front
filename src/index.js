@@ -1,33 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './theme/default/css/index.css';
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-v4-rtl/dist/css/bootstrap-rtl.css';
 import './theme/default/css/App.css';
 import {Route, BrowserRouter} from 'react-router-dom';
-import * as serviceWorker from './serviceWorker';
 import {Provider} from "react-redux";
-import * as JWT from 'jwt-decode';
-import {composeWithDevTools} from "redux-devtools-extension";
-import thunk from 'redux-thunk';
-import {createStore, applyMiddleware} from 'redux';
+import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
+import {addLocaleData} from "react-intl";
+import en from "react-intl/locale-data/en";
+import fa from "react-intl/locale-data/fa";
 import rootReducer from './rootReducer';
-import setAuthorizationToken from "./utils/SetAuthorizationToken";
-import {setCurrentUser} from './actions/AuthActions';
+import {setAuthorizationToken, setAxiosLanguage} from "./utils/SetAuthorizationToken";
 import App from './App';
+import * as serviceWorker from './serviceWorker';
+import {fetchCurrentUser} from "./actions/users";
+import {userFetched} from './reducers/userSlice';
+import {localeSet} from './reducers/localeSlice';
 
-const store = createStore(
-    rootReducer,
-    composeWithDevTools(applyMiddleware(thunk))
-);
+
+addLocaleData(en);
+addLocaleData(fa);
+
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: [...getDefaultMiddleware()],
+    devTools: process.env.NODE_ENV !== 'production',
+});
+
+if (localStorage.lang) {
+    if (localStorage.lang === 'fa') {
+        document.body.classList.add('rtl');
+    } else {
+        document.body.classList.remove('rtl');
+    }
+
+    store.dispatch(localeSet(localStorage.lang));
+    setAxiosLanguage(localStorage.lang);
+}
 
 if (localStorage.jwtToken) {
-    const payload = JWT(localStorage.jwtToken);
-    const user = {
-        email: payload.email,
-        confirmed: payload.email_verified,
-    };
     setAuthorizationToken(localStorage.jwtToken);
-    store.dispatch(setCurrentUser(user));
+    store.dispatch(fetchCurrentUser());
+} else {
+    store.dispatch(userFetched({}))
 }
 
 

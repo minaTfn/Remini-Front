@@ -11,7 +11,7 @@ class UserProfile extends Component {
         return (
             <div className="row">
 
-                <div className="col-md-6 col md offset-lg-1">
+                <div className="col-md-8 col md offset-lg-1">
                     <h1 style={{marginBottom: 20}}>Profile</h1>
                     <ProfileForm addFlashMessage={addFlashMessage}/>
                 </div>

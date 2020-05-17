@@ -22,6 +22,6 @@
     "camelcase": "off",
     "jsx-a11y/href-no-hash": ["off"],
     "react/destructuring-assignment": [1, "never"],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
   }
 }

@@ -43,3 +43,13 @@
 .btn:focus, .btn.focus {
   box-shadow:none;
 }
+
+div.is-invalid > .select__control{
+  border-color:red;
+}
+.is-invalid span.invalid-feedback{
+  display: block;
+}
+.custom-control-label{
+  font-weight: 100;
+}

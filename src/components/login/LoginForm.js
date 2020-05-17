@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Alert from '@material-ui/lab/Alert';
-import TextFiledGroup from "../common/TextFiledGroup";
+import TextFieldGroup from "../common/TextFieldGroup";
 import {ValidateLogin} from '../common/Validator';
-import {login} from '../../actions/AuthActions';
+import Button from "react-bootstrap/Button";
+import {FormattedMessage} from "react-intl";
 
 class LoginForm extends Component {
     constructor(props) {
@@ -21,6 +21,18 @@ class LoginForm extends Component {
         };
     }
 
+    onSubmit(e) {
+        e.preventDefault();
+        if (this.isValid()) {
+            this.setState({errors: {}, isLoading: true});
+            this.props.submit(this.state.data)
+                .catch(err =>
+                    this.setState({errors: err.response.data, isLoading: false})
+                );
+        }
+
+    }
+
     isValid() {
         const {errors, isValid} = ValidateLogin(this.state.data);
         if (!isValid) {
@@ -28,18 +40,6 @@ class LoginForm extends Component {
         }
 
         return isValid;
-    }
-
-    onSubmit(e) {
-        e.preventDefault();
-        if (this.isValid()) {
-            this.setState({errors: {}, isLoading: true});
-            this.props.submit(this.state.data)
-                .catch(err =>
-                    this.setState({errors: err.response.data, loading: false})
-                );
-        }
-
     }
 
     onChange(e) {
@@ -54,23 +54,42 @@ class LoginForm extends Component {
             <div>
                 {errors.non_field_errors && <Alert severity="error">{errors.non_field_errors}</Alert>}
                 <form onSubmit={this.onSubmit}>
-                    <TextFiledGroup
+                    <TextFieldGroup
                         field="email"
-                        label="Email"
+                        label={
+                            <FormattedMessage
+                                id="global.email"
+                                defaultMessage="Email"
+                            />
+                        }
                         value={data.email}
                         error={errors.email}
                         onChange={this.onChange}
                     />
-                    <TextFiledGroup
+                    <TextFieldGroup
                         field="password"
-                        label="Password"
+                        label={
+                            <FormattedMessage
+                                id="login.password"
+                                defaultMessage="Password"
+                            />
+                        }
                         type="password"
                         value={data.password}
                         error={errors.password}
                         onChange={this.onChange}
                     />
                     <div className="form-group">
-                        <button className="btn btn-primary btn-lg" disabled={isLoading}>Login</button>
+                        <Button type="submit" variant="primary" disabled={isLoading}>
+                            {isLoading ? (
+                                <FormattedMessage
+                                    id="login.entering"
+                                    defaultMessage="Login..."
+                                />
+                            ) : (
+                                <FormattedMessage id="login.submitBtn" defaultMessage="Login"/>
+                            )}
+                        </Button>
                     </div>
                 </form>
             </div>
@@ -82,4 +101,4 @@ LoginForm.propTypes = {
     submit: PropTypes.func.isRequired
 };
 
-export default connect(null, {login})(LoginForm);
+export default LoginForm;

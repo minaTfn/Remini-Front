@@ -1,18 +1,20 @@
 import React, {Component} from "react";
+import {connect} from 'react-redux';
 import PropTypes from "prop-types";
 import SignupForm from "./SignupForm";
-import {connect} from 'react-redux';
-import { userSignupRequest } from '../../actions/signupActions'
+import { userSignupRequest } from '../../actions/users'
 import { addFlashMessage }  from "../../actions/flashMessages";
 
 class SignupPage extends Component {
+    submit = data =>
+        this.props.userSignupRequest(data).then(() => this.props.history.push("/dashboard"));
 
     render() {
-        const {userSignupRequest, addFlashMessage} = this.props;
+        const {addFlashMessage} = this.props;
         return (
             <div className="row">
                 <div className="col-md-4 col-md-offset-4">
-                    <SignupForm userSignupRequest={userSignupRequest} addFlashMessage={addFlashMessage}/>
+                    <SignupForm submit={this.submit} addFlashMessage={addFlashMessage}/>
                 </div>
             </div>
         )
@@ -20,9 +22,12 @@ class SignupPage extends Component {
 
 }
 
-
 SignupPage.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired,
     userSignupRequest: PropTypes.func.isRequired,
     addFlashMessage: PropTypes.func.isRequired,
-}
+};
+
 export default connect(null, {userSignupRequest, addFlashMessage})(SignupPage);

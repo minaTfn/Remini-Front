@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import TextFiledGroup from "../common/TextFiledGroup";
+import TextFieldGroup from "../common/TextFieldGroup";
 import {ValidateSignUp} from '../common/Validator';
+import Button from "react-bootstrap/Button";
 
 
 class SignupForm extends Component {
@@ -12,10 +13,12 @@ class SignupForm extends Component {
         this.onBlurValidate = this.onBlurValidate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
-            email: '',
-            cell_number: '',
-            password: '',
-            passwordConfirmation: '',
+            data: {
+                email: '',
+                cell_number: '',
+                password: '',
+                passwordConfirmation: '',
+            },
             errors: {},
             isLoading: false,
         }
@@ -23,21 +26,13 @@ class SignupForm extends Component {
 
     onChange(e) {
         this.setState({
-            [e.target.name]: e.target.value,
-        })
-    }
-
-    isValid() {
-        const {errors, isValid} = ValidateSignUp(this.state);
-        if (!isValid) {
-            this.setState({errors})
-        }
-        return isValid;
+            data: {...this.state.data, [e.target.name]: e.target.value}
+        });
     }
 
     onBlurValidate(e) {
         const field = e.target.name;
-        const {errors, isValid} = ValidateSignUp(this.state);
+        const {errors, isValid} = ValidateSignUp(this.state.data);
         if (!isValid) {
             let varErrors = this.state.errors;
             if (!isValid) {
@@ -53,65 +48,76 @@ class SignupForm extends Component {
         e.preventDefault();
         if (this.isValid()) {
             this.setState({errors: {}, isLoading: true});
-            this.props.userSignupRequest(this.state).then(res => {
-                // console.log(res);
+            this.props.submit(this.state.data).then(() => {
                 this.props.addFlashMessage({
                     type: "success",
                     text: "You've signed up successfully. Welcome!"
                 });
-                this.context.router.push("/")
             }).catch(error => {
                 this.setState({errors: error.response.data, isLoading: false})
             });
         }
     }
 
+    isValid() {
+        const {errors, isValid} = ValidateSignUp(this.state.data);
+        if (!isValid) {
+            this.setState({errors})
+        }
+        return isValid;
+    }
+
     render() {
-        const {errors} = this.state;
+        const {errors, data, isLoading} = this.state;
         return (
             <form autoComplete="off" onSubmit={this.onSubmit}>
                 <h2>Join our community!</h2>
 
-                <TextFiledGroup
+                <TextFieldGroup
                     error={errors.email}
                     autoComplete="new-email"
                     label="Email"
                     onChange={this.onChange}
                     onBlur={this.onBlurValidate}
                     field="email"
-                    value={this.state.email}
+                    value={data.email}
                 />
-                <TextFiledGroup
+                <TextFieldGroup
                     error={errors.cell_number}
                     label="Cell Number"
                     onChange={this.onChange}
                     onBlur={this.onBlurValidate}
                     field="cell_number"
-                    value={this.state.cell_number}
+                    value={data.cell_number}
                     type="number"
                 />
-                <TextFiledGroup
+                <TextFieldGroup
                     error={errors.password}
                     label="Password"
                     autoComplete="new-password"
                     onBlur={this.onBlurValidate}
                     onChange={this.onChange}
                     field="password"
-                    value={this.state.password}
+                    value={data.password}
                     type="password"
                 />
-                <TextFiledGroup
+                <TextFieldGroup
                     error={errors.passwordConfirmation}
                     label="Confirm Password"
                     onChange={this.onChange}
                     onBlur={this.onBlurValidate}
                     field="passwordConfirmation"
-                    value={this.state.passwordConfirmation}
+                    value={data.passwordConfirmation}
                     type="password"
                 />
                 <div className="form-group">
-                    <button type="submit" disabled={this.state.isLoading} className="btn btn-primary btn-lg">Sigh Up
-                    </button>
+                    <Button
+                        type="submit"
+                        variant="primary"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Submitting…' : 'Sign Up'}
+                    </Button>
                 </div>
             </form>
         )
@@ -119,12 +125,7 @@ class SignupForm extends Component {
 }
 
 SignupForm.propTypes = {
-    userSignupRequest: PropTypes.func.isRequired,
     addFlashMessage: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired,
 }
-
-SignupForm.contextTypes = {
-    router: PropTypes.object.isRequired,
-}
-
 export default SignupForm

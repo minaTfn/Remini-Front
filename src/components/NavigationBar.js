@@ -1,121 +1,106 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import React, {Component} from "react";
+import { Link } from 'react-router-dom';
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import { logout } from "../actions/AuthActions";
-import { Dropdown } from "react-bootstrap";
+import {FormattedMessage} from "react-intl";
+import classnames from "classnames"
+import {Navbar, NavDropdown, Nav, Container, Image} from "react-bootstrap";
+import {logout} from "../actions/users";
+import {setLocale} from "../actions/locale";
+import avatar from "../theme/default/images/avatar.png";
 
 class NavigationBar extends Component {
-  constructor() {
-    super();
-    this.onDropDownClick = this.onDropDownClick.bind(this);
-    this.state = {
-      isOpen: false,
-    };
-  }
+    logout(e) {
+        e.preventDefault();
+        this.props.logout();
+    }
 
-  onDropDownClick() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  }
+    render() {
+        const {isAuthenticated, user, location} = this.props;
+        const {lang} = localStorage;
+        const userLinks = (
+            <Container>
+                <Nav className="mr-auto" activeKey={location.pathname}>
+                    <Nav.Link as={Link} to="/dashboard" href="/dashboard">
+                        <FormattedMessage id="nav.dashboard" defaultMessage="Dashboard"/>
+                    </Nav.Link>
+                    <NavDropdown
+                        title={<span ><FormattedMessage id="nav.delivery" defaultMessage="delivery"/></span>}
+                        id="basic-nav-dropdown"
+                    >
+                        <NavDropdown.Item as={Link} to="/delivery/list" href="/delivery/list">
+                            <FormattedMessage id="nav.delivery_list" defaultMessage="delivery_list"/>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to="/delivery/new" href="/delivery/new">
+                            <FormattedMessage id="nav.delivery_new" defaultMessage="delivery_new"/>
+                        </NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
 
-  logout(e) {
-    e.preventDefault();
-    this.props.logout();
-  }
-
-  render() {
-    const { isAuthenticated, user } = this.props.auth;
-    const userLinks = (
-      <div className="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul className="navbar-nav  mr-auto mt-2 mt-lg-0">
-          <li>
-            <Dropdown onClick={this.onDropDownClick} show={this.state.isOpen}>
-              <Dropdown.Toggle variant="simple" id="dropdown-basic">
-                {user.email ? user.email : "Guest"}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Link
-                  onClick={this.onDropDownClick}
-                  to="/profile"
-                  className="dropdown-item"
+                <Nav>
+                    <Nav.Link as="button" className={classnames("bg-info","border-0",{active:(lang === "en")})} onClick={() => this.props.setLocale("en")}>
+                        EN
+                    </Nav.Link>{" "}
+                    <Nav.Link as="button" className={classnames("bg-info","border-0",{active:(lang === "fa")})} onClick={() => this.props.setLocale("fa")}>
+                        FA
+                    </Nav.Link>
+                </Nav>
+                <NavDropdown
+                    drop="down"
+                    alignRight
+                    title={<Image src={avatar} width={40} height={40} roundedCircle/>}
+                    id="basic-nav-dropdown"
                 >
-                  My Profile
-                </Link>
-                <Link
-                  onClick={this.onDropDownClick}
-                  to="profile"
-                  className="dropdown-item"
-                >
-                  Change Password
-                </Link>
-                <Dropdown.Divider />
-                <a
-                  href="void()"
-                  className="dropdown-item"
-                  onClick={this.logout.bind(this)}
-                >
-                  Logout
-                </a>
-              </Dropdown.Menu>
-            </Dropdown>
-          </li>
-          <li className="nav-item active">
-            <Link to="/postList" className="nav-link">
-              Posts
-            </Link>
-          </li>
-          <li className="nav-item active">
-            <Link to="/create" className="nav-link">
-              Create
-            </Link>
-          </li>
-        </ul>
-      </div>
-    );
+                    <NavDropdown.Item disabled>{user}</NavDropdown.Item>
+                    <NavDropdown.Divider/>
+                    <NavDropdown.Item as={Link} to="/profile">
+                        <FormattedMessage id="nav.profile" defaultMessage="Profile"/>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/profile">
+                        <FormattedMessage
+                            id="nav.changePassword"
+                            defaultMessage="Change Password"
+                        />
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider/>
+                    <NavDropdown.Item href="void()" onClick={this.logout.bind(this)}>
+                        <FormattedMessage id="nav.logout" defaultMessage="Logout"/>
+                    </NavDropdown.Item>
+                </NavDropdown>
+            </Container>
+        );
 
-    const guestLinks = (
-      <ul className="navbar-nav  mr-auto mt-2 mt-lg-0">
-        <li className="nav-item active">
-          <Link to="/signup" className="nav-link">
-            Sign Up
-          </Link>
-        </li>
-        <li className="nav-item active">
-          <Link to="/login" className="nav-link">
-            Login
-          </Link>
-        </li>
-      </ul>
-    );
-
-    return (
-      <nav className="navbar navbar-expand-md navbar-light bg-light mb-5">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <Link to="/" className="navbar-brand">
-              ReactJS
-            </Link>
-          </div>
-          <div className="collapse navbar-collapse">
-            {isAuthenticated ? userLinks : guestLinks}
-          </div>
-        </div>
-      </nav>
-    );
-  }
+        const guestLinks = (
+            <Nav className="mr-auto">
+                <Nav.Link as={Link} to="/login">
+                    Login
+                </Nav.Link>
+                <Nav.Link as={Link} to="/signup">
+                    Sign Up
+                </Nav.Link>
+            </Nav>
+        );
+        return (
+            <Navbar bg="info" className="navbar-dark" expand="lg">
+                <Navbar.Brand as={Link} className="text-white" to="/">
+                    ReactJS
+                </Navbar.Brand>
+                <Navbar.Collapse id="basic-navbar-nav">
+                    {isAuthenticated ? userLinks : guestLinks}
+                </Navbar.Collapse>
+            </Navbar>
+        );
+    }
 }
 
 NavigationBar.propTypes = {
-  auth: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired,
+    }).isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    user: PropTypes.string.isRequired,
+    logout: PropTypes.func.isRequired,
+    setLocale: PropTypes.func.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-  };
-}
-
-export default connect(mapStateToProps, { logout })(NavigationBar);
+export default connect(null, {logout, setLocale})(NavigationBar);
