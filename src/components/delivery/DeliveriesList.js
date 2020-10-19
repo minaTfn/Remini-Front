@@ -6,16 +6,22 @@ import EditIcon from "@material-ui/icons/Edit";
 import {Card, Col, Row} from "react-bootstrap";
 
 const MyDeliveriesList = (props) => {
-    const {deliveryItems, cities, paymentMethods} = props.deliveries;
+    const {deliveryItems, cities, paymentMethods, countries} = props.deliveries;
+
+    console.log(props.deliveries)
 
     const direction = (fromCity, toCity) => {
-        return cities[fromCity].country.id === cities[toCity].country.id
-            ? `${cities[fromCity].title_fa} به ${cities[toCity].title_fa}`
-            : `${cities[fromCity].country.title_fa} - ${cities[fromCity].title} به ${cities[toCity].country.title_fa} - ${cities[toCity].title_fa}`;
+
+        return cities[fromCity].country_id === cities[toCity].country_id
+            ? `${cities[fromCity].title} به ${cities[toCity].title}`
+            : `${countries[cities[fromCity].country_id].title_fa} - ${cities[fromCity].title} به ${countries[cities[toCity].country_id].title_fa} - ${cities[toCity].title}`;
+
+        // return cities[fromCity].country.id === cities[toCity].country.id
+        //     ? `${cities[fromCity].title_fa} به ${cities[toCity].title_fa}`
+        //     : `${cities[fromCity].country.title_fa} - ${cities[fromCity].title} به ${cities[toCity].country.title_fa} - ${cities[toCity].title_fa}`;
     };
 
     return (
-
 
         <>
             <Row>
@@ -40,9 +46,9 @@ const MyDeliveriesList = (props) => {
                                 }}>{deliveryItems[keyName].description}</Card.Text>
                                 <small className="text-muted">
                                     پرداخت{" "}
-                                    {paymentMethods[deliveryItems[keyName].payment_method].title}
+                                    {/*{paymentMethods[deliveryItems[keyName].payment_method].title}*/}
                                 </small>
-                                <Link style={{float:"left"}} to={`${deliveryItems[keyName].slug}/edit/`}>
+                                <Link style={{float: "left"}} to={`${deliveryItems[keyName].slug}/edit/`}>
                                     <EditIcon fontSize="small"/>
                                 </Link>
 

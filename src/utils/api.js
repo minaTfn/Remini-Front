@@ -17,14 +17,14 @@ export default {
 
     },
     delivery: {
-        getCountries: () => axios.get(`${server}geography/countries/`).then(res => res.data),
-        getCities: (country) => axios.get(`${server}geography/cities/?country=${country}`).then(res => res.data),
+        getDeliveries: (params) => axios.get(`${server}deliveries/${params}`).then((res) => res.data.result),
+        getCountries: () => axios.get(`${server}getCountries/`).then(res => res.data),
+        getCities: (country) => axios.get(`${server}getCities/?country_id=${country}`).then(res => res.data),
         getPaymentMethods: () => axios.get(`${server}transportation/payment-methods/`).then(res => res.data),
         getDeliveryMethods: () => axios.get(`${server}transportation/delivery-methods/`).then(res => res.data),
         getContactMethods: () => axios.get(`${server}transportation/contact-methods/`).then(res => res.data),
         newDeliveryAdd: (data) => axios.post(`${server}transportation/delivery-new/`, data).then((res) => res.data),
         getMyDeliveries: (params) => axios.get(`${server}transportation/my-deliveries/${params}`).then((res) => res.data),
-        getDeliveries: (params) => axios.get(`${server}transportation/delivery/${params}`).then((res) => res.data),
         getDelivery: (slug) => axios.get(`${server}transportation/delivery/${slug}/`).then((res) => res.data),
         editDelivery: (slug, data) => axios.put(`${server}transportation/delivery/${slug}/`, data).then((res) => res.data),
     }

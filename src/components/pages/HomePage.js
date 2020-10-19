@@ -32,8 +32,10 @@ function HomePage() {
         const params = convertObjectToUrlParams(items);
 
         const data = await api.delivery.getDeliveries(params);
-        setTotalItems(data.count);
-        const normalizedResult = normalize(data.results, [myDeliveriesSchema]);
+        setTotalItems(data.total);
+
+
+        const normalizedResult = normalize(data.data, [myDeliveriesSchema]);
         setDeliveriesList(normalizedResult.entities);
 
         setLoaded(true);
