@@ -25,14 +25,14 @@ class NavigationBar extends Component {
                         <FormattedMessage id="nav.dashboard" defaultMessage="Dashboard"/>
                     </Nav.Link>
                     <NavDropdown
-                        title={<span ><FormattedMessage id="nav.delivery" defaultMessage="delivery"/></span>}
+                        title={<span ><FormattedMessage id="nav.request" defaultMessage="request"/></span>}
                         id="basic-nav-dropdown"
                     >
-                        <NavDropdown.Item as={Link} to="/delivery/list" href="/delivery/list">
-                            <FormattedMessage id="nav.delivery_list" defaultMessage="delivery_list"/>
+                        <NavDropdown.Item as={Link} to="/request/list" href="/request/list">
+                            <FormattedMessage id="nav.request_list" defaultMessage="request_list"/>
                         </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to="/delivery/new" href="/delivery/new">
-                            <FormattedMessage id="nav.delivery_new" defaultMessage="delivery_new"/>
+                        <NavDropdown.Item as={Link} to="/request/new" href="/request/new">
+                            <FormattedMessage id="nav.request_new" defaultMessage="request_new"/>
                         </NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
@@ -81,6 +81,7 @@ class NavigationBar extends Component {
             </Nav>
         );
         return (
+
             <Navbar bg="info" className="navbar-dark" expand="lg">
                 <Navbar.Brand as={Link} className="text-white" to="/">
                     ReactJS

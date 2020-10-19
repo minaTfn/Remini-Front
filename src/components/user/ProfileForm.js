@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import Button from "react-bootstrap/Button";
+import {Alert} from "react-bootstrap";
+import _ from "lodash";
 import TextFieldGroup from "../common/TextFieldGroup";
 import {ValidateProfile, ValidateChangePassword} from "../common/Validator";
 import api from "../../utils/api";
-import Button from "react-bootstrap/Button";
-import {Alert} from "react-bootstrap";
 
 class ProfileForm extends Component {
     constructor(props) {
@@ -20,13 +21,12 @@ class ProfileForm extends Component {
         this.state = {
             dataProfile: {
                 email: "",
-                last_name: "",
-                first_name: "",
+                name: "",
                 cell_number: "",
             },
             dataChangePass: {
-                new_password: "",
-                passwordConfirmation: "",
+                password: "",
+                password_confirmation: "",
                 old_password: "",
             },
             errors: {},
@@ -55,8 +55,8 @@ class ProfileForm extends Component {
         if (!this.state.isPasswordChanging) {
             this.setState({
                 dataChangePass: {
-                    new_password: "",
-                    passwordConfirmation: "",
+                    password: "",
+                    password_confirmation: "",
                     old_password: "",
                 },
                 errors: {},
@@ -70,8 +70,10 @@ class ProfileForm extends Component {
             // submit for edit profile
             if (this.isValid()) {
                 this.setState({errors: {}, isLoading: true});
+
+                const dataProfile = _.omit(this.state.dataProfile, 'email'); // omit email from editable data
                 api.user
-                    .editUserInfo(this.state.dataProfile)
+                    .editUserInfo(dataProfile)
                     .then(() => {
                         this.setState({
                             isEditing: false,
@@ -103,7 +105,7 @@ class ProfileForm extends Component {
                         });
                     })
                     .catch((error) => {
-                        this.setState({errors: error.response.data, isLoading: false});
+                        this.setState({errors: error.response.data.errors, isLoading: false});
                     });
             }
         }
@@ -210,21 +212,21 @@ class ProfileForm extends Component {
                                 type="password"
                             />
                             <TextFieldGroup
-                                error={errors.new_password}
+                                error={errors.password}
                                 label="New Password"
                                 onBlur={this.onBlurValidatePassword}
                                 onChange={this.onChange}
-                                field="new_password"
-                                value={dataChangePass.new_password}
+                                field="password"
+                                value={dataChangePass.password}
                                 type="password"
                             />
                             <TextFieldGroup
-                                error={errors.passwordConfirmation}
+                                error={errors.password_confirmation}
                                 label="Confirm New Password"
                                 onBlur={this.onBlurValidatePassword}
                                 onChange={this.onChange}
-                                field="passwordConfirmation"
-                                value={dataChangePass.passwordConfirmation}
+                                field="password_confirmation"
+                                value={dataChangePass.password_confirmation}
                                 type="password"
                             />
                         </div>
@@ -259,23 +261,12 @@ class ProfileForm extends Component {
                                 }
                             />
                             <TextFieldGroup
-                                error={errors.first_name}
-                                label="First Name"
+                                error={errors.name}
+                                label="Name"
                                 onChange={this.onChange}
                                 onBlur={this.onBlurValidate}
-                                field="first_name"
-                                value={dataProfile.first_name}
-                                type="text"
-                                disabled={!isEditing}
-                                classType="inRow"
-                            />
-                            <TextFieldGroup
-                                error={errors.last_name}
-                                label="Last Name"
-                                onChange={this.onChange}
-                                onBlur={this.onBlurValidate}
-                                field="last_name"
-                                value={dataProfile.last_name}
+                                field="name"
+                                value={dataProfile.name}
                                 type="text"
                                 disabled={!isEditing}
                                 classType="inRow"

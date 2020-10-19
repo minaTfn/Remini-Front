@@ -11,7 +11,7 @@ const AddDelivery = () => {
           <Card className="text-center p-3">
             <Card.Body>
               <Card.Header>Add New Delivery</Card.Header>
-              <Link to="/delivery/new" ><AddCircleOutlineIcon style={{ fontSize: 150 }} /></Link>
+              <Link to="/request/new" ><AddCircleOutlineIcon style={{ fontSize: 150 }} /></Link>
             </Card.Body>
           </Card>
         </Col>

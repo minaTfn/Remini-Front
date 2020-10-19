@@ -1,19 +1,20 @@
 import axios from "axios";
 
-const server = 'http://192.168.7.30:8000/api/';
+const server = 'http://127.0.0.1:8000/api/';
 
 export default {
     user: {
-        login: (credentials) => axios.post(`${server}accounts/token-auth/`, credentials).then((res) => res.data),
-        userSignup: (userData) => axios.post(`${server}accounts/register/`, userData).then((res) => res.data),
-        editUserInfo: (data) => axios.put(`${server}accounts/user-info/`, data).then(res => res.data),
-        changePassword: (data) => axios.put(`${server}accounts/change-password/`, data).then(res => res.data),
-        confirmEmail: (data) => axios.put(`${server}accounts/verify/confirm-verify/`, data).then(res => res.data),
-        VerifyEmailRequest: () => axios.put(`${server}accounts/verify/request-verify/`, {validation_type: 'email'}).then(res => res.data),
-        ResetPasswordRequest: email => axios.post(`${server}accounts/reset-password/reset_password/`, email).then(res => res.data),
-        ValidateToken: data => axios.post(`${server}accounts/reset-password/confirm/`, data).then(res => res.data),
-        ResetToken: token => axios.post(`${server}accounts/token-refresh/`, token).then(res => res.data),
-        fetchCurrentUser: () => axios.get(`${server}accounts/user-info/`).then(res => res.data),
+        login: (credentials) => axios.post(`${server}auth/login/`, credentials).then((res) => res.data),
+        userSignup: (userData) => axios.post(`${server}auth/register/`, userData).then((res) => res.data),
+        fetchCurrentUser: () => axios.get(`${server}auth/user-profile/`).then(res => res.data.data),
+        VerifyEmailRequest: () => axios.get(`${server}auth/email/resend/`).then(res => res.data),
+        changePassword: (data) => axios.post(`${server}auth/change-password/`, data).then(res => res.data),
+        editUserInfo: (data) => axios.put(`${server}auth/edit-profile/`, data).then(res => res.data),
+        // confirmEmail: (id, params) => axios.get(`${server}auth/email/verify/${id}${params}`).then(res => res.data),
+        ResetToken: token => axios.post(`${server}auth/refresh/`, token).then(res => res.data),
+        ResetPasswordRequest: email => axios.post(`${server}password/email/`, email).then(res => res.data),
+        ValidateToken: data => axios.post(`${server}password/reset/`, data).then(res => res.data),
+
     },
     delivery: {
         getCountries: () => axios.get(`${server}geography/countries/`).then(res => res.data),
@@ -22,7 +23,8 @@ export default {
         getDeliveryMethods: () => axios.get(`${server}transportation/delivery-methods/`).then(res => res.data),
         getContactMethods: () => axios.get(`${server}transportation/contact-methods/`).then(res => res.data),
         newDeliveryAdd: (data) => axios.post(`${server}transportation/delivery-new/`, data).then((res) => res.data),
-        getMyDeliveries: () => axios.get(`${server}transportation/my-deliveries/`).then((res) => res.data),
+        getMyDeliveries: (params) => axios.get(`${server}transportation/my-deliveries/${params}`).then((res) => res.data),
+        getDeliveries: (params) => axios.get(`${server}transportation/delivery/${params}`).then((res) => res.data),
         getDelivery: (slug) => axios.get(`${server}transportation/delivery/${slug}/`).then((res) => res.data),
         editDelivery: (slug, data) => axios.put(`${server}transportation/delivery/${slug}/`, data).then((res) => res.data),
     }

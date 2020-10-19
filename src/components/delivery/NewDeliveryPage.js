@@ -46,7 +46,7 @@ class NewDeliveryPage extends Component {
     submit = (data) => {
         return this.props
             .addNewDelivery(data)
-            .then(() => this.props.history.push("/delivery/list"));
+            .then(() => this.props.history.push("/request/list"));
     }
 
 
@@ -57,11 +57,6 @@ class NewDeliveryPage extends Component {
                 <div className="col-md-5 col-md-offset-4">
                     <DeliveryForm
                         submit={this.submit}
-                        // countries={this.state.countries}
-                        // cities={this.state.cities}
-                        // paymentMethods={this.state.paymentMethods}
-                        // deliveryMethods={this.state.deliveryMethods}
-                        // contactMethods={this.state.contactMethods}
                         data={this.state.data}
                         lang={this.props.lang}
                         action="new"
@@ -83,7 +78,7 @@ NewDeliveryPage.propTypes = {
 };
 function mapStateToProps(state) {
     return{
-        lang:state.locale
+        lang:state.locale,
     }
 }
 

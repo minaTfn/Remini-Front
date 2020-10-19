@@ -53,3 +53,6 @@ div.is-invalid > .select__control{
 .custom-control-label{
   font-weight: 100;
 }
+.page-item.disabled .page-link{
+  color:#bbb;
+}

@@ -1,15 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './theme/default/css/index.css';
-// import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-v4-rtl/dist/css/bootstrap-rtl.css';
 import './theme/default/css/App.css';
 import {Route, BrowserRouter} from 'react-router-dom';
 import {Provider} from "react-redux";
 import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
-import {addLocaleData} from "react-intl";
-import en from "react-intl/locale-data/en";
-import fa from "react-intl/locale-data/fa";
 import rootReducer from './rootReducer';
 import {setAuthorizationToken, setAxiosLanguage} from "./utils/SetAuthorizationToken";
 import App from './App';
@@ -18,15 +14,12 @@ import {fetchCurrentUser} from "./actions/users";
 import {userFetched} from './reducers/userSlice';
 import {localeSet} from './reducers/localeSlice';
 
-
-addLocaleData(en);
-addLocaleData(fa);
-
 const store = configureStore({
     reducer: rootReducer,
     middleware: [...getDefaultMiddleware()],
     devTools: process.env.NODE_ENV !== 'production',
 });
+
 
 if (localStorage.lang) {
     if (localStorage.lang === 'fa') {
@@ -34,7 +27,6 @@ if (localStorage.lang) {
     } else {
         document.body.classList.remove('rtl');
     }
-
     store.dispatch(localeSet(localStorage.lang));
     setAxiosLanguage(localStorage.lang);
 }

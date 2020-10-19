@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 // import { allPostsSelector } from '../../reducers/deliverySlice';
 // import AddPost from '../delivery/AddDelivery';
 
@@ -11,12 +11,12 @@ const DashboardPage = ({ posts }) => (
     </div>
 );
 
-DashboardPage.propTypes = {
-    posts: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        content: PropTypes.string,
-    }),).isRequired,
-}
+// DashboardPage.propTypes = {
+//     posts: PropTypes.arrayOf(PropTypes.shape({
+//         title: PropTypes.string.isRequired,
+//         content: PropTypes.string,
+//     }),).isRequired,
+// }
 
 // function mapStateToProps(state) {
     // return {

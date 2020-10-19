@@ -1,59 +1,69 @@
 import React, {useEffect, useState, useCallback} from "react";
-import { normalize } from "normalizr";
+import {normalize} from "normalizr";
 import {useSelector, useDispatch} from "react-redux";
-import _ from 'lodash';
+import _ from "lodash";
+import Pagination from "react-js-pagination";
 import AddDelivery from "./AddDelivery";
-import { myDeliveriesSchema } from "../../utils/schemas";
+import {myDeliveriesSchema} from "../../utils/schemas";
 import {myDeliveriesFetched} from "../../reducers/deliverySlice";
 import MyDeliveriesList from "./MyDeliveriesList";
 
 import api from "../../utils/api";
 import {myDeliveriesSelector} from "./selectors";
+import {convertObjectToUrlParams} from "../common/Functions";
 
 function DeliveriesPage() {
+    const perPage = 5;
+
     const dispatch = useDispatch();
-
-
-    const selectState = useSelector(
-        (state) => state
-    );
-
+    const selectState = useSelector((state) => state);
     const myStoredDeliveries = myDeliveriesSelector(selectState);
-    // console.log('stored',myStoredDeliveries);
 
-    // const selectState = useSelector(
-    //     (state) => state
-    // );
-    // const myStoredDeliveries = myDeliveriesSelector(selectState);
-    // const myStoredDeliveryItems = myDeliveryItemsSelector(selectState);
-
-    // const [myDeliveries, setMyDeliveries] = useState(myStoredDeliveries);
-    // const [myDeliveryItems, setMyDeliveryItems] = useState(myStoredDeliveryItems);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState(0);
     const [loaded, setLoaded] = useState(true);
 
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     const fetchDeliveries = useCallback(async () => {
-        const data = await api.delivery.getMyDeliveries();
+        // sending page count and current page as parameters to api
+        const items = {};
+        items.page = currentPage;
+        items.page_size = perPage;
+        const params = convertObjectToUrlParams(items);
+
+        const data = await api.delivery.getMyDeliveries(params);
+        setTotalItems(data.count);
         const normalizedResult = normalize(data.results, [myDeliveriesSchema]);
         await dispatch(myDeliveriesFetched(normalizedResult));
-        // console.log('ent',normalizedResult.entities);
-        // setMyDeliveries(myDeliveriesSelector(normalizedResult.entities));
-        // setMyDeliveryItems(myDeliveryItemsSelector(normalizedResult.entities));
+
         setLoaded(true);
-    }, [dispatch]);
+    }, [dispatch, currentPage]);
 
     useEffect(() => {
-        // setTimeout(() => {
-            fetchDeliveries()
-        // }, 2000);
-
-    }, [loaded, fetchDeliveries]);
+        fetchDeliveries();
+    }, [loaded, currentPage, fetchDeliveries]);
 
     return (
-        <div>
-            {_.isEmpty(myStoredDeliveries) && <AddDelivery/>}
-            {!_.isEmpty(myStoredDeliveries) && <MyDeliveriesList deliveries={myStoredDeliveries} />}
-        </div>
+        <>
+            <div>
+                {_.isEmpty(myStoredDeliveries) && <AddDelivery/>}
+                {!_.isEmpty(myStoredDeliveries) && (
+                    <MyDeliveriesList deliveries={myStoredDeliveries}/>
+                )}
+            </div>
+            <Pagination
+                activePage={currentPage}
+                itemsCountPerPage={perPage}
+                totalItemsCount={totalItems}
+                pageRangeDisplayed={5}
+                itemClass="page-item"
+                linkClass="page-link"
+                onChange={(e) => handlePageChange(e)}
+            />
+        </>
     );
 }
 

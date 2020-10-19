@@ -12,11 +12,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const getVisibleTodos = (todos, filter) => {
     switch (filter) {
         case VisibilityFilters.SHOW_ALL:
-            return todos
+            return todos;
         case VisibilityFilters.SHOW_COMPLETED:
-            return todos.filter(t => t.completed)
+            return todos.filter(t => t.completed);
         case VisibilityFilters.SHOW_ACTIVE:
-            return todos.filter(t => !t.completed)
+            return todos.filter(t => !t.completed);
         default:
             throw new Error('Unknown filter: ' + filter)
     }
@@ -43,11 +43,11 @@ const selectVisibleTodos = createSelector(
     (todos, filter) => {
         switch (filter) {
             case VisibilityFilters.SHOW_ALL:
-                return todos
+                return todos;
             case VisibilityFilters.SHOW_COMPLETED:
-                return todos.filter(t => t.completed)
+                return todos.filter(t => t.completed);
             case VisibilityFilters.SHOW_ACTIVE:
-                return todos.filter(t => !t.completed)
+                return todos.filter(t => !t.completed);
             default:
                 throw new Error('Unknown filter: ' + filter)
         }

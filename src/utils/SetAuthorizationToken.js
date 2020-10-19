@@ -2,9 +2,9 @@ import axios from 'axios';
 
 export function setAuthorizationToken(token) {
     if (token) {
-        axios.defaults.headers.common['Authorization'] = `JWT ${token}`;
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     } else {
-        delete axios.defaults.headers.common['Authorization'];
+        delete axios.defaults.headers.common.Authorization;
     }
 }
 export function setAxiosLanguage(language) {

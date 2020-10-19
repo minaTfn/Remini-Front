@@ -21,7 +21,7 @@ class EditDeliveryPage extends Component {
     submit = (data) => {
         return this.props
             .editDelivery(this.props.match.params.slug, data)
-            .then(() => this.props.history.push("/delivery/list"));
+            .then(() => this.props.history.push("/request/list"));
     }
 
 

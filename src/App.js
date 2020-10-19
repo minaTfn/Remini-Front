@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import Loader from "react-loader";
-import {IntlProvider} from "react-intl";
+import {IntlProvider} from 'react-intl'
 import {Route} from "react-router-dom";
 import {Container} from "react-bootstrap";
 import GuestRoute from "./utils/GuestRoute";
@@ -26,11 +26,14 @@ import EditDeliveryPage from "./components/delivery/EditDeliveryPage";
 
 class App extends Component {
     componentDidMount() {
+
+
         if (this.props.isAuthenticated) this.props.fetchCurrentUser();
     }
 
     render() {
         const {location, isAuthenticated, user, lang, loaded} = this.props;
+
         return (
             <IntlProvider locale={lang} messages={messages[lang]}>
                 <Container fluid="md">
@@ -41,7 +44,7 @@ class App extends Component {
                             <Route location={location} path="/" exact component={HomePage}/>
                             <Route
                                 location={location}
-                                path="/confirmation/:token"
+                                path="/confirmation/:result"
                                 exact
                                 component={ConfirmationPage}
                             />
@@ -59,7 +62,7 @@ class App extends Component {
                             />
                             <GuestRoute
                                 location={location}
-                                path="/passwordReset/:token"
+                                path="/passwordReset/:token/:email"
                                 exact
                                 component={ResetPasswordPage}
                             />
@@ -77,19 +80,19 @@ class App extends Component {
                             />
                             <UserRoute
                                 location={location}
-                                path="/delivery/list"
+                                path="/request/list"
                                 exact
                                 component={DeliveriesPage}
                             />
                             <UserRoute
                                 location={location}
-                                path="/delivery/:slug/edit"
+                                path="/request/:slug/edit"
                                 exact
                                 component={EditDeliveryPage}
                             />
                             <UserRoute
                                 location={location}
-                                path="/delivery/new"
+                                path="/request/new"
                                 exact
                                 component={NewDeliveryPage}
                             />

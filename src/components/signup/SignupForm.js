@@ -14,10 +14,11 @@ class SignupForm extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
             data: {
+                name: '',
                 email: '',
                 cell_number: '',
                 password: '',
-                passwordConfirmation: '',
+                password_confirmation: '',
             },
             errors: {},
             isLoading: false,
@@ -74,12 +75,23 @@ class SignupForm extends Component {
                 <h2>Join our community!</h2>
 
                 <TextFieldGroup
+                    error={errors.name}
+                    label="Name"
+                    autoComplete="new-name"
+                    onChange={this.onChange}
+                    onBlur={this.onBlurValidate}
+                    field="name"
+                    isRequired
+                    value={data.name}
+                />
+                <TextFieldGroup
                     error={errors.email}
                     autoComplete="new-email"
                     label="Email"
                     onChange={this.onChange}
                     onBlur={this.onBlurValidate}
                     field="email"
+                    isRequired
                     value={data.email}
                 />
                 <TextFieldGroup
@@ -100,14 +112,16 @@ class SignupForm extends Component {
                     field="password"
                     value={data.password}
                     type="password"
+                    isRequired
                 />
                 <TextFieldGroup
-                    error={errors.passwordConfirmation}
+                    error={errors.password_confirmation}
                     label="Confirm Password"
                     onChange={this.onChange}
                     onBlur={this.onBlurValidate}
-                    field="passwordConfirmation"
-                    value={data.passwordConfirmation}
+                    field="password_confirmation"
+                    value={data.password_confirmation}
+                    isRequired
                     type="password"
                 />
                 <div className="form-group">

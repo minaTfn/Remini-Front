@@ -14,8 +14,10 @@ class ResetPasswordForm extends Component {
     this.onBlurValidatePassword = this.onBlurValidatePassword.bind(this);
     this.state = {
       data: {
+        email: props.email.replace("%40", "@"),
         password: "",
-        passwordConfirmation: "",
+        password_confirmation: "",
+        token: props.token,
       },
       isLoading: false,
       errors: {},
@@ -27,7 +29,8 @@ class ResetPasswordForm extends Component {
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       this.props
-        .submit({ token: this.props.token, password: this.state.data.password })
+        // .submit({ token: this.props.token, password: this.state.data.password,password_confirmation:this.state.data.password, email: this.props.email})
+        .submit(this.state.data)
           .catch((err) => {
           this.setState({ errors: err.response.data, isLoading: false });
         });
@@ -93,12 +96,12 @@ class ResetPasswordForm extends Component {
             type="password"
           />
           <TextFieldGroup
-            error={errors.passwordConfirmation}
+            error={errors.password_confirmation}
             label="Confirm New Password"
             onBlur={this.onBlurValidatePassword}
             onChange={this.onChange}
-            field="passwordConfirmation"
-            value={data.passwordConfirmation}
+            field="password_confirmation"
+            value={data.password_confirmation}
             type="password"
           />
           <div className="form-group">
@@ -115,6 +118,7 @@ class ResetPasswordForm extends Component {
 ResetPasswordForm.propTypes = {
   submit: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
 };
 
 export default ResetPasswordForm;

@@ -10,6 +10,7 @@ import {ValidateDelivery} from "../common/Validator";
 import api from "../../utils/api";
 import {convertToSelect} from "../common/Functions";
 
+
 class DeliveryForm extends Component {
     constructor(props) {
         super(props);
@@ -238,8 +239,8 @@ class DeliveryForm extends Component {
                     });
                 })
                 .catch((error) => {
-                    // console.log(error);
-                    this.setState({errors: error.response.data, isSubmitting: false});
+                    console.log(error);
+                    // this.setState({errors: error.response.data, isSubmitting: false});
                 });
         }
     };

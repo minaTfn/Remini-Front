@@ -35,7 +35,10 @@ TextFieldGroup.propTypes = {
     value: PropTypes.string,
     className: PropTypes.string,
     classType: PropTypes.string,
-    label: PropTypes.object.isRequired,
+    label: PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.string
+        ]).isRequired,
     error: PropTypes.array,
     type: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,

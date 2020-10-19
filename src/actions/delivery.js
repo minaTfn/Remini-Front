@@ -11,7 +11,7 @@ export function addNewDelivery(data) {
         return api.delivery
             .newDeliveryAdd(data)
             .then((res) => normalize(res, myDeliveriesSchema))
-            .then((normalizedRes) => dispatch(newDeliveryAdded(normalizedRes)));
+            .then((normalizedRes) => dispatch(newDeliveryAdded(normalizedRes)))
     };
 }
 

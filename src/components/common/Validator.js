@@ -6,17 +6,21 @@ import {FormattedMessage} from "react-intl";
 export function ValidateLogin(data) {
     let errors = {};
 
-    if (Validator.isEmpty(data.email)) {
-        errors.email = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
-    } else if (!Validator.isEmail(data.email)) {
+    const required = ['email', 'password'];
+
+    required.forEach((field) => {
+        if (Validator.isEmpty(data[field])) {
+            errors[field] = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+        }
+    });
+
+    if (!Validator.isEmail(data.email)) {
         errors.email = ['Email is invalid'];
     }
 
-    if (Validator.isEmpty(data.password)) {
-        errors.password = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
-    } else if (!Validator.isLength(data.password, {min: 8})) {
-        errors.password = [<FormattedMessage id="global.validate.Password_8_car" defaultMessage="Password must be at least 8 characters"/>];
-        errors.password = [<FormattedMessage id="global.validate.Password_8_car" defaultMessage="Password must be at least 8 characters"/>];
+    if (!Validator.isLength(data.password, {min: 6})) {
+        errors.password = [<FormattedMessage id="global.validate.Password_6_char"
+                                             defaultMessage="Password must be at least 6 characters"/>];
     }
 
     return {
@@ -29,28 +33,35 @@ export function ValidateLogin(data) {
 export function ValidateDelivery(data) {
     let errors = {};
     if (data.origin_country_id.length === 0) {
-        errors.origin_country_id = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+        errors.origin_country_id = [<FormattedMessage id="global.validate.required"
+                                                      defaultMessage="This field is required"/>];
     }
     if (data.origin_city_id.length === 0) {
-        errors.origin_city_id = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+        errors.origin_city_id = [<FormattedMessage id="global.validate.required"
+                                                   defaultMessage="This field is required"/>];
     }
     if (data.destination_country_id.length === 0) {
-        errors.destination_country_id = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+        errors.destination_country_id = [<FormattedMessage id="global.validate.required"
+                                                           defaultMessage="This field is required"/>];
     }
     if (data.destination_city_id.length === 0) {
-        errors.destination_city_id = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+        errors.destination_city_id = [<FormattedMessage id="global.validate.required"
+                                                        defaultMessage="This field is required"/>];
     }
     if (Validator.isEmpty(data.title)) {
         errors.title = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
     }
-    if(data.contact_methods_ids.length === 0){
-        errors.contact_methods_ids = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+    if (data.contact_methods_ids.length === 0) {
+        errors.contact_methods_ids = [<FormattedMessage id="global.validate.required"
+                                                        defaultMessage="This field is required"/>];
     }
-    if(data.payment_method_id.length === 0){
-        errors.payment_method_id = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+    if (data.payment_method_id.length === 0) {
+        errors.payment_method_id = [<FormattedMessage id="global.validate.required"
+                                                      defaultMessage="This field is required"/>];
     }
-    if(data.delivery_method_id.length === 0){
-        errors.delivery_method_id = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+    if (data.delivery_method_id.length === 0) {
+        errors.delivery_method_id = [<FormattedMessage id="global.validate.required"
+                                                       defaultMessage="This field is required"/>];
     }
 
     return {
@@ -61,21 +72,26 @@ export function ValidateDelivery(data) {
 
 export function ValidateChangePassword(data) {
     let errors = {};
-    if (Validator.isEmpty(data.old_password)) {
-        errors.old_password = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
-    } else if (!Validator.isLength(data.old_password, {min: 8})) {
+
+    const required = ['old_password', 'password', 'password_confirmation'];
+
+    required.forEach((field) => {
+        if (Validator.isEmpty(data[field])) {
+            errors[field] = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+        }
+    });
+
+    if (!Validator.isLength(data.old_password, {min: 6})) {
         errors.old_password = ['Password is invalid'];
     }
-    if (Validator.isEmpty(data.new_password)) {
-        errors.new_password = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
-    } else if (!Validator.isLength(data.new_password, {min: 8})) {
-        errors.new_password = [<FormattedMessage id="global.validate.Password_8_car" defaultMessage="Password must be at least 8 characters"/>];
+
+    if (!Validator.isLength(data.password, {min: 6})) {
+        errors.password = [<FormattedMessage id="global.validate.Password_6_char"
+                                                 defaultMessage="Password must be at least 6 characters"/>];
     }
-    if (Validator.isEmpty(data.passwordConfirmation)) {
-        errors.passwordConfirmation = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
-    }
-    if (!Validator.equals(data.new_password, data.passwordConfirmation)) {
-        errors.passwordConfirmation = ['Passwords must match'];
+
+    if (!Validator.equals(data.password, data.password_confirmation)) {
+        errors.password_confirmation = ['Passwords must match'];
     }
     return {
         errors,
@@ -98,16 +114,23 @@ export function ValidateForgotPassword(data) {
 
 export function ValidateResetPassword(data) {
     let errors = {};
-    if (Validator.isEmpty(data.password)) {
-        errors.password = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
-    } else if (!Validator.isLength(data.password, {min: 8})) {
-        errors.password = [<FormattedMessage id="global.validate.Password_8_car" defaultMessage="Password must be at least 8 characters"/>];
+
+    const required = ['password', 'password_confirmation'];
+
+    required.forEach((field) => {
+        if (Validator.isEmpty(data[field])) {
+            errors[field] = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+        }
+    });
+
+    if (!Validator.isLength(data.password, {min: 6})) {
+        errors.password = [<FormattedMessage id="global.validate.Password_6_char"
+                                             defaultMessage="Password must be at least 6 characters"/>];
     }
-    if (Validator.isEmpty(data.passwordConfirmation)) {
-        errors.passwordConfirmation = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
-    }
-    if (!Validator.equals(data.password, data.passwordConfirmation)) {
-        errors.passwordConfirmation = [<FormattedMessage id="global.validate.password_match" defaultMessage="Passwords must match"/>];
+
+    if (!Validator.equals(data.password, data.password_confirmation)) {
+        errors.password_confirmation = [<FormattedMessage id="global.validate.password_match"
+                                                          defaultMessage="Passwords must match"/>];
     }
     return {
         errors,
@@ -118,17 +141,11 @@ export function ValidateResetPassword(data) {
 export function ValidateProfile(data) {
     let errors = {};
 
-    console.log(data);
-
-    if (!Validator.isLength(toString(data.first_name), {min: 3})) {
-        errors.first_name = ['First Name is invalid'];
+    if (!Validator.isLength(toString(data.name), {min: 3})) {
+        errors.name = ['Name is invalid'];
     }
 
-    if (!Validator.isLength(toString(data.last_name), {min: 3})) {
-        errors.last_name = ['Last Name is invalid'];
-    }
-
-    if ((!Validator.isEmpty(data.cell_number) && !Validator.isMobilePhone(data.cell_number, 'fa-IR')) || !Validator.isNumeric(data.cell_number)) {
+    if (typeof data.cell_number !== 'undefined' && !Validator.isEmpty(data.cell_number) && (!Validator.isMobilePhone(data.cell_number, 'fa-IR') || !Validator.isNumeric(data.cell_number))) {
         errors.cell_number = ['Cell Number is invalid'];
     }
 
@@ -142,27 +159,30 @@ export function ValidateProfile(data) {
 export function ValidateSignUp(data) {
     let errors = {};
 
-    if (Validator.isEmpty(data.email)) {
-        errors.email = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
-    } else if (!Validator.isEmail(data.email)) {
+    const required = ['name', 'email', 'password', 'password_confirmation'];
+
+    required.forEach((field) => {
+        if (Validator.isEmpty(data[field])) {
+            errors[field] = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+        }
+    });
+
+    if (!Validator.isEmail(data.email)) {
         errors.email = ['Email is invalid'];
     }
 
-    if (Validator.isEmpty(data.password)) {
-        errors.password = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
-    } else if (!Validator.isLength(data.password, {min: 8})) {
-        errors.password = [<FormattedMessage id="global.validate.Password_8_car" defaultMessage="Password must be at least 8 characters"/>];
+    if (!Validator.isLength(data.password, {min: 6})) {
+        errors.password = [<FormattedMessage id="global.validate.Password_6_char"
+                                             defaultMessage="Password must be at least 6 characters"/>];
     }
 
-    if ((!Validator.isEmpty(data.cell_number) && !Validator.isMobilePhone(data.cell_number, 'fa-IR')) || !Validator.isNumeric(data.cell_number)) {
+    if (!Validator.isEmpty(data.cell_number) && (!Validator.isMobilePhone(data.cell_number, 'fa-IR') || !Validator.isNumeric(data.cell_number))) {
         errors.cell_number = ['Cell Number is invalid'];
     }
 
-    if (Validator.isEmpty(data.passwordConfirmation)) {
-        errors.passwordConfirmation = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
-    }
-    if (!Validator.equals(data.password, data.passwordConfirmation)) {
-        errors.passwordConfirmation = [<FormattedMessage id="global.validate.password_match" defaultMessage="Passwords must match"/>];
+    if (!Validator.equals(data.password, data.password_confirmation)) {
+        errors.password_confirmation = [<FormattedMessage id="global.validate.password_match"
+                                                          defaultMessage="Passwords must match"/>];
     }
     return {
         errors,

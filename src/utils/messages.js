@@ -4,9 +4,9 @@ export default {
         'nav.changePassword': "Change Password",
         'nav.logout': "Logout",
         'nav.profile': "Profile",
-        'nav.delivery': "Delivery",
-        'nav.delivery_new': "New Delivery",
-        'nav.delivery_list': "Delivery List",
+        'nav.request': "Request",
+        'nav.request_new': "New Request",
+        'nav.request_list': "Requests List",
         'messages.new_delivery_added': "New Delivery Added Successfully", // messages
         'delivery.origin_country': "Origin Country", // delivery
         'delivery.origin_city': "Origin City",
@@ -25,8 +25,9 @@ export default {
         'global.description': "Description",
         'global.title': "Title",
         'global.email': "Email",
+        'global.search': "Search",
         'global.validate.required': "This field is required", // validate
-        'global.validate.Password_8_car': "Password must be at least 8 characters",
+        'global.validate.Password_6_char': "Password must be at least 6 characters",
         'global.validate.password_match': "Passwords must match",
     },
     fa: {
@@ -34,10 +35,10 @@ export default {
         'nav.changePassword': "تغییر رمز",
         'nav.logout': "خروج",
         'nav.profile': "پروفایل",
-        'nav.delivery': "دریافتی",
-        'nav.delivery_new': "دریافتی جدید",
-        'nav.delivery_list': "لیست دریافتی",
-        'messages.new_delivery_added': "دریافتی جدید با موفقیت ثبت شد", // messages
+        'nav.request': "درخواست",
+        'nav.request_new': "درخواست جدید",
+        'nav.request_list': "لیست درخواست ها",
+        'messages.new_delivery_added': "درخواست جدید با موفقیت ثبت شد", // messages
         'delivery.origin_country': "کشور مبدا", // delivery
         'delivery.origin_city': "شهر مبدا",
         'delivery.destination_country': "کشور مقصد",
@@ -55,8 +56,9 @@ export default {
         'global.description': "توضیحات",
         'global.title': "عنوان",
         'global.email': "ایمیل",
+        'global.search': "جستجو",
         'global.validate.required': "این فیلد اجباری است", // validate
-        'global.validate.Password_8_car': "رمز باید حداقل 8 کاراکتر باشد",
+        'global.validate.Password_6_char': "رمز باید حداقل 6 کاراکتر باشد",
         'global.validate.password_match': "رمز با تکرار رمز برابر نیست",
     }
 }

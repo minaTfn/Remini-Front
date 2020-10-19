@@ -24,6 +24,7 @@ class ResetPasswordPage extends Component {
         <ResetPasswordForm
           submit={this.submit}
           token={this.props.match.params.token}
+          email={this.props.match.params.email}
         />
       </div>
     );
@@ -39,6 +40,7 @@ ResetPasswordPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       token: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
     }),
   }),
 };
