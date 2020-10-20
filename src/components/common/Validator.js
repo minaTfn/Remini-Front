@@ -10,7 +10,7 @@ export function ValidateLogin(data) {
 
     required.forEach((field) => {
         if (Validator.isEmpty(data[field])) {
-            errors[field] = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+            errors[field] = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
         }
     });
 
@@ -19,7 +19,7 @@ export function ValidateLogin(data) {
     }
 
     if (!Validator.isLength(data.password, {min: 6})) {
-        errors.password = [<FormattedMessage id="global.validate.Password_6_char"
+        errors.password = [<FormattedMessage id="validate.Password_6_char"
                                              defaultMessage="Password must be at least 6 characters"/>];
     }
 
@@ -33,34 +33,34 @@ export function ValidateLogin(data) {
 export function ValidateDelivery(data) {
     let errors = {};
     if (data.origin_country_id.length === 0) {
-        errors.origin_country_id = [<FormattedMessage id="global.validate.required"
+        errors.origin_country_id = [<FormattedMessage id="validate.required"
                                                       defaultMessage="This field is required"/>];
     }
     if (data.origin_city_id.length === 0) {
-        errors.origin_city_id = [<FormattedMessage id="global.validate.required"
+        errors.origin_city_id = [<FormattedMessage id="validate.required"
                                                    defaultMessage="This field is required"/>];
     }
     if (data.destination_country_id.length === 0) {
-        errors.destination_country_id = [<FormattedMessage id="global.validate.required"
+        errors.destination_country_id = [<FormattedMessage id="validate.required"
                                                            defaultMessage="This field is required"/>];
     }
     if (data.destination_city_id.length === 0) {
-        errors.destination_city_id = [<FormattedMessage id="global.validate.required"
+        errors.destination_city_id = [<FormattedMessage id="validate.required"
                                                         defaultMessage="This field is required"/>];
     }
     if (Validator.isEmpty(data.title)) {
-        errors.title = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+        errors.title = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
     }
     if (data.contact_methods_ids.length === 0) {
-        errors.contact_methods_ids = [<FormattedMessage id="global.validate.required"
+        errors.contact_methods_ids = [<FormattedMessage id="validate.required"
                                                         defaultMessage="This field is required"/>];
     }
     if (data.payment_method_id.length === 0) {
-        errors.payment_method_id = [<FormattedMessage id="global.validate.required"
+        errors.payment_method_id = [<FormattedMessage id="validate.required"
                                                       defaultMessage="This field is required"/>];
     }
     if (data.delivery_method_id.length === 0) {
-        errors.delivery_method_id = [<FormattedMessage id="global.validate.required"
+        errors.delivery_method_id = [<FormattedMessage id="validate.required"
                                                        defaultMessage="This field is required"/>];
     }
 
@@ -77,7 +77,7 @@ export function ValidateChangePassword(data) {
 
     required.forEach((field) => {
         if (Validator.isEmpty(data[field])) {
-            errors[field] = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+            errors[field] = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
         }
     });
 
@@ -86,7 +86,7 @@ export function ValidateChangePassword(data) {
     }
 
     if (!Validator.isLength(data.password, {min: 6})) {
-        errors.password = [<FormattedMessage id="global.validate.Password_6_char"
+        errors.password = [<FormattedMessage id="validate.Password_6_char"
                                                  defaultMessage="Password must be at least 6 characters"/>];
     }
 
@@ -102,7 +102,7 @@ export function ValidateChangePassword(data) {
 export function ValidateForgotPassword(data) {
     let errors = {};
     if (Validator.isEmpty(data.email)) {
-        errors.email = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+        errors.email = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
     } else if (!Validator.isEmail(data.email)) {
         errors.email = ['Email is invalid'];
     }
@@ -119,17 +119,17 @@ export function ValidateResetPassword(data) {
 
     required.forEach((field) => {
         if (Validator.isEmpty(data[field])) {
-            errors[field] = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+            errors[field] = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
         }
     });
 
     if (!Validator.isLength(data.password, {min: 6})) {
-        errors.password = [<FormattedMessage id="global.validate.Password_6_char"
+        errors.password = [<FormattedMessage id="validate.Password_6_char"
                                              defaultMessage="Password must be at least 6 characters"/>];
     }
 
     if (!Validator.equals(data.password, data.password_confirmation)) {
-        errors.password_confirmation = [<FormattedMessage id="global.validate.password_match"
+        errors.password_confirmation = [<FormattedMessage id="validate.password_match"
                                                           defaultMessage="Passwords must match"/>];
     }
     return {
@@ -163,7 +163,7 @@ export function ValidateSignUp(data) {
 
     required.forEach((field) => {
         if (Validator.isEmpty(data[field])) {
-            errors[field] = [<FormattedMessage id="global.validate.required" defaultMessage="This field is required"/>];
+            errors[field] = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
         }
     });
 
@@ -172,7 +172,7 @@ export function ValidateSignUp(data) {
     }
 
     if (!Validator.isLength(data.password, {min: 6})) {
-        errors.password = [<FormattedMessage id="global.validate.Password_6_char"
+        errors.password = [<FormattedMessage id="validate.Password_6_char"
                                              defaultMessage="Password must be at least 6 characters"/>];
     }
 
@@ -181,7 +181,7 @@ export function ValidateSignUp(data) {
     }
 
     if (!Validator.equals(data.password, data.password_confirmation)) {
-        errors.password_confirmation = [<FormattedMessage id="global.validate.password_match"
+        errors.password_confirmation = [<FormattedMessage id="validate.password_match"
                                                           defaultMessage="Passwords must match"/>];
     }
     return {

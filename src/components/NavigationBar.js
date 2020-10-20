@@ -36,15 +36,6 @@ class NavigationBar extends Component {
                         </NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
-
-                <Nav>
-                    <Nav.Link as="button" className={classnames("bg-info","border-0",{active:(lang === "en")})} onClick={() => this.props.setLocale("en")}>
-                        EN
-                    </Nav.Link>{" "}
-                    <Nav.Link as="button" className={classnames("bg-info","border-0",{active:(lang === "fa")})} onClick={() => this.props.setLocale("fa")}>
-                        FA
-                    </Nav.Link>
-                </Nav>
                 <NavDropdown
                     drop="down"
                     alignRight
@@ -89,6 +80,14 @@ class NavigationBar extends Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                     {isAuthenticated ? userLinks : guestLinks}
                 </Navbar.Collapse>
+                <Nav>
+                    <Nav.Link as="button" className={classnames("bg-info","border-0",{active:(lang === "en")})} onClick={() => this.props.setLocale("en")}>
+                        EN
+                    </Nav.Link>{" "}
+                    <Nav.Link as="button" className={classnames("bg-info","border-0",{active:(lang === "fa")})} onClick={() => this.props.setLocale("fa")}>
+                        FA
+                    </Nav.Link>
+                </Nav>
             </Navbar>
         );
     }

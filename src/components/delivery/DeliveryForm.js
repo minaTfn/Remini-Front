@@ -39,7 +39,7 @@ class DeliveryForm extends Component {
 
     onInit = (props) => {
         api.delivery
-            .getCountries()
+            .countries()
             .then((items) => {
 
                 const countries = convertToSelect(items, props.lang);
@@ -342,7 +342,7 @@ class DeliveryForm extends Component {
                     <TextFieldGroup
                         error={errors.title}
                         label={
-                            <FormattedMessage id="global.title" defaultMessage="title"/>
+                            <FormattedMessage id="title" defaultMessage="title"/>
                         }
                         onChange={this.onChange}
                         onBlur={this.onBlurValidate}
@@ -354,7 +354,7 @@ class DeliveryForm extends Component {
                         error={errors.description}
                         label={
                             <FormattedMessage
-                                id="global.description"
+                                id="description"
                                 defaultMessage="description"
                             />
                         }
@@ -417,11 +417,11 @@ class DeliveryForm extends Component {
                         <Button type="submit" variant="primary" disabled={isSubmitting}>
                             {isSubmitting ? (
                                 <FormattedMessage
-                                    id="global.submitting"
+                                    id="submitting"
                                     defaultMessage="submit"
                                 />
                             ) : (
-                                <FormattedMessage id="global.submit" defaultMessage="submit"/>
+                                <FormattedMessage id="submit" defaultMessage="submit"/>
                             )}
                         </Button>
                     </div>

@@ -15,20 +15,25 @@ export default {
         'delivery.payment_method': "Payment Method",
         'delivery.delivery_method': "Delivery Method",
         'delivery.contact_method': "Contact Method",
+        'delivery.deadline_date': "Deadline date",
         'login.forgotPassword': "Forgot Password", // Login
         'login.submitBtn': "Login",
         'login.entering': "verifying...",
         'login.password': "Password",
         'login.LoginPageTitle': "ورود به حساب کاربری",
-        'global.submitting': 'Submitting...', // globals
-        'global.submit': 'Submit',
-        'global.description': "Description",
-        'global.title': "Title",
-        'global.email': "Email",
-        'global.search': "Search",
-        'global.validate.required': "This field is required", // validate
-        'global.validate.Password_6_char': "Password must be at least 6 characters",
-        'global.validate.password_match': "Passwords must match",
+        'submitting': 'Submitting...', // globals
+        'submit': 'Submit',
+        'description': "Description",
+        'title': "Title",
+        'email': "Email",
+        'search': "Search",
+        'to': "to",
+        'origin': "Origin",
+        'destination': "Destination",
+        'requested': "requested",
+        'validate.required': "This field is required", // validate
+        'validate.Password_6_char': "Password must be at least 6 characters",
+        'validate.password_match': "Passwords must match",
     },
     fa: {
         'nav.dashboard': "پنل اصلی", // navBar
@@ -46,19 +51,24 @@ export default {
         'delivery.payment_method': "روش پرداخت",
         'delivery.delivery_method': "روش دریافت",
         'delivery.contact_method': "روش ارتباط",
+        'delivery.deadline_date': "مهلت تحویل",
         'login.forgotPassword': "فراموشی رمز", // Login
         'login.password': "رمز",
         'login.submitBtn': "ورود",
         'login.entering': "درحال بررسی...",
         'login.LoginPageTitle': "ورود به حساب کاربری",
-        'global.submitting': 'در حال ثبت...', // globals
-        'global.submit': 'ثبت',
-        'global.description': "توضیحات",
-        'global.title': "عنوان",
-        'global.email': "ایمیل",
-        'global.search': "جستجو",
-        'global.validate.required': "این فیلد اجباری است", // validate
-        'global.validate.Password_6_char': "رمز باید حداقل 6 کاراکتر باشد",
-        'global.validate.password_match': "رمز با تکرار رمز برابر نیست",
+        'submitting': 'در حال ثبت...', // globals
+        'submit': 'ثبت',
+        'description': "توضیحات",
+        'title': "عنوان",
+        'email': "ایمیل",
+        'search': "جستجو",
+        'to': "به",
+        'requested': "درخواست شده",
+        'origin': "مبدا",
+        'destination': "مقصد",
+        'validate.required': "این فیلد اجباری است", // validate
+        'validate.Password_6_char': "رمز باید حداقل 6 کاراکتر باشد",
+        'validate.password_match': "رمز با تکرار رمز برابر نیست",
     }
 }

@@ -1,53 +1,71 @@
 import React, {Component} from 'react';
-import {Dropdown, Form} from "semantic-ui-react";
+import SelectFieldGroup from "../common/SelectFieldGroup";
+import {FormattedMessage} from "react-intl";
+import TextFieldGroup from "../common/TextFieldGroup";
+import api from "../../utils/api";
+import {convertToSelect} from "../common/Functions";
 
 class SearchDeliveryForm extends Component {
     state = {
-        query: "",
-        loading: false,
-        options: [{
-            key: 1,
-            value: 1,
-            text: "first book",
-        },
-            {
-                key: 2,
-                value: 2,
-                text: "second book",
-            }],
-        posts: {}
+        countriesList: [],
     }
 
-    onSearchChange = (e, data) => {
-        clearTimeout(this.timer);
-        this.setState({
-            query: data,
-
-        });
-        this.timer = setTimeout(this.fetchOptions(), 1000);
-    }
-
-    fetchOptions = () =>{
-        if(!this.state.query) return;
-        this.setState({
-            loading:true,
-        })
+    componentDidMount() {
+        const {lang} = localStorage;
+        api.delivery
+            .countries()
+            .then((items) => {
+                const countries = convertToSelect(items.data, lang);
+                this.setState({countriesList: countries});
+            })
     }
 
     render() {
+        const {onOriginChange, origin, onDestinationChange, destination, onQueryChange, searchTitle} = this.props;
         return (
-            <Form>
-                <Dropdown
-                search
-                fluid
-                placeholder="search for a post..."
-                value={this.state.query}
-                onSearchChange={this.onSearchChange}
-                options={this.state.options}
-                loading={this.state.loading}
+            <div>
+                <div className="row">
+                    <div className="col-sm-6">
+                        <SelectFieldGroup
+                            label={
+                                <FormattedMessage
+                                    id="origin"
+                                    defaultMessage="origin"
+                                />
+                            }
+                            onChange={onOriginChange}
+                            options={this.state.countriesList}
+                            isSearchable
+                            field="origin"
+                            defaultValue={origin}
+                        />
+                    </div>
+                    <div className="col-sm-6">
+                        <SelectFieldGroup
+                            label={
+                                <FormattedMessage
+                                    id="destination"
+                                    defaultMessage="destination"
+                                />
+                            }
+                            onChange={onDestinationChange}
+                            options={this.state.countriesList}
+                            isSearchable
+                            field="destination"
+                            defaultValue={destination}
+                        />
+                    </div>
+                </div>
+                <TextFieldGroup
+                    label={
+                        <FormattedMessage id="search" defaultMessage="search"/>
+                    }
+                    onChange={onQueryChange}
+                    field="search"
+                    value={searchTitle}
                 />
 
-            </Form>
+            </div>
         );
     }
 }

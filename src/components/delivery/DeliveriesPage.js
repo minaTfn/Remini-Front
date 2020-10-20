@@ -10,10 +10,10 @@ import MyDeliveriesList from "./MyDeliveriesList";
 
 import api from "../../utils/api";
 import {myDeliveriesSelector} from "./selectors";
-import {convertObjectToUrlParams} from "../common/Functions";
+import {convertObjectToUrlParams, convertToSelect} from "../common/Functions";
 
 function DeliveriesPage() {
-    const perPage = 5;
+    const perPage = 9;
 
     const dispatch = useDispatch();
     const selectState = useSelector((state) => state);
@@ -35,7 +35,7 @@ function DeliveriesPage() {
         const params = convertObjectToUrlParams(items);
 
         const data = await api.delivery.getMyDeliveries(params);
-        setTotalItems(data.count);
+        setTotalItems(data.meta.total);
         const normalizedResult = normalize(data.results, [myDeliveriesSchema]);
         await dispatch(myDeliveriesFetched(normalizedResult));
 

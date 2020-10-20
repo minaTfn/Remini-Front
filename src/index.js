@@ -20,7 +20,6 @@ const store = configureStore({
     devTools: process.env.NODE_ENV !== 'production',
 });
 
-
 if (localStorage.lang) {
     if (localStorage.lang === 'fa') {
         document.body.classList.add('rtl');
