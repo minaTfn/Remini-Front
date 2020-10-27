@@ -3,9 +3,10 @@ import {connect} from 'react-redux';
 import {Redirect, Route} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const UserRoute = ({isAuthenticated, component: Component, ...rest}) => {
+const UserRoute = ({isAuthenticated, user, isOwn, component: Component, ...rest}) => {
     return (
-        <Route {...rest} render={props => isAuthenticated ?  <Component {...props} /> : <Redirect to="/" /> }/>
+        <Route {...rest}
+               render={props => isAuthenticated ? <Component {...props} isOwn /> : <Redirect to="/"/>}/>
     )
 
 }
@@ -13,10 +14,14 @@ const UserRoute = ({isAuthenticated, component: Component, ...rest}) => {
 UserRoute.propTypes = {
     // component: PropTypes.object.isRequired || PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
+    isOwn: PropTypes.bool,
     component: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.func
     ]).isRequired,
+}
+UserRoute.defaultProps = {
+    isOwn: false
 }
 
 function mapStateToProps(state) {

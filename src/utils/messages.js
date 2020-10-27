@@ -7,6 +7,7 @@ export default {
         'nav.request': "Request",
         'nav.request_new': "New Request",
         'nav.request_list': "Requests List",
+        'nav.my.deliveries': "My deliveries",
         'messages.new_delivery_added': "New Delivery Added Successfully", // messages
         'delivery.origin_country': "Origin Country", // delivery
         'delivery.origin_city': "Origin City",
@@ -16,11 +17,16 @@ export default {
         'delivery.delivery_method': "Delivery Method",
         'delivery.contact_method': "Contact Method",
         'delivery.deadline_date': "Deadline date",
+        'delivery.items': "Items: {count}",
+        'delivery.requested': "Requested {date} by {owner}",
+        'delivery.search.title': 'Search for deliveries',
+        'delivery.contact.information': 'Contact Info',
+        'delivery.new': 'New Delivery',
         'login.forgotPassword': "Forgot Password", // Login
         'login.submitBtn': "Login",
         'login.entering': "verifying...",
         'login.password': "Password",
-        'login.LoginPageTitle': "ورود به حساب کاربری",
+        'login.LoginPageTitle': "Login to your account",
         'submitting': 'Submitting...', // globals
         'submit': 'Submit',
         'description': "Description",
@@ -28,8 +34,14 @@ export default {
         'email': "Email",
         'search': "Search",
         'to': "to",
+        'you': "You",
+        'edit': "Edit",
+        'back': "Back",
+        'cancel': "Cancel",
         'origin': "Origin",
         'destination': "Destination",
+        'search.placeholder': "Search the {name}...",
+        'select.placeholder': "Select {name}...",
         'requested': "requested",
         'validate.required': "This field is required", // validate
         'validate.Password_6_char': "Password must be at least 6 characters",
@@ -43,6 +55,7 @@ export default {
         'nav.request': "درخواست",
         'nav.request_new': "درخواست جدید",
         'nav.request_list': "لیست درخواست ها",
+        'nav.my.deliveries': "مرسولات من",
         'messages.new_delivery_added': "درخواست جدید با موفقیت ثبت شد", // messages
         'delivery.origin_country': "کشور مبدا", // delivery
         'delivery.origin_city': "شهر مبدا",
@@ -52,6 +65,11 @@ export default {
         'delivery.delivery_method': "روش دریافت",
         'delivery.contact_method': "روش ارتباط",
         'delivery.deadline_date': "مهلت تحویل",
+        'delivery.items': "تعداد آیتم : {count}",
+        'delivery.requested': "درخواست شده {date} توسط {owner}",
+        'delivery.search.title': 'جستجوی مرسولات',
+        'delivery.contact.information': 'اطلاعات تماس',
+        'delivery.new': 'مرسوله جدید',
         'login.forgotPassword': "فراموشی رمز", // Login
         'login.password': "رمز",
         'login.submitBtn': "ورود",
@@ -64,9 +82,15 @@ export default {
         'email': "ایمیل",
         'search': "جستجو",
         'to': "به",
+        'you': "شما",
+        'edit': "ویرایش",
+        'back': "بازگشت",
+        'cancel': "انصراف",
         'requested': "درخواست شده",
         'origin': "مبدا",
         'destination': "مقصد",
+        'select.placeholder': "انتخاب {nameFa}...",
+        'search.placeholder': "جستجوی {nameFa}...",
         'validate.required': "این فیلد اجباری است", // validate
         'validate.Password_6_char': "رمز باید حداقل 6 کاراکتر باشد",
         'validate.password_match': "رمز با تکرار رمز برابر نیست",

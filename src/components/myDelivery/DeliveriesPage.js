@@ -3,14 +3,15 @@ import {normalize} from "normalizr";
 import {useSelector, useDispatch} from "react-redux";
 import _ from "lodash";
 import Pagination from "react-js-pagination";
-import AddDelivery from "./AddDelivery";
+import Loader from 'react-loader';
+import {Link} from "react-router-dom";
+import {FormattedMessage} from "react-intl";
+import qs from "query-string";
 import {myDeliveriesSchema} from "../../utils/schemas";
 import {myDeliveriesFetched} from "../../reducers/deliverySlice";
-import MyDeliveriesList from "./MyDeliveriesList";
-
 import api from "../../utils/api";
-import {myDeliveriesSelector} from "./selectors";
-import {convertObjectToUrlParams, convertToSelect} from "../common/Functions";
+import {myDeliveriesSelector} from "../delivery/selectors";
+import DeliveriesList from "../delivery/DeliveriesList";
 
 function DeliveriesPage() {
     const perPage = 9;
@@ -32,12 +33,15 @@ function DeliveriesPage() {
         const items = {};
         items.page = currentPage;
         items.page_size = perPage;
-        const params = convertObjectToUrlParams(items);
+
+        const params = `?${qs.stringify(items, {
+            skipNull: true,
+        })}`;
 
         const data = await api.delivery.getMyDeliveries(params);
         setTotalItems(data.meta.total);
-        const normalizedResult = normalize(data.results, [myDeliveriesSchema]);
-        await dispatch(myDeliveriesFetched(normalizedResult));
+        const normalizedResult = normalize(data.data, [myDeliveriesSchema]);
+        dispatch(myDeliveriesFetched(normalizedResult));
 
         setLoaded(true);
     }, [dispatch, currentPage]);
@@ -47,23 +51,32 @@ function DeliveriesPage() {
     }, [loaded, currentPage, fetchDeliveries]);
 
     return (
-        <>
+        <Loader loaded={loaded}>
             <div>
-                {_.isEmpty(myStoredDeliveries) && <AddDelivery/>}
+                <Link className="btn btn-success" to="my-deliveries/new">
+                    <FormattedMessage
+                        id="delivery.new"
+                        defaultMessage="New Delivery"
+                    />
+                </Link>
+                <DeliveriesList totalItems={totalItems} deliveries={myStoredDeliveries} myDelivery/>
                 {!_.isEmpty(myStoredDeliveries) && (
-                    <MyDeliveriesList deliveries={myStoredDeliveries}/>
-                )}
+                    <>
+
+                        <Pagination
+                            activePage={currentPage}
+                            itemsCountPerPage={perPage}
+                            totalItemsCount={totalItems}
+                            pageRangeDisplayed={5}
+                            itemClass="page-item"
+                            linkClass="page-link"
+                            onChange={(e) => handlePageChange(e)}
+                        />
+                    </>
+                )
+                }
             </div>
-            <Pagination
-                activePage={currentPage}
-                itemsCountPerPage={perPage}
-                totalItemsCount={totalItems}
-                pageRangeDisplayed={5}
-                itemClass="page-item"
-                linkClass="page-link"
-                onChange={(e) => handlePageChange(e)}
-            />
-        </>
+        </Loader>
     );
 }
 

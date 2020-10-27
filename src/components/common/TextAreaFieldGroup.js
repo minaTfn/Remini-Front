@@ -44,7 +44,7 @@ const TextAreaFieldGroup = ({
                 {Array.isArray(error) && (
                     <span className="invalid-feedback">
                         {error.map((errorItem, key) => (
-                            <div key={key} className="row offset-1">
+                            <div key={key} className="d-block">
                                 {errorItem}
                             </div>
                         ))}

@@ -1,13 +1,8 @@
 import React, {Component} from 'react';
-// import {connect} from 'react-redux';
-// import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import Icon from '@material-ui/core/Icon';
-// import {confirmEmail} from '../../actions/users';
-// import {convertObjectToUrlParams} from "../common/Functions";
-
 
 class ConfirmationPage extends Component {
 

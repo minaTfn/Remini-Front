@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {FormattedMessage} from "react-intl";
@@ -24,17 +24,22 @@ class NavigationBar extends Component {
                     <Nav.Link as={Link} to="/dashboard" href="/dashboard">
                         <FormattedMessage id="nav.dashboard" defaultMessage="Dashboard"/>
                     </Nav.Link>
-                    <NavDropdown
-                        title={<span ><FormattedMessage id="nav.request" defaultMessage="request"/></span>}
-                        id="basic-nav-dropdown"
-                    >
-                        <NavDropdown.Item as={Link} to="/request/list" href="/request/list">
-                            <FormattedMessage id="nav.request_list" defaultMessage="request_list"/>
-                        </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to="/request/new" href="/request/new">
-                            <FormattedMessage id="nav.request_new" defaultMessage="request_new"/>
-                        </NavDropdown.Item>
-                    </NavDropdown>
+
+                    <Nav.Link as={Link} to="/my-deliveries" href="/dashboard">
+                        <FormattedMessage id="nav.my.deliveries" defaultMessage="my deliveries"/>
+                    </Nav.Link>
+
+                    {/*<NavDropdown*/}
+                    {/*    title={<span><FormattedMessage id="nav.request" defaultMessage="request"/></span>}*/}
+                    {/*    id="basic-nav-dropdown"*/}
+                    {/*>*/}
+                    {/*    <NavDropdown.Item as={Link} to="/request/list" href="/request/list">*/}
+                    {/*        <FormattedMessage id="nav.request_list" defaultMessage="request_list"/>*/}
+                    {/*    </NavDropdown.Item>*/}
+                    {/*    <NavDropdown.Item as={Link} to="/request/new" href="/request/new">*/}
+                    {/*        <FormattedMessage id="nav.request_new" defaultMessage="request_new"/>*/}
+                    {/*    </NavDropdown.Item>*/}
+                    {/*</NavDropdown>*/}
                 </Nav>
                 <NavDropdown
                     drop="down"
@@ -74,20 +79,24 @@ class NavigationBar extends Component {
         return (
 
             <Navbar bg="info" className="navbar-dark" expand="lg">
-                <Navbar.Brand as={Link} className="text-white" to="/">
-                    ReactJS
-                </Navbar.Brand>
-                <Navbar.Collapse id="basic-navbar-nav">
-                    {isAuthenticated ? userLinks : guestLinks}
-                </Navbar.Collapse>
-                <Nav>
-                    <Nav.Link as="button" className={classnames("bg-info","border-0",{active:(lang === "en")})} onClick={() => this.props.setLocale("en")}>
-                        EN
-                    </Nav.Link>{" "}
-                    <Nav.Link as="button" className={classnames("bg-info","border-0",{active:(lang === "fa")})} onClick={() => this.props.setLocale("fa")}>
-                        FA
-                    </Nav.Link>
-                </Nav>
+                <Container fluid="md">
+                    <Navbar.Brand as={Link} className="text-white" to="/">
+                        Remini Travel
+                    </Navbar.Brand>
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        {isAuthenticated ? userLinks : guestLinks}
+                    </Navbar.Collapse>
+                    <Nav>
+                        <Nav.Link as="button" className={classnames("bg-info", "border-0", {active: (lang === "en")})}
+                                  onClick={() => this.props.setLocale("en")}>
+                            EN
+                        </Nav.Link>{" "}
+                        <Nav.Link as="button" className={classnames("bg-info", "border-0", {active: (lang === "fa")})}
+                                  onClick={() => this.props.setLocale("fa")}>
+                            FA
+                        </Nav.Link>
+                    </Nav>
+                </Container>
             </Navbar>
         );
     }

@@ -8,13 +8,3 @@ export function convertToSelect(data,lang = 'en') {
     });
     return resultArray;
 }
-export function convertObjectToUrlParams(objectArray) {
-    const array = [];
-    const res = _.reduce(objectArray, function(result, value, key) {
-        array.push(`${key}=${value}`);
-        return array;
-    }, {});
-
-    const params = _.join(res,'&');
-    return `?${params}`;
-}

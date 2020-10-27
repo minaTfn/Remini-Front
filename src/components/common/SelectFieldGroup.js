@@ -19,24 +19,25 @@ const SelectFieldGroup = ({
                               onChange,
                               classType,
                               description,
-                              isRequired
+                              isRequired,
+                              placeholder
                           }) => {
     const inRow = classType === "inRow" ? 1 : 0;
     const defaultValVar = options.filter(option => option.value === defaultValue);
     const defaultVal= defaultValVar[0];
     return (
-        <div className={`form-group ${inRow ? "row" : ""}`}>
+        <div className={`form-group ${inRow ? "d-flex" : ""}`}>
             <label
                 htmlFor={field}
-                className={`control-label ${inRow ? "col-sm-3 col-form-label" : ""}`}
+                className={`control-label ${inRow ? "col-form-label mr-2" : ""}`}
             >
                 {label}
                 {isRequired ? <span className="text-danger"> * </span> : ''}
-                {inRow ? ' :' : ''}
+                {inRow ? ': ' : ''}
             </label>
-            <div className={inRow ? "col-sm-6" : ""}>
+            <div className={inRow ? "flex-grow-1" : ""}>
                 <Select
-                    className={classnames((isMulti ? "basic-multi-select" : "basic-single"), {"is-invalid": error})}
+                    className={classnames((isMulti ? "basic-multi-select" : "basic-single"),'min190', {"is-invalid": error})}
                     classNamePrefix="select"
                     value={defaultVal}
                     isDisabled={isDisabled}
@@ -47,6 +48,7 @@ const SelectFieldGroup = ({
                     name={field}
                     options={options}
                     isMulti={isMulti}
+                    placeholder={placeholder}
                     // onInputChange={onBlur}
                     // onSelectResetsInput={false}
                     // onBlurResetsInput={false}
@@ -54,7 +56,7 @@ const SelectFieldGroup = ({
                 />
                 {Array.isArray(error) &&
                 <span className="invalid-feedback">{error.map((errorItem, key) => <div key={key}
-                                                                                       className="row offset-1">{errorItem}</div>)}</span>}
+                                                                                       className="d-block">{errorItem}</div>)}</span>}
             </div>
             {description && <div className="col-sm-3">{description}</div>}
         </div>
@@ -63,6 +65,7 @@ const SelectFieldGroup = ({
 
 SelectFieldGroup.propTypes = {
     field: PropTypes.string.isRequired,
+    placeHolder: PropTypes.string,
     defaultValue: PropTypes.number,
     options: PropTypes.array.isRequired,
     label: PropTypes.object.isRequired,

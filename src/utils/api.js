@@ -18,14 +18,20 @@ export default {
     },
     delivery: {
         getDeliveries: (params) => axios.get(`${server}deliveries/${params}`).then((res) => res.data),
-        countries: () => axios.get(`${server}countries/`).then(res => res.data),
-        getCities: (country) => axios.get(`${server}getCities/?country_id=${country}`).then(res => res.data),
-        getPaymentMethods: () => axios.get(`${server}transportation/payment-methods/`).then(res => res.data),
-        getDeliveryMethods: () => axios.get(`${server}transportation/delivery-methods/`).then(res => res.data),
-        getContactMethods: () => axios.get(`${server}transportation/contact-methods/`).then(res => res.data),
-        newDeliveryAdd: (data) => axios.post(`${server}transportation/delivery-new/`, data).then((res) => res.data),
-        getMyDeliveries: (params) => axios.get(`${server}transportation/my-deliveries/${params}`).then((res) => res.data),
-        getDelivery: (slug) => axios.get(`${server}transportation/delivery/${slug}/`).then((res) => res.data),
+        countries: () => axios.get(`${server}countries/`).then(res => res.data.data),
+        getDelivery: (slug) => axios.get(`${server}deliveries/${slug}/`).then((res) => res.data.data),
+        getMyDelivery: (slug) => axios.get(`${server}my-deliveries/${slug}/`).then((res) => res.data.data),
+        getContactInfo: (slug) => axios.get(`${server}deliveries/${slug}/contact-info`).then((res) => res.data.data),
+        cities: (country) => axios.get(`${server}cities/${country}`).then(res => res.data.data),
+        getPaymentMethods: () => axios.get(`${server}getPaymentMethods/`).then(res => res.data.data),
+
+        getDeliveryMethods: () => axios.get(`${server}getDeliveryMethods/`).then(res => res.data.data),
+        getContactMethods: () => axios.get(`${server}getContactMethods/`).then(res => res.data.data),
+
+        newDelivery: (data) => axios.post(`${server}deliveries/`, data).then((res) => res.data.data),
+
+        getMyDeliveries: (params) => axios.get(`${server}my-deliveries/${params}`).then((res) => res.data),
+
         editDelivery: (slug, data) => axios.put(`${server}transportation/delivery/${slug}/`, data).then((res) => res.data),
     },
 

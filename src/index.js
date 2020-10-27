@@ -13,12 +13,18 @@ import * as serviceWorker from './serviceWorker';
 import {fetchCurrentUser} from "./actions/users";
 import {userFetched} from './reducers/userSlice';
 import {localeSet} from './reducers/localeSlice';
+import {fetchCountries, fetchDeliveryMethods, fetchPaymentMethods, fetchContactMethods} from "./actions/delivery";
 
 const store = configureStore({
     reducer: rootReducer,
     middleware: [...getDefaultMiddleware()],
     devTools: process.env.NODE_ENV !== 'production',
 });
+
+store.dispatch(fetchCountries());
+store.dispatch(fetchDeliveryMethods());
+store.dispatch(fetchPaymentMethods());
+store.dispatch(fetchContactMethods());
 
 if (localStorage.lang) {
     if (localStorage.lang === 'fa') {
@@ -33,6 +39,7 @@ if (localStorage.lang) {
 if (localStorage.jwtToken) {
     setAuthorizationToken(localStorage.jwtToken);
     store.dispatch(fetchCurrentUser());
+
 } else {
     store.dispatch(userFetched({}))
 }

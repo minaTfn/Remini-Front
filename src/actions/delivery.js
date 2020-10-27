@@ -2,14 +2,19 @@ import {normalize} from "normalizr";
 import api from "../utils/api";
 import {
     newDeliveryAdded,
-    editMyDelivery
+    editMyDelivery,
+    countriesFetched,
+    deliveryMethodsFetched,
+    paymentMethodsFetched,
+    contactMethodsFetched
 } from "../reducers/deliverySlice";
 import {myDeliveriesSchema} from "../utils/schemas";
+import {convertToSelect} from "../components/common/Functions";
 
 export function addNewDelivery(data) {
     return (dispatch) => {
         return api.delivery
-            .newDeliveryAdd(data)
+            .newDelivery(data)
             .then((res) => normalize(res, myDeliveriesSchema))
             .then((normalizedRes) => dispatch(newDeliveryAdded(normalizedRes)))
     };
@@ -23,3 +28,29 @@ export function editDelivery(slug, data) {
             .then((normalizedRes) => dispatch(editMyDelivery(normalizedRes)));
     };
 }
+
+export const fetchCountries = () => (dispatch) =>
+    api.delivery.countries()
+        .then((data) => {
+            return convertToSelect(data,'en');
+        }).then((data1) => {
+        dispatch(countriesFetched(data1));
+    });
+
+export const fetchDeliveryMethods = () => (dispatch) =>
+    api.delivery.getDeliveryMethods()
+        .then((data) => {
+            dispatch(deliveryMethodsFetched(data));
+        });
+
+export const fetchPaymentMethods = () => (dispatch) =>
+    api.delivery.getPaymentMethods()
+        .then((data) => {
+            dispatch(paymentMethodsFetched(data));
+        });
+
+export const fetchContactMethods = () => (dispatch) =>
+    api.delivery.getContactMethods()
+        .then((data) => {
+            dispatch(contactMethodsFetched(data));
+        });

@@ -10,6 +10,7 @@ const CheckFieldGroup = ({
                              type,
                              onChange,
                              disabled,
+                             title,
                              inline,
                              description,
                              isRequired,
@@ -29,7 +30,7 @@ const CheckFieldGroup = ({
                         custom
                         inline={inline}
                         disabled={disabled}
-                        label={item.title}
+                        label={item[title]}
                         value={item.id}
                         type={type}
                         checked={(type === 'checkbox') ? defaultCheckBoxValue.indexOf(item.id) > -1 : (defaultRadioValue === item.id)}
@@ -41,7 +42,7 @@ const CheckFieldGroup = ({
                 ))}
                 {Array.isArray(error) &&
                 <span className="invalid-feedback mt-2">{error.map((errorItem, key) => <div key={key}
-                                                                                       className="row offset-1">{errorItem}</div>)}</span>}
+                                                                                       className="d-block">{errorItem}</div>)}</span>}
             </div>
 
             {description && <div className="col-sm-2">{description}</div>}
@@ -61,6 +62,7 @@ CheckFieldGroup.propTypes = {
     defaultCheckBoxValue: PropTypes.array,
     defaultRadioValue: PropTypes.number,
     type: PropTypes.string,
+    title: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     description: PropTypes.object,
     isRequired: PropTypes.bool,
@@ -70,5 +72,6 @@ CheckFieldGroup.defaultProps = {
     type: "checkbox",
     isRequired: false,
     inline: false,
+    title: 'title',
 };
 export default CheckFieldGroup;

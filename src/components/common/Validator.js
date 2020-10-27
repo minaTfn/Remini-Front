@@ -51,8 +51,11 @@ export function ValidateDelivery(data) {
     if (Validator.isEmpty(data.title)) {
         errors.title = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
     }
-    if (data.contact_methods_ids.length === 0) {
-        errors.contact_methods_ids = [<FormattedMessage id="validate.required"
+    if (Validator.isEmpty(data.description)) {
+        errors.description = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
+    }
+    if (data.contact_method_ids.length === 0) {
+        errors.contact_method_ids = [<FormattedMessage id="validate.required"
                                                         defaultMessage="This field is required"/>];
     }
     if (data.payment_method_id.length === 0) {
