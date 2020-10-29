@@ -26,9 +26,15 @@ class SignupForm extends Component {
     }
 
     onChange(e) {
-        this.setState({
-            data: {...this.state.data, [e.target.name]: e.target.value}
-        });
+
+        if (e.target.name === 'password')
+            this.setState({
+                data: {...this.state.data, password_confirmation: e.target.value, [e.target.name]: e.target.value}
+            });
+        else
+            this.setState({
+                data: {...this.state.data, [e.target.name]: e.target.value}
+            });
     }
 
     onBlurValidate(e) {
@@ -55,7 +61,7 @@ class SignupForm extends Component {
                     text: "You've signed up successfully. Welcome!"
                 });
             }).catch(error => {
-                this.setState({errors: error.response.data, isLoading: false})
+                this.setState({errors: error.response.data.errors, isLoading: false})
             });
         }
     }
@@ -72,8 +78,6 @@ class SignupForm extends Component {
         const {errors, data, isLoading} = this.state;
         return (
             <form autoComplete="off" onSubmit={this.onSubmit}>
-                <h2>Join our community!</h2>
-
                 <TextFieldGroup
                     error={errors.name}
                     label="Name"
@@ -94,15 +98,15 @@ class SignupForm extends Component {
                     isRequired
                     value={data.email}
                 />
-                <TextFieldGroup
-                    error={errors.cell_number}
-                    label="Cell Number"
-                    onChange={this.onChange}
-                    onBlur={this.onBlurValidate}
-                    field="cell_number"
-                    value={data.cell_number}
-                    type="number"
-                />
+                {/*<TextFieldGroup*/}
+                {/*    error={errors.cell_number}*/}
+                {/*    label="Cell Number"*/}
+                {/*    onChange={this.onChange}*/}
+                {/*    onBlur={this.onBlurValidate}*/}
+                {/*    field="cell_number"*/}
+                {/*    value={data.cell_number}*/}
+                {/*    type="number"*/}
+                {/*/>*/}
                 <TextFieldGroup
                     error={errors.password}
                     label="Password"
@@ -114,18 +118,19 @@ class SignupForm extends Component {
                     type="password"
                     isRequired
                 />
-                <TextFieldGroup
-                    error={errors.password_confirmation}
-                    label="Confirm Password"
-                    onChange={this.onChange}
-                    onBlur={this.onBlurValidate}
-                    field="password_confirmation"
-                    value={data.password_confirmation}
-                    isRequired
-                    type="password"
-                />
-                <div className="form-group">
+                {/*<TextFieldGroup*/}
+                {/*    error={errors.password_confirmation}*/}
+                {/*    label="Confirm Password"*/}
+                {/*    onChange={this.onChange}*/}
+                {/*    onBlur={this.onBlurValidate}*/}
+                {/*    field="password_confirmation"*/}
+                {/*    value={data.password_confirmation}*/}
+                {/*    isRequired*/}
+                {/*    type="password"*/}
+                {/*/>*/}
+                <div className="form-group mt-4">
                     <Button
+                        className="w-100"
                         type="submit"
                         variant="primary"
                         disabled={isLoading}

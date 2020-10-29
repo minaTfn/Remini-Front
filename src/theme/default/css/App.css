@@ -43,7 +43,21 @@
 .btn:focus, .btn.focus {
   box-shadow:none;
 }
-
+.navbar-light .navbar-nav .nav-link {
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+.nav-link.language{
+  border-radius: 0;
+  border-bottom: 1px solid transparent !important;
+}
+.nav-link.language.active{
+  border-bottom: 1px solid #7abaff !important;
+  background: #eee !important;
+}
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
+  color: #0069d9    !important;
+  border-bottom: 1px solid #7abaff;
+}
 div.is-invalid > .select__control{
   border-color:red;
 }

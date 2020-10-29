@@ -15,8 +15,6 @@ import Footer from "./components/Footer";
 import FlashMessagesList from "./components/flash/FlashMessagesList";
 import HomePage from "./components/pages/HomePage";
 import DashboardPage from "./components/pages/DashboardPage";
-import SignupPage from "./components/signup/SignupPage";
-import LoginPage from "./components/login/LoginPage";
 import UserProfile from "./components/user/UserProfile";
 import ConfirmationPage from "./components/user/ConfirmationPage";
 import ForgotPasswordPage from "./components/login/ForgotPasswordPage";
@@ -25,6 +23,8 @@ import NewDeliveryPage from "./components/myDelivery/NewDeliveryPage";
 import DeliveriesPage from "./components/myDelivery/DeliveriesPage";
 import EditDeliveryPage from "./components/myDelivery/EditDeliveryPage";
 import ShowDeliveryPage from "./components/delivery/ShowDeliveryPage";
+import AboutPage from "./components/pages/AboutPage";
+import ContactPage from "./components/pages/ContactPage";
 
 
 class App extends Component {
@@ -35,7 +35,7 @@ class App extends Component {
     }
 
     render() {
-        const {location, isAuthenticated, user, lang, loaded} = this.props;
+        const {location, isAuthenticated, user, lang, loaded, username} = this.props;
 
         return (
             <IntlProvider locale={lang} messages={messages[lang]}>
@@ -43,10 +43,11 @@ class App extends Component {
                     <Loader loaded={loaded}>
                         <div className="d-flex flex-column h-100">
                             <NavigationBar location={location} isAuthenticated={isAuthenticated} lang={lang}
-                                           user={user}/>
+                                           user={user} username={username}/>
+                            <Route location={location} path="/(:page)?" exact component={HomePage}/>
                             <div className="mainContainer mx-auto px-xl-1 px-md-5 px-3">
                                 <FlashMessagesList/>
-                                <Route location={location} path="/(:page)?" exact component={HomePage}/>
+
                                 <div className="py-5">
                                     <Route
                                         location={location}
@@ -54,29 +55,29 @@ class App extends Component {
                                         exact
                                         component={ConfirmationPage}
                                     />
-                                    <GuestRoute
+                                    <Route
                                         location={location}
-                                        path="/login"
+                                        path="/contact-us"
                                         exact
-                                        component={LoginPage}
+                                        component={ContactPage}
                                     />
-                                    <GuestRoute
+                                    <Route
                                         location={location}
-                                        path="/forgot_password"
+                                        path="/about-us"
                                         exact
-                                        component={ForgotPasswordPage}
+                                        component={AboutPage}
                                     />
+                                    {/*<GuestRoute*/}
+                                    {/*    location={location}*/}
+                                    {/*    path="/forgot_password"*/}
+                                    {/*    exact*/}
+                                    {/*    component={ForgotPasswordPage}*/}
+                                    {/*/>*/}
                                     <GuestRoute
                                         location={location}
                                         path="/passwordReset/:token/:email"
                                         exact
                                         component={ResetPasswordPage}
-                                    />
-                                    <GuestRoute
-                                        location={location}
-                                        path="/signup"
-                                        exact
-                                        component={SignupPage}
                                     />
                                     <Route
                                         location={location}
@@ -139,6 +140,7 @@ App.propTypes = {
     }).isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     user: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
     fetchCurrentUser: PropTypes.func.isRequired,
     fetchCountries: PropTypes.func.isRequired,
     fetchDeliveryMethods: PropTypes.func.isRequired,
@@ -152,6 +154,7 @@ function mapStateToProps(state) {
     return {
         isAuthenticated: !!state.user.email,
         user: state.user.email ? state.user.email : "Guest",
+        username: state.user.name ? state.user.name :'',
         loaded: state.user.loaded,
         lang: state.locale,
     };

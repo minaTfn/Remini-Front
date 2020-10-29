@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Alert from '@material-ui/lab/Alert';
+import {FormattedMessage} from "react-intl";
+import Button from "react-bootstrap/Button";
 import TextFieldGroup from "../common/TextFieldGroup";
 import {ValidateLogin} from '../common/Validator';
-import Button from "react-bootstrap/Button";
-import {FormattedMessage} from "react-intl";
 
 class LoginForm extends Component {
     constructor(props) {
@@ -26,9 +26,12 @@ class LoginForm extends Component {
         if (this.isValid()) {
             this.setState({errors: {}, isLoading: true});
             this.props.submit(this.state.data)
-                .catch(err =>
-                    this.setState({errors: err.response.data, isLoading: false})
-                );
+            .catch(err => {
+                    if (err.response) {
+                        this.setState({errors: err.response.data.data, isLoading: false})
+                    }
+                }
+            );
         }
 
     }
@@ -58,7 +61,7 @@ class LoginForm extends Component {
                         field="email"
                         label={
                             <FormattedMessage
-                                id="global.email"
+                                id="email"
                                 defaultMessage="Email"
                             />
                         }
@@ -79,8 +82,8 @@ class LoginForm extends Component {
                         error={errors.password}
                         onChange={this.onChange}
                     />
-                    <div className="form-group">
-                        <Button type="submit" variant="primary" disabled={isLoading}>
+                    <div className="form-group mt-4">
+                        <Button type="submit" variant="primary" disabled={isLoading} className="w-100">
                             {isLoading ? (
                                 <FormattedMessage
                                     id="login.entering"

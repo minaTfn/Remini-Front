@@ -162,7 +162,7 @@ export function ValidateProfile(data) {
 export function ValidateSignUp(data) {
     let errors = {};
 
-    const required = ['name', 'email', 'password', 'password_confirmation'];
+    const required = ['name', 'email', 'password'];
 
     required.forEach((field) => {
         if (Validator.isEmpty(data[field])) {
@@ -183,10 +183,10 @@ export function ValidateSignUp(data) {
         errors.cell_number = ['Cell Number is invalid'];
     }
 
-    if (!Validator.equals(data.password, data.password_confirmation)) {
-        errors.password_confirmation = [<FormattedMessage id="validate.password_match"
-                                                          defaultMessage="Passwords must match"/>];
-    }
+    // if (!Validator.equals(data.password, data.password_confirmation)) {
+    //     errors.password_confirmation = [<FormattedMessage id="validate.password_match"
+    //                                                       defaultMessage="Passwords must match"/>];
+    // }
     return {
         errors,
         isValid: isEmpty(errors),

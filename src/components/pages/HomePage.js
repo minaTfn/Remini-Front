@@ -9,6 +9,9 @@ import {myDeliveriesSchema} from "../../utils/schemas";
 import DeliveriesList from "../delivery/DeliveriesList";
 import api from "../../utils/api";
 import SearchDeliveryForm from "../delivery/SearchDeliveryForm";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faInbox} from "@fortawesome/free-solid-svg-icons";
+import {FormattedMessage} from "react-intl";
 
 function HomePage(props) {
     const perPage = 9;
@@ -30,7 +33,6 @@ function HomePage(props) {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
 
 
     const fetchDeliveries = useCallback(async () => {
@@ -95,39 +97,53 @@ function HomePage(props) {
     return (
 
         <>
-            <div className="searchPanel mr-md-2 p-3 bg-light pt-4">
-                <SearchDeliveryForm
-                    onOriginChange={onOriginChange}
-                    onDestinationChange={onDestinationChange}
-                    onQueryChange={onQueryChange}
-                    destination={destination}
-                    origin={origin}
-                    searchTitle={searchTitle}
-                />
+            <div className="bg-top"></div>
+            <div className="searchPanel px-3 pt-5">
+                <div className="mainContainer mx-auto px-xl-4 px-md-5 px-4 py-2">
+                    <SearchDeliveryForm
+                        onOriginChange={onOriginChange}
+                        onDestinationChange={onDestinationChange}
+                        onQueryChange={onQueryChange}
+                        destination={destination}
+                        origin={origin}
+                        searchTitle={searchTitle}
+                    />
+                </div>
             </div>
-            <div className="deliveryMain">
+            <div className="mainContainer mx-auto px-xl-1 px-md-5 px-3">
+                <div className="deliveryMain">
+                    <Loader loaded={!isLoading}>
+                        <div className="">
+                            {_.isEmpty(deliveriesList) &&
+                            <div className="py-5 text-center">
+                                <FontAwesomeIcon icon={faInbox} className="text-primary mr-3"
+                                                 style={{fontSize: "50px"}}/>
+                                <span style={{verticalAlign: "super"}}>
+                                    <FormattedMessage id="no.items" defaultMessage="No Items"/>
+                                </span>
+                            </div>
+                            }
+                            {!_.isEmpty(deliveriesList) && (
+                                <>
+                                    <DeliveriesList totalItems={totalItems} deliveries={deliveriesList}/>
+                                    <div className="m-2">
+                                        <Pagination
+                                            activePage={currentPage}
+                                            itemsCountPerPage={perPage}
+                                            totalItemsCount={totalItems}
+                                            pageRangeDisplayed={5}
+                                            itemClass="page-item"
+                                            linkClass="page-link"
+                                            onChange={(e) => handlePageChange(e)}
+                                        />
+                                    </div>
+                                </>
+                            )}
 
-                <Loader loaded={!isLoading}>
-                    <div className="">
-                        {_.isEmpty(deliveriesList) && 'There are no available items'}
-                        {!_.isEmpty(deliveriesList) && (
-                            <DeliveriesList totalItems={totalItems} deliveries={deliveriesList}/>
-                        )}
-                        <div className="m-2">
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={perPage}
-                                totalItemsCount={totalItems}
-                                pageRangeDisplayed={5}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                onChange={(e) => handlePageChange(e)}
-                            />
+
                         </div>
-
-                    </div>
-                </Loader>
-
+                    </Loader>
+                </div>
             </div>
         </>
     );

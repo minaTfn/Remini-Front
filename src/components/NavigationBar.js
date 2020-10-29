@@ -8,24 +8,70 @@ import {Navbar, NavDropdown, Nav, Container, Image} from "react-bootstrap";
 import {logout} from "../actions/users";
 import {setLocale} from "../actions/locale";
 import avatar from "../theme/default/images/avatar.png";
+import logo from "../theme/default/images/logo.jpg";
+import LoginPage from "./login/LoginPage";
+import SignupPage from "./signup/SignupPage";
+// import {faUser, faUserAlt, faUserCircle,faUserAltSlash,faUserTie} from "@fortawesome/free-solid-svg-icons";
+// import {user} from "@fortawesome/fontawesome-common-types";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class NavigationBar extends Component {
+
+    constructor(props) {
+
+        super(props);
+
+        this.state = {
+            isLoginOpen: false,
+            isSignUpOpen: false,
+        };
+
+    }
+
+    hideLogin = () => {
+        this.setState({isLoginOpen: false});
+    };
+
+    showLogin = () => {
+        this.setState({isLoginOpen: true});
+    }
+
+    hideSignUp = () => {
+        this.setState({isSignUpOpen: false});
+    };
+
+    showSignUp = () => {
+        this.setState({isSignUpOpen: true});
+    }
+
     logout(e) {
         e.preventDefault();
         this.props.logout();
     }
 
     render() {
-        const {isAuthenticated, user, location} = this.props;
+        const {isAuthenticated, user, location, username} = this.props;
         const {lang} = localStorage;
+        const commonLinks = (
+            <>
+                <Nav.Link as={Link} className="ml-3" to="/about-us" href="/about-us">
+                    <FormattedMessage id="nav.about.us" defaultMessage="About Us"/>
+                </Nav.Link>
+                <Nav.Link as={Link} className="ml-3" to="/contact-us" href="/contact-us">
+                    <FormattedMessage id="nav.contact.us" defaultMessage="Contact Us"/>
+                </Nav.Link>
+            </>
+        )
+
+
         const userLinks = (
             <Container>
-                <Nav className="mr-auto" activeKey={location.pathname}>
-                    <Nav.Link as={Link} to="/dashboard" href="/dashboard">
-                        <FormattedMessage id="nav.dashboard" defaultMessage="Dashboard"/>
-                    </Nav.Link>
+                <Nav className="mr-auto mt-auto" activeKey={location.pathname}>
+                    {/*<Nav.Link as={Link} to="/dashboard" href="/dashboard">*/}
+                    {/*    <FormattedMessage id="nav.dashboard" defaultMessage="Dashboard"/>*/}
+                    {/*</Nav.Link>*/}
 
-                    <Nav.Link as={Link} to="/my-deliveries" href="/dashboard">
+                    <Nav.Link as={Link} className="ml-3" to="/my-deliveries" href="/my-deliveries">
                         <FormattedMessage id="nav.my.deliveries" defaultMessage="my deliveries"/>
                     </Nav.Link>
 
@@ -40,13 +86,19 @@ class NavigationBar extends Component {
                     {/*        <FormattedMessage id="nav.request_new" defaultMessage="request_new"/>*/}
                     {/*    </NavDropdown.Item>*/}
                     {/*</NavDropdown>*/}
+                    {commonLinks}
                 </Nav>
                 <NavDropdown
                     drop="down"
                     alignRight
-                    title={<Image src={avatar} width={40} height={40} roundedCircle/>}
+                    className="pb-1"
+                    title={<><Image src={avatar} width={40} height={40} roundedCircle/> {username}</>}
                     id="basic-nav-dropdown"
                 >
+                    {/*<FontAwesomeIcon icon={faUserAlt} />*/}
+                    {/*<FontAwesomeIcon icon={faUserCircle} />*/}
+                    {/*<FontAwesomeIcon icon={faUserAltSlash} />*/}
+                    {/*<FontAwesomeIcon icon={faUserTie} />*/}
                     <NavDropdown.Item disabled>{user}</NavDropdown.Item>
                     <NavDropdown.Divider/>
                     <NavDropdown.Item as={Link} to="/profile">
@@ -68,36 +120,40 @@ class NavigationBar extends Component {
 
         const guestLinks = (
             <Nav className="mr-auto">
-                <Nav.Link as={Link} to="/login">
-                    Login
+                <Nav.Link className="ml-3" onClick={this.showLogin}>
+                    <FormattedMessage id="nav.login" defaultMessage="Login"/>
                 </Nav.Link>
-                <Nav.Link as={Link} to="/signup">
-                    Sign Up
+                <Nav.Link className="ml-3" onClick={this.showSignUp}>
+                    <FormattedMessage id="nav.signUp" defaultMessage="Sign Up"/>
                 </Nav.Link>
+                {commonLinks}
             </Nav>
         );
         return (
-
-            <Navbar bg="info" className="navbar-dark" expand="lg">
-                <Container fluid="md">
-                    <Navbar.Brand as={Link} className="text-white" to="/">
-                        Remini Travel
-                    </Navbar.Brand>
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        {isAuthenticated ? userLinks : guestLinks}
-                    </Navbar.Collapse>
-                    <Nav>
-                        <Nav.Link as="button" className={classnames("bg-info", "border-0", {active: (lang === "en")})}
-                                  onClick={() => this.props.setLocale("en")}>
-                            EN
-                        </Nav.Link>{" "}
-                        <Nav.Link as="button" className={classnames("bg-info", "border-0", {active: (lang === "fa")})}
-                                  onClick={() => this.props.setLocale("fa")}>
-                            FA
-                        </Nav.Link>
-                    </Nav>
-                </Container>
-            </Navbar>
+            <>
+                <LoginPage show={this.state.isLoginOpen} onHide={this.hideLogin}/>
+                <SignupPage show={this.state.isSignUpOpen} onHide={this.hideSignUp}/>
+                <Navbar bg="white" className="p-0" expand="lg">
+                    <Container fluid="md">
+                        <Navbar.Brand as={Link} className="text-white" to="/">
+                            <Image src={logo}/>
+                        </Navbar.Brand>
+                        <Navbar.Collapse id="basic-navbar-nav" className="mt-auto">
+                            {isAuthenticated ? userLinks : guestLinks}
+                        </Navbar.Collapse>
+                        <Nav>
+                            <Nav.Link as="button" className={classnames("border-0 btn btn-link language mr-1", {active: (lang === "en")})}
+                                      onClick={() => this.props.setLocale("en")}>
+                                EN
+                            </Nav.Link>{" "}
+                            <Nav.Link as="button" className={classnames("border-0 btn btn-link language", {active: (lang === "fa")})}
+                                      onClick={() => this.props.setLocale("fa")}>
+                                FA
+                            </Nav.Link>
+                        </Nav>
+                    </Container>
+                </Navbar>
+            </>
         );
     }
 }
@@ -108,6 +164,7 @@ NavigationBar.propTypes = {
     }).isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     user: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
     logout: PropTypes.func.isRequired,
     setLocale: PropTypes.func.isRequired,
 };

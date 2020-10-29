@@ -66,8 +66,9 @@ class ForgotPasswordFrom extends Component {
     render() {
         const {errors, data, isLoading} = this.state;
         return (
-            <div className="row">{errors.non_field_errors && <Alert severity="error">{errors.non_field_errors}</Alert>}
-                <form className="col-sm-5" autoComplete="off" onSubmit={this.onSubmit}>
+            <div>
+                {errors.non_field_errors && <Alert severity="error">{errors.non_field_errors}</Alert>}
+                <form autoComplete="off" onSubmit={this.onSubmit}>
                     <TextFieldGroup
                         error={errors.email}
                         autoComplete="new-email"

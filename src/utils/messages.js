@@ -2,12 +2,16 @@ export default {
     en: {
         'nav.dashboard': "Dashboard", // navBar
         'nav.changePassword': "Change Password",
+        'nav.login': "Login",
+        'nav.signUp': "Register",
         'nav.logout': "Logout",
         'nav.profile': "Profile",
         'nav.request': "Request",
         'nav.request_new': "New Request",
         'nav.request_list': "Requests List",
         'nav.my.deliveries': "My deliveries",
+        'nav.about.us': "About Us",
+        'nav.contact.us': "Contact Us",
         'messages.new_delivery_added': "New Delivery Added Successfully", // messages
         'delivery.origin_country': "Origin Country", // delivery
         'delivery.origin_city': "Origin City",
@@ -27,6 +31,7 @@ export default {
         'login.entering': "verifying...",
         'login.password': "Password",
         'login.LoginPageTitle': "Login to your account",
+        'login.SignUpPageTitle': "Register",
         'submitting': 'Submitting...', // globals
         'submit': 'Submit',
         'description': "Description",
@@ -39,6 +44,7 @@ export default {
         'back': "Back",
         'cancel': "Cancel",
         'origin': "Origin",
+        'no.items': "There are no available items",
         'destination': "Destination",
         'search.placeholder': "Search the {name}...",
         'select.placeholder': "Select {name}...",
@@ -50,12 +56,16 @@ export default {
     fa: {
         'nav.dashboard': "پنل اصلی", // navBar
         'nav.changePassword': "تغییر رمز",
+        'nav.login': "ورود اعضا",
+        'nav.signUp': "ثبت نام",
         'nav.logout': "خروج",
         'nav.profile': "پروفایل",
         'nav.request': "درخواست",
         'nav.request_new': "درخواست جدید",
         'nav.request_list': "لیست درخواست ها",
         'nav.my.deliveries': "مرسولات من",
+        'nav.about.us': "درباره ما",
+        'nav.contact.us': "تماس با ما",
         'messages.new_delivery_added': "درخواست جدید با موفقیت ثبت شد", // messages
         'delivery.origin_country': "کشور مبدا", // delivery
         'delivery.origin_city': "شهر مبدا",
@@ -75,6 +85,7 @@ export default {
         'login.submitBtn': "ورود",
         'login.entering': "درحال بررسی...",
         'login.LoginPageTitle': "ورود به حساب کاربری",
+        'login.SignUpPageTitle': "ثبت نام",
         'submitting': 'در حال ثبت...', // globals
         'submit': 'ثبت',
         'description': "توضیحات",
@@ -87,6 +98,7 @@ export default {
         'back': "بازگشت",
         'cancel': "انصراف",
         'requested': "درخواست شده",
+        'no.items': "نتیجه ای یافت نشد",
         'origin': "مبدا",
         'destination': "مقصد",
         'select.placeholder': "انتخاب {nameFa}...",

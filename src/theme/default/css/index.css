@@ -45,6 +45,26 @@ code {
 }
 .searchPanel{
   min-width:270px;
+  /*background: url(../images/pattern.jpg) repeat-x center top;*/
+}
+.bg-top{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url(../images/15.jpg) no-repeat center -110px;
+  z-index: -1;
+}
+
+.navbar {
+  box-shadow: 0 0 6px 0 rgba(0,0,0,.08);
+}
+.searchPanel .mainContainer{
+  box-shadow: 0 0 40px 0 rgba(0,0,0,.2);
+  background-color: #fff;
+  border-color: transparent;
+  border-radius: 10px;
+  width: 100%;
+  min-height: 160px;
 }
 @media screen and (max-width: 1100px){
   .searchPanel{
