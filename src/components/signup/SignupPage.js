@@ -16,9 +16,9 @@ class SignupPage extends Component {
         return (
             <Modal show={this.props.show} onHide={this.props.onHide}>
                 <Modal.Header closeButton>
-                    <Modal.Title>
+                    <div className="modalHeader">
                         <FormattedMessage id="login.SignUpPageTitle" defaultMessage="Join to Remini"/>
-                    </Modal.Title>
+                    </div>
                 </Modal.Header>
                 <Modal.Body>
                     <SignupForm submit={this.submit} addFlashMessage={addFlashMessage}/>

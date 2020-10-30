@@ -4,6 +4,7 @@ import Alert from "@material-ui/lab/Alert";
 import {ValidateForgotPassword} from '../common/Validator';
 import TextFieldGroup from "../common/TextFieldGroup";
 import Button from 'react-bootstrap/Button'
+import {FormattedMessage} from "react-intl";
 
 
 class ForgotPasswordFrom extends Component {
@@ -50,7 +51,7 @@ class ForgotPasswordFrom extends Component {
             this.props.submit(this.state.data).then(() => {
 
             }).catch(error => {
-                this.setState({errors: error.response.data, isLoading: false})
+                this.setState({errors: error.response.data.errors, isLoading: false})
             });
         }
     }
@@ -72,7 +73,12 @@ class ForgotPasswordFrom extends Component {
                     <TextFieldGroup
                         error={errors.email}
                         autoComplete="new-email"
-                        label="Email"
+                        label={
+                            <FormattedMessage
+                                id="email"
+                                defaultMessage="Email"
+                            />
+                        }
                         onChange={this.onChange}
                         onBlur={this.onBlurValidate}
                         field="email"
@@ -81,11 +87,19 @@ class ForgotPasswordFrom extends Component {
                     />
                     <div className="form-group">
                         <Button
+                            className="w-100"
                             type="submit"
                             variant="primary"
                             disabled={isLoading}
                         >
-                            {isLoading ? 'Sending Email…' : 'Submit'}
+                            {isLoading ? (
+                                <FormattedMessage
+                                    id="sending.email"
+                                    defaultMessage="Sending Email…"
+                                />
+                            ) : (
+                                <FormattedMessage id="submit" defaultMessage="Submit"/>
+                            )}
                         </Button>
                     </div>
                 </form>
@@ -95,7 +109,7 @@ class ForgotPasswordFrom extends Component {
 }
 
 ForgotPasswordFrom.propTypes = {
-    addFlashMessage: PropTypes.func.isRequired,
+    // addFlashMessage: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired,
 }
 export default ForgotPasswordFrom

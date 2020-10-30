@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import {ValidateSignUp} from '../common/Validator';
 import Button from "react-bootstrap/Button";
+import {FormattedMessage} from "react-intl";
 
 
 class SignupForm extends Component {
@@ -80,7 +81,12 @@ class SignupForm extends Component {
             <form autoComplete="off" onSubmit={this.onSubmit}>
                 <TextFieldGroup
                     error={errors.name}
-                    label="Name"
+                    label={
+                        <FormattedMessage
+                            id="name"
+                            defaultMessage="Name"
+                        />
+                    }
                     autoComplete="new-name"
                     onChange={this.onChange}
                     onBlur={this.onBlurValidate}
@@ -91,7 +97,12 @@ class SignupForm extends Component {
                 <TextFieldGroup
                     error={errors.email}
                     autoComplete="new-email"
-                    label="Email"
+                    label={
+                        <FormattedMessage
+                            id="email"
+                            defaultMessage="Email"
+                        />
+                    }
                     onChange={this.onChange}
                     onBlur={this.onBlurValidate}
                     field="email"
@@ -109,7 +120,12 @@ class SignupForm extends Component {
                 {/*/>*/}
                 <TextFieldGroup
                     error={errors.password}
-                    label="Password"
+                    label={
+                        <FormattedMessage
+                            id="password"
+                            defaultMessage="Password"
+                        />
+                    }
                     autoComplete="new-password"
                     onBlur={this.onBlurValidate}
                     onChange={this.onChange}
@@ -135,7 +151,14 @@ class SignupForm extends Component {
                         variant="primary"
                         disabled={isLoading}
                     >
-                        {isLoading ? 'Submitting…' : 'Sign Up'}
+                        {isLoading ? (
+                            <FormattedMessage
+                                id="signup.entering"
+                                defaultMessage="Signing Up..."
+                            />
+                        ) : (
+                            <FormattedMessage id="signup.submitBtn" defaultMessage="Sign Up"/>
+                        )}
                     </Button>
                 </div>
             </form>

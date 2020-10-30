@@ -56,7 +56,7 @@ export function ValidateDelivery(data) {
     }
     if (data.contact_method_ids.length === 0) {
         errors.contact_method_ids = [<FormattedMessage id="validate.required"
-                                                        defaultMessage="This field is required"/>];
+                                                       defaultMessage="This field is required"/>];
     }
     if (data.payment_method_id.length === 0) {
         errors.payment_method_id = [<FormattedMessage id="validate.required"
@@ -85,16 +85,16 @@ export function ValidateChangePassword(data) {
     });
 
     if (!Validator.isLength(data.old_password, {min: 6})) {
-        errors.old_password = ['Password is invalid'];
+        errors.old_password = [<FormattedMessage id="validate.invalid.password" defaultMessage="Password is invalid"/>];
     }
 
     if (!Validator.isLength(data.password, {min: 6})) {
         errors.password = [<FormattedMessage id="validate.Password_6_char"
-                                                 defaultMessage="Password must be at least 6 characters"/>];
+                                             defaultMessage="Password must be at least 6 characters"/>];
     }
 
     if (!Validator.equals(data.password, data.password_confirmation)) {
-        errors.password_confirmation = ['Passwords must match'];
+        errors.password_confirmation = [<FormattedMessage id="validate.match.password" defaultMessage="Passwords must match"/>];
     }
     return {
         errors,
@@ -107,7 +107,7 @@ export function ValidateForgotPassword(data) {
     if (Validator.isEmpty(data.email)) {
         errors.email = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
     } else if (!Validator.isEmail(data.email)) {
-        errors.email = ['Email is invalid'];
+        errors.email = [<FormattedMessage id="validate.invalid.email" defaultMessage="Email is invalid"/>];
     }
     return {
         errors,
@@ -145,11 +145,11 @@ export function ValidateProfile(data) {
     let errors = {};
 
     if (!Validator.isLength(toString(data.name), {min: 3})) {
-        errors.name = ['Name is invalid'];
+        errors.name = [<FormattedMessage id="validate.invalid.name" defaultMessage="Name is invalid"/>];
     }
 
     if (typeof data.cell_number !== 'undefined' && !Validator.isEmpty(data.cell_number) && (!Validator.isMobilePhone(data.cell_number, 'fa-IR') || !Validator.isNumeric(data.cell_number))) {
-        errors.cell_number = ['Cell Number is invalid'];
+        errors.cell_number = [<FormattedMessage id="validate.invalid.cell" defaultMessage="Cell Number is invalid"/>];
     }
 
     return {
@@ -171,7 +171,7 @@ export function ValidateSignUp(data) {
     });
 
     if (!Validator.isEmail(data.email)) {
-        errors.email = ['Email is invalid'];
+        errors.email = [<FormattedMessage id="validate.invalid.email" defaultMessage="Email is invalid"/>];
     }
 
     if (!Validator.isLength(data.password, {min: 6})) {

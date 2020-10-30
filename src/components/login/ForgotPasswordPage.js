@@ -2,17 +2,21 @@ import React, { Component } from "react";
 import Alert from "react-bootstrap/Alert";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import {FormattedMessage} from "react-intl";
 import ForgotPasswordFrom from "./ForgotPasswordFrom";
 import {resetPasswordRequest} from "../../actions/users"
 
 class ForgotPasswordPage extends Component {
-  state = {
-    success: false,
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      success: false,
+    }
+  }
 
   submit = (data) =>
-    this.props
-      .resetPasswordRequest(data)
+    this.props.resetPasswordRequest(data)
       .then(() => this.setState({ success: true }));
 
   render() {
@@ -20,7 +24,7 @@ class ForgotPasswordPage extends Component {
       <div>
         {this.state.success ? (
           <Alert show variant="success">
-            Email has been sent.
+            <FormattedMessage id="email.sent" defaultMessage="Email has been sent"/>
           </Alert>
         ) : (
           <ForgotPasswordFrom submit={this.submit} />
@@ -30,7 +34,7 @@ class ForgotPasswordPage extends Component {
   }
 }
 
-ForgotPasswordFrom.propTypes = {
+ForgotPasswordPage.propTypes = {
     resetPasswordRequest: PropTypes.func.isRequired,
 }
 

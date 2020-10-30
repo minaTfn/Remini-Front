@@ -6,6 +6,7 @@ import Loader from "react-loader";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import SelectFieldGroup from "../common/SelectFieldGroup";
+import AjaxSelectFieldGroup from "../common/AjaxSelectFieldGroup";
 import CheckFieldGroup from "../common/CheckFieldGroup";
 import {ValidateDelivery} from "../common/Validator";
 import api from "../../utils/api";
@@ -30,6 +31,12 @@ class DeliveryForm extends Component {
             },
             originCities: [],
             destinationCities: [],
+            originQuerySearch: '',
+            destinationQuerySearch: '',
+            originTimeout: 0,
+            destinationTimeout: 0,
+            originSearching: false,
+            destinationSearching: false,
             errors: {},
             isSubmitting: false,
             isLoading: true,
@@ -43,6 +50,7 @@ class DeliveryForm extends Component {
     };
 
     static getDerivedStateFromProps(props) {
+        console.log(props);
         if (Object.keys(props.data).length > 0) {
             return {
                 data: {
@@ -100,28 +108,6 @@ class DeliveryForm extends Component {
         this.setState({
             data: {...this.state.data, [meta.name]: parseInt(value.value)},
         });
-        if (meta.name === "origin_country_id") {
-            const country = value.value;
-            api.delivery.cities(country).then((data) => {
-                const originCities = convertToSelect(data);
-                this.setState({
-                    originCities,
-                    data: {...this.state.data, origin_city_id: originCities[0].value},
-                });
-            });
-        } else if (meta.name === "destination_country_id") {
-            const country = value.value;
-            api.delivery.cities(country).then((data) => {
-                const destinationCities = convertToSelect(data);
-                this.setState({
-                    destinationCities,
-                    data: {
-                        ...this.state.data,
-                        destination_city_id: destinationCities[0].value,
-                    },
-                });
-            });
-        }
     };
 
     onBlurValidate = (e) => {
@@ -156,6 +142,37 @@ class DeliveryForm extends Component {
                 });
         }
     };
+
+    onChangeSearch = (searchValue, name) => {
+        if (this.state[`${name}Timeout`]) clearTimeout(this.state[`${name}Timeout`]);
+        this.setState({[`${name}QuerySearch`]: searchValue});
+        if (searchValue.length > 2) {
+            this.setState({[`${name}Searching`]: true});
+            this.state[`${name}Timeout`] = setTimeout(() => {
+                const q = `?q=${searchValue}`;
+                const countryId = this.state.data[`${name}_country_id`];
+                api.delivery.cities(countryId, q).then((data) => {
+                    const cities = convertToSelect(data);
+                    this.setState({
+                        [`${name}Cities`]: cities,
+                        [`${name}Searching`]: false
+                    });
+                });
+            }, 1000);
+        } else {
+            this.setState({
+                [`${name}Cities`]: []
+            });
+        }
+    }
+
+    onOriginChangeSearch = (searchValue) => {
+        this.onChangeSearch(searchValue, 'origin');
+    }
+
+    onDestinationChangeSearch = (searchValue) => {
+        this.onChangeSearch(searchValue, 'destination');
+    }
 
     isValid() {
         const {errors, isValid} = ValidateDelivery(this.state.data);
@@ -207,7 +224,7 @@ class DeliveryForm extends Component {
                                 />
                             </div>
                             <div className="col-md-6">
-                                <SelectFieldGroup
+                                <AjaxSelectFieldGroup
                                     error={errors.origin_city_id}
                                     label={
                                         <FormattedMessage
@@ -218,7 +235,10 @@ class DeliveryForm extends Component {
                                     onChange={this.onSelectChange}
                                     options={originCities}
                                     isSearchable
-                                    // isClearable
+                                    NoOptionsMessage={this.state.originSearching ? 'Searching...' : 'No Options'}
+                                    inputValue={this.state.originQuerySearch}
+                                    changeSearch={this.onOriginChangeSearch}
+                                    isClearable
                                     field="origin_city_id"
                                     defaultValue={data.origin_city_id}
                                 />
@@ -243,7 +263,7 @@ class DeliveryForm extends Component {
                                 />
                             </div>
                             <div className="col-md-6">
-                                <SelectFieldGroup
+                                <AjaxSelectFieldGroup
                                     error={errors.destination_city_id}
                                     label={
                                         <FormattedMessage
@@ -253,7 +273,11 @@ class DeliveryForm extends Component {
                                     }
                                     onChange={this.onSelectChange}
                                     options={destinationCities}
+                                    NoOptionsMessage={this.state.destinationSearching ? 'Searching...' : 'No Options'}
+                                    inputValue={this.state.destinationQuerySearch}
+                                    changeSearch={this.onDestinationChangeSearch}
                                     isSearchable
+                                    isClearable
                                     field="destination_city_id"
                                     defaultValue={data.destination_city_id}
                                 />

@@ -55,7 +55,7 @@ class LoginForm extends Component {
         const {errors, data, isLoading} = this.state;
         return (
             <div>
-                {errors.non_field_errors && <Alert severity="error">{errors.non_field_errors}</Alert>}
+                {errors && errors.non_field_errors && <Alert severity="error">{errors.non_field_errors}</Alert>}
                 <form onSubmit={this.onSubmit}>
                     <TextFieldGroup
                         field="email"

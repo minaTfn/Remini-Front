@@ -11,9 +11,6 @@ import avatar from "../theme/default/images/avatar.png";
 import logo from "../theme/default/images/logo.jpg";
 import LoginPage from "./login/LoginPage";
 import SignupPage from "./signup/SignupPage";
-// import {faUser, faUserAlt, faUserCircle,faUserAltSlash,faUserTie} from "@fortawesome/free-solid-svg-icons";
-// import {user} from "@fortawesome/fontawesome-common-types";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class NavigationBar extends Component {
 
@@ -23,13 +20,14 @@ class NavigationBar extends Component {
 
         this.state = {
             isLoginOpen: false,
+            showForgetPassword: false,
             isSignUpOpen: false,
         };
 
     }
 
     hideLogin = () => {
-        this.setState({isLoginOpen: false});
+        this.setState({isLoginOpen: false, showForgetPassword: false});
     };
 
     showLogin = () => {
@@ -43,6 +41,9 @@ class NavigationBar extends Component {
     showSignUp = () => {
         this.setState({isSignUpOpen: true});
     }
+
+    onForgetPassword = () =>
+        this.setState({showForgetPassword: true})
 
     logout(e) {
         e.preventDefault();
@@ -131,7 +132,11 @@ class NavigationBar extends Component {
         );
         return (
             <>
-                <LoginPage show={this.state.isLoginOpen} onHide={this.hideLogin}/>
+                <LoginPage show={this.state.isLoginOpen}
+                           showForget={this.state.showForgetPassword}
+                           onForgetShow={this.onForgetPassword}
+                           onHide={this.hideLogin}
+                />
                 <SignupPage show={this.state.isSignUpOpen} onHide={this.hideSignUp}/>
                 <Navbar bg="white" className="p-0" expand="lg">
                     <Container fluid="md">

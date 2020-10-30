@@ -13,6 +13,9 @@ const deliverySlice = createSlice({
             state.myDeliveries = _.merge({}, state.myDeliveries, action.payload.entities);
             state.loaded = true;
         },
+        deliveryDeleted:(state, action) => {
+            state.myDeliveries.deliveryItems = _.omit(state.myDeliveries.deliveryItems, [action.payload]);
+        },
         myDeliveriesFetched: (state, action) => {
             return {
                 ...state,
@@ -64,6 +67,7 @@ export const {
     countriesFetched,
     paymentMethodsFetched,
     deliveryMethodsFetched,
-    contactMethodsFetched
+    contactMethodsFetched,
+    deliveryDeleted
 } = deliverySlice.actions;
 export default deliverySlice.reducer;

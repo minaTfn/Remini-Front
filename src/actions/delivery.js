@@ -6,7 +6,8 @@ import {
     countriesFetched,
     deliveryMethodsFetched,
     paymentMethodsFetched,
-    contactMethodsFetched
+    contactMethodsFetched,
+    deliveryDeleted
 } from "../reducers/deliverySlice";
 import {myDeliveriesSchema} from "../utils/schemas";
 import {convertToSelect} from "../components/common/Functions";
@@ -17,6 +18,14 @@ export function addNewDelivery(data) {
             .newDelivery(data)
             .then((res) => normalize(res, myDeliveriesSchema))
             .then((normalizedRes) => dispatch(newDeliveryAdded(normalizedRes)))
+    };
+}
+
+export function deleteDelivery(slug) {
+    return (dispatch) => {
+        return api.delivery
+            .deleteDelivery(slug)
+            .then(() => dispatch(deliveryDeleted(slug)))
     };
 }
 

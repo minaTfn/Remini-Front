@@ -3,11 +3,51 @@ import {Card} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {FormattedMessage} from "react-intl";
+import {FormattedMessage, injectIntl} from "react-intl";
 import PropTypes from "prop-types";
+import {confirmAlert} from 'react-confirm-alert';
+import {connect} from "react-redux";
+import {deleteDelivery} from "../../actions/delivery";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const MyDeliveryItem = (props) => {
-    const {delivery, direction, translatedDate} = props;
+
+    const {delivery, direction, translatedDate, intl} = props;
+
+    const onDelete = () => {
+
+        confirmAlert({
+            customUI: ({onClose}) => {
+                return (
+                    <div className='custom-alert-ui'>
+                        <div className="alert_header">
+                            {intl.formatMessage({id: 'alert.delete.title'})}
+                        </div>
+                        <div className="alert_body">
+                            {intl.formatMessage({id: 'alert.delete.body'})}
+                        </div>
+                        <div className="alert_actions">
+                            <button type="button" className="btn btn-danger" onClick={onClose}>
+                                {intl.formatMessage({id: 'no'})}
+                            </button>
+                            <button
+                                className="btn btn-primary ml-2"
+                                type="button"
+                                onClick={() => {
+                                    props.deleteDelivery(delivery.slug);
+                                    onClose();
+                                }}
+                            >
+                                {intl.formatMessage({id: 'alert.delete.yes'})}
+                            </button>
+                        </div>
+
+                    </div>
+                );
+            }
+        });
+    }
+
     return (
         <Card border="success" className="h-100">
             <Card.Header className="px-2">
@@ -45,9 +85,9 @@ const MyDeliveryItem = (props) => {
                     <Link className="mr-2" to={`/my-deliveries/${delivery.slug}/edit`}>
                         <FontAwesomeIcon icon={faEdit}/>
                     </Link>
-                    <Link to={`${delivery.slug}/destroy/`}>
+                    <button type="button" className="btn btn-link p-0 border-0 align-text-top" onClick={onDelete}>
                         <FontAwesomeIcon icon={faTrash}/>
-                    </Link>
+                    </button>
                 </div>
             </Card.Footer>
         </Card>
@@ -56,6 +96,9 @@ const MyDeliveryItem = (props) => {
 MyDeliveryItem.propTypes = {
     direction: PropTypes.object.isRequired,
     translatedDate: PropTypes.string.isRequired,
-    delivery: PropTypes.object.isRequired
+    delivery: PropTypes.object.isRequired,
+    deleteDelivery: PropTypes.func.isRequired,
 };
-export default MyDeliveryItem;
+export default connect(null, {deleteDelivery})(
+    injectIntl(MyDeliveryItem)
+);
