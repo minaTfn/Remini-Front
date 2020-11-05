@@ -3,18 +3,31 @@ import _ from "lodash";
 
 const deliverySlice = createSlice({
     name: "delivery",
-    initialState: {loaded: false, myDeliveries: {},countries:[],deliveryMethods:[],paymentMethods:[],contactMethods:[]},
+    initialState: {
+        loaded: false,
+        myDeliveries: {
+            count: 0,
+        },
+        countries: [],
+        deliveryMethods: [],
+        paymentMethods: [],
+        contactMethods: []
+    },
     reducers: {
         newDeliveryAdded: (state, action) => {
-            // console.log('pay',action.payload);
-            state.myDeliveries = _.merge({}, state.myDeliveries, action.payload.entities);
+            state.myDeliveries = _.merge(action.payload.entities, state.myDeliveries);
+            state.myDeliveries.count++;
         },
         editMyDelivery: (state, action) => {
-            state.myDeliveries = _.merge({}, state.myDeliveries, action.payload.entities);
+            state.myDeliveries = _.merge(state.myDeliveries, action.payload.entities);
             state.loaded = true;
         },
-        deliveryDeleted:(state, action) => {
+        deliveryDeleted: (state, action) => {
             state.myDeliveries.deliveryItems = _.omit(state.myDeliveries.deliveryItems, [action.payload]);
+            state.myDeliveries.count--;
+        },
+        myDeliveriesCounted: (state, action) => {
+            state.myDeliveries.count = action.payload;
         },
         myDeliveriesFetched: (state, action) => {
             return {
@@ -63,6 +76,7 @@ const deliverySlice = createSlice({
 export const {
     newDeliveryAdded,
     myDeliveriesFetched,
+    myDeliveriesCounted,
     editMyDelivery,
     countriesFetched,
     paymentMethodsFetched,

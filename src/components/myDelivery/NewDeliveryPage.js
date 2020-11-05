@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import DeliveryForm from "./DeliveryForm";
 import {addNewDelivery} from "../../actions/delivery";
 import {addFlashMessage} from "../../actions/flashMessages";
+import {FormattedMessage} from "react-intl";
 
 function NewDeliveryPage(props) {
 
@@ -17,7 +18,9 @@ function NewDeliveryPage(props) {
 
     return (
         <div className="d-block">
-
+            <div className="pageHeader">
+                <FormattedMessage id="delivery.new.page.header" />
+            </div>
             <DeliveryForm
                 submit={onSubmit}
                 contactMethods={contactMethods}

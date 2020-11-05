@@ -2,17 +2,20 @@ import React, {useEffect, useState, Suspense} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import DeliveryForm from "./DeliveryForm";
-import {addNewDelivery, editDelivery} from "../../actions/delivery";
+import {editDelivery} from "../../actions/delivery";
 import {addFlashMessage} from "../../actions/flashMessages";
 import api from "../../utils/api";
+import {FormattedMessage} from "react-intl";
 
 function EditDeliveryPage(props) {
 
     const [delivery, setDelivery] = useState({});
+    const [deliveryTitle, setDeliveryTitle] = useState('');
 
     useEffect(() => {
         api.delivery.getDelivery(props.match.params.slug).then((data) => {
             setDelivery(data);
+            setDeliveryTitle(data.title);
         });
     }, []);
 
@@ -25,7 +28,10 @@ function EditDeliveryPage(props) {
 
     return (
         <div className="d-block">
-            <Suspense fallback={<h1>Loading profile...</h1>}>
+            <Suspense fallback={<h1>Loading ...</h1>}>
+                <div className="pageHeader">
+                    <FormattedMessage id="delivery.edit.page.header" />{` - ${deliveryTitle} `}
+                </div>
                 <DeliveryForm
                     contactMethods={contactMethods}
                     deliveryMethods={deliveryMethods}
@@ -65,6 +71,6 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {addNewDelivery, editDelivery, addFlashMessage})(
+export default connect(mapStateToProps, {editDelivery, addFlashMessage})(
     EditDeliveryPage
 );

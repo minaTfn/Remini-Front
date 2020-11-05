@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import {Alert} from "react-bootstrap";
+import {FormattedMessage} from "react-intl";
+import {fetchCurrentUser} from "../../actions/users";
 import _ from "lodash";
 import TextFieldGroup from "../common/TextFieldGroup";
 import {ValidateProfile, ValidateChangePassword} from "../common/Validator";
@@ -75,6 +77,7 @@ class ProfileForm extends Component {
                 api.user
                     .editUserInfo(dataProfile)
                     .then(() => {
+                        this.props.fetchCurrentUser();
                         this.setState({
                             isEditing: false,
                             isLoading: false,
@@ -204,7 +207,11 @@ class ProfileForm extends Component {
                         <div>
                             <TextFieldGroup
                                 error={errors.old_password}
-                                label="Password"
+                                label={
+                                    <FormattedMessage
+                                        id="password"
+                                    />
+                                }
                                 onBlur={this.onBlurValidatePassword}
                                 onChange={this.onChange}
                                 field="old_password"
@@ -213,7 +220,11 @@ class ProfileForm extends Component {
                             />
                             <TextFieldGroup
                                 error={errors.password}
-                                label="New Password"
+                                label={
+                                    <FormattedMessage
+                                        id="new.password"
+                                    />
+                                }
                                 onBlur={this.onBlurValidatePassword}
                                 onChange={this.onChange}
                                 field="password"
@@ -222,7 +233,11 @@ class ProfileForm extends Component {
                             />
                             <TextFieldGroup
                                 error={errors.password_confirmation}
-                                label="Confirm New Password"
+                                label={
+                                    <FormattedMessage
+                                        id="confirm.new.password"
+                                    />
+                                }
                                 onBlur={this.onBlurValidatePassword}
                                 onChange={this.onChange}
                                 field="password_confirmation"
@@ -242,7 +257,11 @@ class ProfileForm extends Component {
                             </Alert> : ""}
 
                             <TextFieldGroup
-                                label="Email"
+                                label={
+                                    <FormattedMessage
+                                        id="email"
+                                    />
+                                }
                                 onChange={this.onChange}
                                 value={dataProfile.email}
                                 disabled
@@ -262,7 +281,11 @@ class ProfileForm extends Component {
                             />
                             <TextFieldGroup
                                 error={errors.name}
-                                label="Name"
+                                label={
+                                    <FormattedMessage
+                                        id="name"
+                                    />
+                                }
                                 onChange={this.onChange}
                                 onBlur={this.onBlurValidate}
                                 field="name"
@@ -273,7 +296,11 @@ class ProfileForm extends Component {
                             />
                             <TextFieldGroup
                                 error={errors.cell_number}
-                                label="Cell Number"
+                                label={
+                                    <FormattedMessage
+                                        id="cellphone"
+                                    />
+                                }
                                 onChange={this.onChange}
                                 onBlur={this.onBlurValidate}
                                 field="cell_number"
@@ -284,7 +311,7 @@ class ProfileForm extends Component {
                             />
                         </div>
                     )}
-                    <div className="form-group">
+                    <div className="form-group mt-5 text-right">
                         {!isPasswordChanging && (
                             <button
                                 type="button"
@@ -294,7 +321,7 @@ class ProfileForm extends Component {
                                     isEditing ? "btn-light border-primary" : "btn-primary"
                                 }`}
                             >
-                                {isEditing ? "Cancel" : "Edit Profile"}
+                                {isEditing ? <FormattedMessage id="cancel" /> : <FormattedMessage id="edit.profile" />}
                             </button>
                         )}
                         {(isEditing || isPasswordChanging) && (
@@ -302,21 +329,19 @@ class ProfileForm extends Component {
                                 type="submit"
                                 onSubmit={this.onSubmit}
                                 disabled={isLoading}
-                                style={{marginLeft: 10}}
-                                className="btn btn-primary"
+                                className="btn btn-primary ml-2"
                             >
-                                Submit
+                                <FormattedMessage id="submit" />
                             </button>
                         )}
                         {!isEditing && (
                             <button
                                 type="button"
-                                style={{marginLeft: 10}}
                                 disabled={isLoading}
                                 onClick={this.onChgPassClick}
-                                className="btn btn-light border-primary"
+                                className="btn btn-light border-primary ml-2"
                             >
-                                {isPasswordChanging ? "Cancel" : "Change Password"}
+                                {isPasswordChanging ? <FormattedMessage id="cancel" /> : <FormattedMessage id="change.password" />}
                             </button>
                         )}
                     </div>
@@ -337,4 +362,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(ProfileForm);
+export default connect(mapStateToProps,{fetchCurrentUser})(ProfileForm);

@@ -18,13 +18,13 @@
 //
 //     const direction = (fromCity, toCity) => {
 //         return <>
-//             <b className="font-sm px-1">{cities[fromCity].country[translatedTitle]}</b>
-//             <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-sm ${iconDir}`}/>
-//             <span className="text-primary font-sm mx-1">{cities[fromCity].title}</span>
+//             <b className="fonts-sm px-1">{cities[fromCity].country[translatedTitle]}</b>
+//             <FontAwesomeIcon icon={faAngleDoubleRight} className={`fonts-sm ${iconDir}`}/>
+//             <span className="text-primary fonts-sm mx-1">{cities[fromCity].title}</span>
 //             <FontAwesomeIcon icon={faShippingFast} className={`mx-2 ${iconDir}`}/>
-//             <b className="font-sm px-1">{cities[toCity].country[translatedTitle]} </b>
-//             <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-sm ${iconDir}`}/>
-//             <span className="text-primary font-sm mx-1">{cities[toCity].title}</span>
+//             <b className="fonts-sm px-1">{cities[toCity].country[translatedTitle]} </b>
+//             <FontAwesomeIcon icon={faAngleDoubleRight} className={`fonts-sm ${iconDir}`}/>
+//             <span className="text-primary fonts-sm mx-1">{cities[toCity].title}</span>
 //
 //         </>
 //     };

@@ -5,13 +5,13 @@ import Loader from "react-loader";
 import _ from "lodash";
 import qs from 'query-string';
 import Pagination from "react-js-pagination";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faInbox} from "@fortawesome/free-solid-svg-icons";
+import {FormattedMessage} from "react-intl";
 import {myDeliveriesSchema} from "../../utils/schemas";
 import DeliveriesList from "../delivery/DeliveriesList";
 import api from "../../utils/api";
 import SearchDeliveryForm from "../delivery/SearchDeliveryForm";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInbox} from "@fortawesome/free-solid-svg-icons";
-import {FormattedMessage} from "react-intl";
 
 function HomePage(props) {
     const perPage = 9;
@@ -139,8 +139,6 @@ function HomePage(props) {
                                     </div>
                                 </>
                             )}
-
-
                         </div>
                     </Loader>
                 </div>

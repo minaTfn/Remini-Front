@@ -26,10 +26,9 @@ export default {
         getPaymentMethods: () => axios.get(`${server}getPaymentMethods/`).then(res => res.data.data),
         getDeliveryMethods: () => axios.get(`${server}getDeliveryMethods/`).then(res => res.data.data),
         getContactMethods: () => axios.get(`${server}getContactMethods/`).then(res => res.data.data),
-        newDelivery: (data) => axios.post(`${server}deliveries/`, data).then((res) => res.data.data),
+        newDelivery: (data) => axios.post(`${server}deliveries/`, data).then((res) => res.data),
         getMyDeliveries: (params) => axios.get(`${server}my-deliveries/${params}`).then((res) => res.data),
         deleteDelivery: (slug) => axios.delete(`${server}deliveries/${slug}/`).then((res) => res.data),
-
         editDelivery: (slug, data) => axios.put(`${server}deliveries/${slug}/`, data).then((res) => res.data),
     },
 

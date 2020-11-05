@@ -97,9 +97,9 @@ div.is-invalid > .select__control{
   font-size: 1rem;
 }
 .custom-alert-ui .alert_header{
-  /*font-size: 18px;*/
+  /*fonts-size: 18px;*/
   /*color: #a2a2a2;*/
-  /*font-weight: 500;*/
+  /*fonts-weight: 500;*/
   /*border-bottom: 1px solid #000;*/
 
   position: relative;
@@ -136,16 +136,41 @@ div.is-invalid > .select__control{
   margin: 1.25em auto 0;
   padding: 0 1.6em;
 }
-/*.custom-alert-ui .alert_actions button{*/
-/*  border: 0;*/
-/*  border-radius: .25em;*/
-/*  background-color: #2778c4;*/
-/*  color: #fff;*/
-/*  padding: 8px 21px;*/
-/*  font-size: 1.0625em;*/
-/*  margin: 5px;*/
-/*}*/
-/*.custom-alert-ui .alert_actions .cancel_button{*/
-/*  background: #eee;*/
-/*  border: 1px solid;*/
-/*}*/
+.MuiAlert-action{
+  margin-right:4px !important;
+}
+.pageHeader{
+  font-size: 20px;
+  padding: 10px 2px;
+  border-bottom: 1px solid #ccc;
+  color: rgba(0,0,0,0.7);
+  width: 100%;
+  margin: 0 0 25px;
+}
+.bg-main{
+  background-color: #f7f8fa;
+}
+.card-footer{
+  background-color: #fcfbf9;
+  border-top: 2px solid #f8f4ef;
+}
+.card-header{
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  background-color: #fefff9;
+}
+.card-body{
+  border-bottom: 1px solid #eae3db;
+  background-color: #fefff9;
+}
+.delivery-card{
+  box-shadow: 2px 2px 7px 1px rgba(0,0,0,.1)
+}
+.text-gray{
+  color: #aaa;
+}
+.font-13{
+  font-size: 13px;
+}
+.line-height-2{
+  line-height: 30px;
+}

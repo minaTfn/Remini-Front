@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Loader from "react-loader";
 import {IntlProvider} from 'react-intl'
 import {Route} from "react-router-dom";
+import classnames from "classnames";
 import {Container} from "react-bootstrap";
 import GuestRoute from "./utils/GuestRoute";
 import UserRoute from "./utils/UserRoute";
@@ -17,7 +18,6 @@ import HomePage from "./components/pages/HomePage";
 import DashboardPage from "./components/pages/DashboardPage";
 import UserProfile from "./components/user/UserProfile";
 import ConfirmationPage from "./components/user/ConfirmationPage";
-import ForgotPasswordPage from "./components/login/ForgotPasswordPage";
 import ResetPasswordPage from "./components/login/ResetPasswordPage";
 import NewDeliveryPage from "./components/myDelivery/NewDeliveryPage";
 import DeliveriesPage from "./components/myDelivery/DeliveriesPage";
@@ -36,10 +36,9 @@ class App extends Component {
 
     render() {
         const {location, isAuthenticated, user, lang, loaded, username} = this.props;
-
         return (
             <IntlProvider locale={lang} messages={messages[lang]}>
-                <Container fluid className="p-0 h-100">
+                <Container fluid className={classnames('p-0 h-100 bg-main', {"bg-main": location.pathname === '/'})} >
                     <Loader loaded={loaded}>
                         <div className="d-flex flex-column h-100">
                             <NavigationBar location={location} isAuthenticated={isAuthenticated} lang={lang}

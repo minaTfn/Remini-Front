@@ -11,12 +11,19 @@ import {
 } from "../reducers/deliverySlice";
 import {myDeliveriesSchema} from "../utils/schemas";
 import {convertToSelect} from "../components/common/Functions";
+import {addFlashMessage} from "./flashMessages";
 
 export function addNewDelivery(data) {
     return (dispatch) => {
         return api.delivery
             .newDelivery(data)
-            .then((res) => normalize(res, myDeliveriesSchema))
+            .then((res) => {
+                dispatch(addFlashMessage({
+                    type: "success",
+                    text: res.message,
+                }));
+                return normalize(res.data, myDeliveriesSchema)
+            })
             .then((normalizedRes) => dispatch(newDeliveryAdded(normalizedRes)))
     };
 }
@@ -25,6 +32,12 @@ export function deleteDelivery(slug) {
     return (dispatch) => {
         return api.delivery
             .deleteDelivery(slug)
+            .then((res) => {
+                dispatch(addFlashMessage({
+                    type: "success",
+                    text: res.message,
+                }));
+            })
             .then(() => dispatch(deliveryDeleted(slug)))
     };
 }
@@ -33,7 +46,14 @@ export function editDelivery(slug, data) {
     return (dispatch) => {
         return api.delivery
             .editDelivery(slug, data)
-            .then((res) => normalize(res, myDeliveriesSchema))
+            .then((res) => {
+                dispatch(addFlashMessage({
+                    type: "success",
+                    text: res.message,
+                }));
+
+                return normalize(res.data, myDeliveriesSchema);
+            })
             .then((normalizedRes) => dispatch(editMyDelivery(normalizedRes)));
     };
 }
@@ -41,7 +61,7 @@ export function editDelivery(slug, data) {
 export const fetchCountries = () => (dispatch) =>
     api.delivery.countries()
         .then((data) => {
-            return convertToSelect(data,'en');
+            return convertToSelect(data, 'en');
         }).then((data1) => {
         dispatch(countriesFetched(data1));
     });

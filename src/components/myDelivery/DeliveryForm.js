@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import {FormattedMessage} from "react-intl";
 import Loader from "react-loader";
+import {Link} from "react-router-dom";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import SelectFieldGroup from "../common/SelectFieldGroup";
@@ -11,7 +12,6 @@ import CheckFieldGroup from "../common/CheckFieldGroup";
 import {ValidateDelivery} from "../common/Validator";
 import api from "../../utils/api";
 import {convertToSelect} from "../common/Functions";
-import {Link} from "react-router-dom";
 
 
 class DeliveryForm extends Component {
@@ -25,9 +25,9 @@ class DeliveryForm extends Component {
                 destination_city_id: 0,
                 title: "",
                 description: "",
-                payment_method_id: 1,
-                delivery_method_id: 1,
-                contact_method_ids: [1],
+                payment_method_id: null,
+                delivery_method_id: null,
+                contact_method_ids: [],
             },
             originCities: [],
             destinationCities: [],
@@ -45,13 +45,26 @@ class DeliveryForm extends Component {
 
     componentDidMount = () => {
         this.setState({isLoading: false});
-
-
     };
 
-    static getDerivedStateFromProps(props) {
-        console.log(props);
-        if (Object.keys(props.data).length > 0) {
+    static getDerivedStateFromProps(props, state) {
+        if (props.action === "new") {
+
+            if (state.data.delivery_method_id === null) {
+                return {
+                    data: {
+                        ...state.data,
+                        delivery_method_id: props.deliveryMethods[0].id,
+                        payment_method_id: props.paymentMethods[0].id,
+                        contact_method_ids: [props.contactMethods[0].id],
+                    },
+                };
+            }
+        } else if (
+            state.data.delivery_method_id === null &&
+            Object.keys(props.data).length > 0
+        ) {
+
             return {
                 data: {
                     origin_country_id: props.data.origin.country.id,
@@ -63,8 +76,11 @@ class DeliveryForm extends Component {
                     contact_method_ids: props.data.contact_methods.map(
                         (method) => method.id
                     ),
+
                     ...props.data,
                 },
+                originCities: convertToSelect([props.data.origin]),
+                destinationCities: convertToSelect([props.data.destination]),
             };
         }
 
@@ -105,9 +121,15 @@ class DeliveryForm extends Component {
     };
 
     onSelectChange = (value, meta) => {
-        this.setState({
-            data: {...this.state.data, [meta.name]: parseInt(value.value)},
-        });
+        if(value !== null){
+            this.setState({
+                data: {...this.state.data, [meta.name]: parseInt(value.value)},
+            });
+        }else{
+            this.setState({
+                data: {...this.state.data, [meta.name]: 0},
+            });
+        }
     };
 
     onBlurValidate = (e) => {
@@ -131,24 +153,22 @@ class DeliveryForm extends Component {
             this.props
                 .submit(this.state.data)
                 .then(() => {
-                    this.props.addFlashMessage({
-                        type: "success",
-                        text: "New Delivery Added",
-                    });
+
                 })
                 .catch((error) => {
-                    // console.log(error);
-                    this.setState({errors: error.response.data.errors, isSubmitting: false});
+                    if (error && error.response) {
+                        this.setState({errors: error.response.data.errors, isSubmitting: false});
+                    }
                 });
         }
     };
 
     onChangeSearch = (searchValue, name) => {
         if (this.state[`${name}Timeout`]) clearTimeout(this.state[`${name}Timeout`]);
-        this.setState({[`${name}QuerySearch`]: searchValue});
+        // this.setState({[`${name}QuerySearch`]: searchValue});
         if (searchValue.length > 2) {
             this.setState({[`${name}Searching`]: true});
-            this.state[`${name}Timeout`] = setTimeout(() => {
+            const timeout = setTimeout(() => {
                 const q = `?q=${searchValue}`;
                 const countryId = this.state.data[`${name}_country_id`];
                 api.delivery.cities(countryId, q).then((data) => {
@@ -159,6 +179,7 @@ class DeliveryForm extends Component {
                     });
                 });
             }, 1000);
+            this.setState({[`${name}Timeout`]: timeout})
         } else {
             this.setState({
                 [`${name}Cities`]: []
@@ -167,11 +188,17 @@ class DeliveryForm extends Component {
     }
 
     onOriginChangeSearch = (searchValue) => {
-        this.onChangeSearch(searchValue, 'origin');
+        this.setState({originQuerySearch: searchValue});
+        if(searchValue !== ''){
+            this.onChangeSearch(searchValue, 'origin');
+        }
     }
 
     onDestinationChangeSearch = (searchValue) => {
-        this.onChangeSearch(searchValue, 'destination');
+        this.setState({destinationQuerySearch: searchValue});
+        if(searchValue !== '') {
+            this.onChangeSearch(searchValue, 'destination');
+        }
     }
 
     isValid() {
@@ -235,7 +262,8 @@ class DeliveryForm extends Component {
                                     onChange={this.onSelectChange}
                                     options={originCities}
                                     isSearchable
-                                    NoOptionsMessage={this.state.originSearching ? 'Searching...' : 'No Options'}
+                                    NoOptionsMessage={this.state.originSearching ? 'Searching...' : 'Type more than 2 characters'}
+                                    placeholder="Search a city"
                                     inputValue={this.state.originQuerySearch}
                                     changeSearch={this.onOriginChangeSearch}
                                     isClearable
@@ -273,9 +301,10 @@ class DeliveryForm extends Component {
                                     }
                                     onChange={this.onSelectChange}
                                     options={destinationCities}
-                                    NoOptionsMessage={this.state.destinationSearching ? 'Searching...' : 'No Options'}
+                                    NoOptionsMessage={this.state.destinationSearching ? 'Searching...' : 'Type more than 2 characters'}
                                     inputValue={this.state.destinationQuerySearch}
                                     changeSearch={this.onDestinationChangeSearch}
+                                    placeholder="Search a city"
                                     isSearchable
                                     isClearable
                                     field="destination_city_id"

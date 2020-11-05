@@ -1,10 +1,19 @@
-import React from "react";
+import React, {Suspense} from "react";
 import PropTypes from "prop-types";
 import {FormattedMessage} from "react-intl";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faShippingFast, faAngleDoubleRight} from '@fortawesome/free-solid-svg-icons';
+import {
+    faShippingFast,
+    faAngleDoubleRight,
+    faPlaneArrival,
+    faPlaneDeparture,
+    faMapMarkerAlt,
+    faLongArrowAltRight
+} from '@fortawesome/free-solid-svg-icons';
 import MyDeliveryItem from "../myDelivery/MyDeliveryItem";
 import DeliveryItem from "./DeliveryItem";
+import path from "../../theme/default/images/path2.png";
+import {Image} from "react-bootstrap";
 
 const DeliveriesList = (props) => {
     const {deliveryItems, cities} = props.deliveries;
@@ -16,51 +25,62 @@ const DeliveriesList = (props) => {
 
     const direction = (fromCity, toCity) => {
         return <>
-            <b className="font-sm px-1">{cities[fromCity].country[translatedTitle]}</b>
-            <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-sm ${iconDir}`}/>
-            <span className="text-primary font-sm mx-1">{cities[fromCity].title}</span>
-            <FontAwesomeIcon icon={faShippingFast} className={`mx-2 ${iconDir}`}/>
-            <b className="font-sm px-1">{cities[toCity].country[translatedTitle]} </b>
-            <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-sm ${iconDir}`}/>
-            <span className="text-primary font-sm mx-1">{cities[toCity].title}</span>
+            {/*<Image src={path} width={50} className="mr-2 p-1" /><br/>*/}
+            <FontAwesomeIcon icon={faMapMarkerAlt} className="font-md mx-2"/>
+            <span>
+                <b className="px-1">{cities[fromCity].country[translatedTitle]},</b>
+                <span className="mx-1 font-sm">{cities[fromCity].title}</span>
+                <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-sm mx-2 ${iconDir}`}/>
 
+                <b className="px-1">{cities[toCity].country[translatedTitle]} ,</b>
+                <span className="mx-1 font-sm">{cities[toCity].title}</span>
+            </span>
         </>
     };
 
     return (
         <>
-            <div className="m-3 text-muted">
-                <FormattedMessage
-                    id="delivery.items"
-                    values={{count: `${props.totalItems}`}}
-                />
-            </div>
-            <div className="d-flex custom-flex flex-wrap justify-content-between">
-                {deliveryItems ?
-                Object.keys(deliveryItems).map((keyName) => (
-                    <div className="mb-3 px-2 col-md-4 col-sm-6" key={deliveryItems[keyName].slug}>
-                        {props.myDelivery
-                            ? <MyDeliveryItem
-                                delivery={deliveryItems[keyName]}
-                                translatedDate={translatedDate}
-                                direction={direction(
-                                    deliveryItems[keyName].origin,
-                                    deliveryItems[keyName].destination
-                                )}
-                            />
-                            : <DeliveryItem
-                                delivery={deliveryItems[keyName]}
-                                translatedDate={translatedDate}
-                                direction={direction(
-                                    deliveryItems[keyName].origin,
-                                    deliveryItems[keyName].destination
-                                )}
-                            />
-                        }
-                    </div>
 
-                )) : 'No Item'}
-            </div>
+            {deliveryItems ?
+                <div>
+                    <div className="m-3 text-muted">
+                        <FormattedMessage
+                            id="delivery.items"
+                            values={{count: `${props.totalItems}`}}
+                        />
+                    </div>
+                    <div className="d-flex custom-flex flex-wrap justify-content-between">
+                        {Object.keys(deliveryItems).map((keyName) => (
+                            <div className="mb-4 pr-4 pl-0 col-md-4 col-sm-6" key={deliveryItems[keyName].slug}>
+                                {props.myDelivery
+                                    ? <MyDeliveryItem
+                                        delivery={deliveryItems[keyName]}
+                                        translatedDate={translatedDate}
+                                        direction={direction(
+                                            deliveryItems[keyName].origin,
+                                            deliveryItems[keyName].destination
+                                        )}
+                                    />
+                                    : <DeliveryItem
+                                        delivery={deliveryItems[keyName]}
+                                        translatedDate={translatedDate}
+                                        direction={direction(
+                                            deliveryItems[keyName].origin,
+                                            deliveryItems[keyName].destination
+                                        )}
+                                    />
+                                }
+                            </div>
+
+                        ))}
+                    </div>
+                </div>
+                : <div className="font-xl text-center py-5">
+                    <FormattedMessage
+                        id="delivery.no.items"
+                    />
+                </div>
+            }
         </>
     );
 };

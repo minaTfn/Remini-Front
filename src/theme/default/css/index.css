@@ -1,22 +1,45 @@
-body, html, #root{
+html{
   width: 100% !important;
-  height: 100% !important;
+  height: 100%;
 }
 body {
+  min-height: 100% !important;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+}
+@font-face{
+  font-family:'sansMed';
+  src:url('../fonts/iranSans/IRANSansWeb_Medium.woff') format('woff'),url('../fonts/iranSans/IRANSansWeb_Medium.ttf') format('truetype');
+  font-weight:normal;
+  font-style:normal
+}
+@font-face{
+  font-family:'sansLight';
+  src:url('../fonts/iranSans/IRANSansWeb_Light.eot?#') format('eot'),url('../fonts/iranSans/IRANSansWeb_Light.woff') format('woff'),url('../fonts/iranSans/IRANSansWeb_Light.ttf') format('truetype');
+  font-weight:normal;
+  font-style:normal
+}
+@font-face{
+  font-family:'sansUltraLight';
+  src:url('../fonts/iranSans/IRANSansWeb_UltraLight.eot?#') format('eot'),url('../fonts/iranSans/IRANSansWeb_UltraLight.woff') format('woff'),url('../fonts/iranSans/IRANSansWeb_UltraLight.ttf') format('truetype');
+  font-weight:normal;
+  font-style:normal
+}
+body.rtl{
+  font-family:sansLight;
+}
+
+#root{
+  flex-grow: 1;
 }
 .loadedContent{
-  width: 100%;
-  height: 100%;
-}
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  width: 100% !important;
+  height: 100% !important;
 }
 .font-sm{
   font-size: 11px;
@@ -45,21 +68,23 @@ code {
 }
 .searchPanel{
   min-width:270px;
-  /*background: url(../images/pattern.jpg) repeat-x center top;*/
+  z-index: 2;
+  position: relative;
 }
 .bg-top{
   position: absolute;
   width: 100%;
   height: 100%;
   background: url(../images/15.jpg) no-repeat center -110px;
-  z-index: -1;
+  z-index: 0;
 }
 
 .navbar {
   box-shadow: 0 0 6px 0 rgba(0,0,0,.08);
+  z-index: 2;
 }
 .searchPanel .mainContainer{
-  box-shadow: 0 0 40px 0 rgba(0,0,0,.2);
+  box-shadow: -1px 6px 9px 0 rgba(0,0,0,.1);
   background-color: #fff;
   border-color: transparent;
   border-radius: 10px;

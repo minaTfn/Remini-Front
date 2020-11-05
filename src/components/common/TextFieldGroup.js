@@ -24,7 +24,7 @@ const TextFieldGroup = ({
     <div className={`form-group ${inRow ? "d-flex" : ""}`}>
       <label
         htmlFor={field}
-        className={`control-label ${inRow ? "mr-2 col-form-label" : ""}`}
+        className={`control-label ${inRow ? "mr-2 col-form-label col-sm-2" : ""}`}
       >
         {label}
         {isRequired ? <span className="text-danger"> * </span> : ""}
