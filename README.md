@@ -1,7 +1,8 @@
 This project is made with [ReactJs 17.0.1](https://reactjs.org/)
 
 ## About Project:
-This is my project's frontend based ReactJS version 17.0.1
+This is my project's frontend made with ReactJS.
+
 It has used both FP and OOP Programming paradigms.
 
 ### The project was created using:
