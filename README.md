@@ -1,10 +1,10 @@
 This project is made with [ReactJs 17.0.1](https://reactjs.org/)
 
-###About Project:
+### About Project:
 This is my project's frontend based ReactJS version 17.0.1
 It has used both FP and OOP Programming paradigms.
 
-###The project was created using:
+#### The project was created using:
 * React v17.0.1
 * Redux
 * Redux Toolkit - *Using the following features*
@@ -21,7 +21,7 @@ It has used both FP and OOP Programming paradigms.
 * Lodash
 * Validator - *Form Fields*
 
-###More:
+#### More:
 The backend side of the project is made with Laravel.
 
-Find the project's backend [here](https://github.com/minaTfn/Remini) in GitHub
+Find the project's backend [here](/Remini) in GitHub
