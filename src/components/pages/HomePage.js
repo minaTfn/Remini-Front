@@ -98,7 +98,7 @@ function HomePage(props) {
 
         <>
             <div className="bg-top"></div>
-            <div className="searchPanel px-3 pt-5">
+            <div className="searchPanel px-3 pt-lg-5 pt-1">
                 <div className="mainContainer mx-auto px-xl-4 px-md-5 px-4 py-2">
                     <SearchDeliveryForm
                         onOriginChange={onOriginChange}

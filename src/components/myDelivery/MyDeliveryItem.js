@@ -2,13 +2,15 @@ import React from "react";
 import {Card} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faTrash, faUserCircle} from "@fortawesome/free-solid-svg-icons";
 import {FormattedMessage, injectIntl} from "react-intl";
 import PropTypes from "prop-types";
 import {confirmAlert} from 'react-confirm-alert';
 import {connect} from "react-redux";
 import {deleteDelivery} from "../../actions/delivery";
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import {faEye} from "@fortawesome/free-regular-svg-icons";
+import Pluralize from "pluralize";
 
 const MyDeliveryItem = (props) => {
 
@@ -49,16 +51,32 @@ const MyDeliveryItem = (props) => {
     }
 
     return (
-        <Card border="success" className="h-100">
-            <Card.Header className="px-2">
-                <span className="font-md">{direction}</span>
+        <Card className="h-100 border-0 delivery-card">
+            <Card.Header className="px-2 card-header">
+                <div className="d-flex">
+                    <div className="ml-auto font-sm px-2 pt-1 text-gray">
+                        {delivery[translatedDate]}
+                    </div>
+                </div>
+                <div className="font-13 mt-2 text-center">{direction}</div>
             </Card.Header>
-            <Card.Body className="d-flex flex-column px-3 py-2">
-                <Card.Title as="h6">
+            <Card.Body className="d-flex flex-column px-3 py-4 card-body">
+                <Card.Title as="h5">
                     <Link to={`my-delivery/${delivery.slug}/`}>
                         {delivery.title}
                     </Link>
+                    <div className="font-sm mt-2 mr-2 text-gray">
+                        <FontAwesomeIcon icon={faEye} className="font-sm mr-1"/>
+                        <FormattedMessage
+                            id={`delivery.${Pluralize('view', delivery.hit)}`}
+                            defaultMessage="0 views"
+                            values={{
+                                hit: `${delivery.hit}`
+                            }}
+                        />
+                    </div>
                 </Card.Title>
+
                 <Card.Text style={{
                     lineHeight: "25px",
                     verticalAlign: "top",
@@ -68,12 +86,12 @@ const MyDeliveryItem = (props) => {
                 }}>{delivery.description}</Card.Text>
             </Card.Body>
             <Card.Footer className="px-3 py-2 d-flex">
+                <FontAwesomeIcon icon={faUserCircle} className="font-xl mr-2 text-info"/>
                 <small className="text-muted">
                     <FormattedMessage
                         id="delivery.requested"
                         defaultMessage="requested"
                         values={{
-                            date: `${delivery[translatedDate]}`,
                             owner: <FormattedMessage
                                 id="you"
                                 defaultMessage="You"
@@ -82,10 +100,10 @@ const MyDeliveryItem = (props) => {
                     />
                 </small>
                 <div className="ml-auto">
-                    <Link className="mr-2" to={`/my-deliveries/${delivery.slug}/edit`}>
+                    <Link className="mr-2 text-info" to={`/my-deliveries/${delivery.slug}/edit`}>
                         <FontAwesomeIcon icon={faEdit}/>
                     </Link>
-                    <button type="button" className="btn btn-link p-0 border-0 align-text-top" onClick={onDelete}>
+                    <button type="button" className="btn btn-link text-info p-0 border-0 align-text-top" onClick={onDelete}>
                         <FontAwesomeIcon icon={faTrash}/>
                     </button>
                 </div>

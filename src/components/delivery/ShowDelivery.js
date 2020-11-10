@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {FormattedMessage} from "react-intl";
 import PropTypes from "prop-types";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleDoubleRight, faShippingFast} from "@fortawesome/free-solid-svg-icons";
+import {faAngleDoubleRight, faMapMarkerAlt} from "@fortawesome/free-solid-svg-icons";
 import api from "../../utils/api";
 
 function ShowDelivery(props) {
@@ -40,15 +40,16 @@ function ShowDelivery(props) {
             </div>
             <div className="card-body">
                 <div className="my-2">
-                    <b className="font-md px-1">{delivery.origin.country[translatedTitle]}</b>
-                    <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-md ${iconDir}`}/>
-                    <span className="text-primary font-md mx-1">{delivery.origin.title}</span>
-                    <FontAwesomeIcon icon={faShippingFast} className={`mx-2 ${iconDir}`}/>
-                    <b className="font-md px-1">{delivery.destination.country[translatedTitle]} </b>
-                    <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-md ${iconDir}`}/>
-                    <span className="text-primary font-md mx-1">{delivery.destination.title}</span>
+                    <FontAwesomeIcon icon={faMapMarkerAlt} className="font-lg mx-2 text-info"/>
+                    <span>
+                        <b className="px-1 text-info">{delivery.origin.country[translatedTitle]},</b>
+                        <span className="mx-1 font-sm">{delivery.origin.title}</span>
+                        <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-sm mx-2 ${iconDir}`}/>
+                        <b className="px-1 text-info">{delivery.destination.country[translatedTitle]} ,</b>
+                        <span className="mx-1 font-sm">{delivery.destination.title}</span>
+                    </span>
                 </div>
-                <div className="my-2">
+                <div className="ml-2 my-2">
                     {
                         delivery.deadline_date && <>
                             <span className="font-weight-bold">
@@ -61,7 +62,7 @@ function ShowDelivery(props) {
                         </>
                     }
                 </div>
-                <div className="my-2">
+                <div className="ml-2 my-2">
                     <span className="font-weight-bold">
                         <FormattedMessage
                             id="delivery.payment_method"
@@ -70,7 +71,7 @@ function ShowDelivery(props) {
                     </span>
                     {` ${delivery.payment_method[translatedTitle]}`}
                 </div>
-                <div className="my-2">
+                <div className="ml-2 my-2">
                     <span className="font-weight-bold">
                         <FormattedMessage
                             id="delivery.delivery_method"
@@ -79,8 +80,9 @@ function ShowDelivery(props) {
                     </span>
                     {` ${delivery.delivery_method[translatedTitle]}`}
                 </div>
-                <div className="my-2">
-                    <button onClick={onContactInfoClick} type="button" className="font-weight-bold">
+                <div className="ml-2 my-2">
+                    <button onClick={onContactInfoClick} type="button"
+                            className="font-weight-bold btn btn-light border">
                         <FormattedMessage
                             id="delivery.contact.information"
                             defaultMessage="Contact Info"
@@ -88,11 +90,12 @@ function ShowDelivery(props) {
                     </button>
 
                     {contactInfo &&
-                    Object.keys(contactInfo).map((keyName) => (
-                        <div key={contactInfo[keyName].title}>
-                            {contactInfo[keyName][translatedTitle]}: {contactInfo[keyName].value} <br/>
-                        </div>
-                    ))}
+                        Object.keys(contactInfo).map((keyName) => (
+                            <div className="mt-2" key={contactInfo[keyName].title}>
+                                - {contactInfo[keyName][translatedTitle]}: {contactInfo[keyName].value} <br/>
+                            </div>
+                        ))}
+
                 </div>
 
                 <div className="mt-1 px-2 py-3">{delivery.description}</div>

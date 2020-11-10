@@ -1,6 +1,7 @@
 export default {
     en: {
-        'nav.dashboard': "Dashboard", // navBar
+        'slogan':'Do not travel empty-handed',
+        'nav.home': "Home", // navBar
         'nav.changePassword': "Change Password",
         'nav.login': "Login",
         'nav.signUp': "Sign Up",
@@ -12,6 +13,8 @@ export default {
         'nav.my.deliveries': "My deliveries",
         'nav.about.us': "About Us",
         'nav.contact.us': "Contact Us",
+        'nav.common.questions': "Common Questions",
+        'nav.privacy': "Privacy",
         'messages.new_delivery_added': "New Delivery Added Successfully", // messages
         'delivery.origin_country': "Origin Country", // delivery
         'delivery.origin_city': "Origin City",
@@ -29,6 +32,8 @@ export default {
         'delivery.no.items': 'You have not defined any items',
         'delivery.edit.page.header': 'Edit delivery',
         'delivery.new.page.header': 'New delivery',
+        'delivery.view': '{hit} view',
+        'delivery.views': '{hit} views',
         'login.forgotPassword': "Forgot Password", // Login
         'login.submitBtn': "Login",
         'login.entering': "verifying...",
@@ -60,6 +65,10 @@ export default {
         'cancel': "Cancel",
         'origin': "Origin",
         'no.items': "There are no available items",
+        'about.remini': "About Remini",
+        'copyright': "Copyright © 2020 Remini travel, Inc. All rights reserved.",
+        'contact.description': "Share your questions and comments with our support.",
+        'remini': "Remini",
         'sending.email': "Sending email...",
         'email.sent': "Email has been sent",
         'destination': "Destination",
@@ -71,7 +80,8 @@ export default {
         'validate.password_match': "Passwords must match",
     },
     fa: {
-        'nav.dashboard': "پنل اصلی", // navBar
+        'slogan':'دست خالی سفر نرو',
+        'nav.home': "صفحه اصلی", // navBar
         'nav.changePassword': "تغییر رمز",
         'nav.login': "ورود اعضا",
         'nav.signUp': "ثبت نام",
@@ -82,7 +92,9 @@ export default {
         'nav.request_list': "لیست درخواست ها",
         'nav.my.deliveries': "مرسولات من",
         'nav.about.us': "درباره ما",
-        'nav.contact.us': "تماس با ما",
+        'nav.contact.us': "تماس با پشتیبانی",
+        'nav.common.questions': "پرسش های متداول",
+        'nav.privacy': "حریم خصوصی",
         'messages.new_delivery_added': "درخواست جدید با موفقیت ثبت شد", // messages
         'delivery.origin_country': "کشور مبدا", // delivery
         'delivery.origin_city': "شهر مبدا",
@@ -100,6 +112,8 @@ export default {
         'delivery.no.items': 'هیچ مرسوله ای تعریف نکرده اید',
         'delivery.edit.page.header': 'ویرایش مرسوله',
         'delivery.new.page.header': 'مرسوله جدید',
+        'delivery.view': '{hit} بازدید',
+        'delivery.views': '{hit} بازدید',
         'login.forgotPassword': "رمز خود را فراموش کرده ام!", // Login & Register
         'login.password': "رمز",
         'login.submitBtn': "ورود",
@@ -135,6 +149,10 @@ export default {
         'origin': "مبدا",
         'destination': "مقصد",
         'no.items': "نتیجه ای یافت نشد",
+        'about.remini': "درباره رِمینی",
+        'copyright': "کليه حقوق اين سایت متعلق به شرکت رِمینی سفر است.",
+        'contact.description': "سوالات و نظرات خود را با پشتیبانی ما در میان بگذارید.",
+        'remini': "رِمینی",
         'sending.email': "در حال ارسال ایمیل...",
         'email.sent': "ایمیل فراموشی رمز ارسال شد.",
         'select.placeholder': "انتخاب {nameFa}...",

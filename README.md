@@ -5,6 +5,8 @@ This is my project's frontend made with ReactJS.
 
 It has used both FP and OOP Programming paradigms.
 
+The project is Bilingual, persian and english; in order to implement the Persian language, it has two templates, one rtl bootstrap template for persian language and one ltr bootstrap template for english.
+
 ### The project was created using:
 * React v17.0.1
 * Redux
@@ -20,7 +22,6 @@ It has used both FP and OOP Programming paradigms.
 * Axios
 * Bootstrap 4
 * Lodash
-* Validator - *Form Fields*
 
 ### More:
 The backend side of the project is made with Laravel.

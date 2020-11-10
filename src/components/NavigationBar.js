@@ -53,12 +53,20 @@ class NavigationBar extends Component {
     render() {
         const {isAuthenticated, user, location, username} = this.props;
         const {lang} = localStorage;
+
+        const homeLink = (
+            <>
+                <Nav.Link as={Link} to="/" href="/">
+                    <FormattedMessage id="nav.home" defaultMessage="Home"/>
+                </Nav.Link>
+            </>
+        )
         const commonLinks = (
             <>
-                <Nav.Link as={Link} className="ml-3" to="/about-us" href="/about-us">
+                <Nav.Link as={Link} className="ml-lg-3" to="/about-us" href="/about-us">
                     <FormattedMessage id="nav.about.us" defaultMessage="About Us"/>
                 </Nav.Link>
-                <Nav.Link as={Link} className="ml-3" to="/contact-us" href="/contact-us">
+                <Nav.Link as={Link} className="ml-lg-3" to="/contact-us" href="/contact-us">
                     <FormattedMessage id="nav.contact.us" defaultMessage="Contact Us"/>
                 </Nav.Link>
             </>
@@ -66,65 +74,49 @@ class NavigationBar extends Component {
 
 
         const userLinks = (
-            <Container>
-                <Nav className="mr-auto mt-auto" activeKey={location.pathname}>
-                    {/*<Nav.Link as={Link} to="/dashboard" href="/dashboard">*/}
-                    {/*    <FormattedMessage id="nav.dashboard" defaultMessage="Dashboard"/>*/}
-                    {/*</Nav.Link>*/}
-
-                    <Nav.Link as={Link} className="ml-3" to="/my-deliveries" href="/my-deliveries">
-                        <FormattedMessage id="nav.my.deliveries" defaultMessage="my deliveries"/>
-                    </Nav.Link>
-
-                    {/*<NavDropdown*/}
-                    {/*    title={<span><FormattedMessage id="nav.request" defaultMessage="request"/></span>}*/}
-                    {/*    id="basic-nav-dropdown"*/}
-                    {/*>*/}
-                    {/*    <NavDropdown.Item as={Link} to="/request/list" href="/request/list">*/}
-                    {/*        <FormattedMessage id="nav.request_list" defaultMessage="request_list"/>*/}
-                    {/*    </NavDropdown.Item>*/}
-                    {/*    <NavDropdown.Item as={Link} to="/request/new" href="/request/new">*/}
-                    {/*        <FormattedMessage id="nav.request_new" defaultMessage="request_new"/>*/}
-                    {/*    </NavDropdown.Item>*/}
-                    {/*</NavDropdown>*/}
-                    {commonLinks}
-                </Nav>
-                <NavDropdown
-                    drop="down"
-                    alignRight
-                    className="pb-1"
-                    title={<><Image src={avatar} width={40} height={40} roundedCircle/> {username}</>}
-                    id="basic-nav-dropdown"
-                >
-                    {/*<FontAwesomeIcon icon={faUserAlt} />*/}
-                    {/*<FontAwesomeIcon icon={faUserCircle} />*/}
-                    {/*<FontAwesomeIcon icon={faUserAltSlash} />*/}
-                    {/*<FontAwesomeIcon icon={faUserTie} />*/}
-                    <NavDropdown.Item disabled>{user}</NavDropdown.Item>
-                    <NavDropdown.Divider/>
-                    <NavDropdown.Item as={Link} to="/profile">
-                        <FormattedMessage id="nav.profile" defaultMessage="Profile"/>
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/profile">
-                        <FormattedMessage
-                            id="nav.changePassword"
-                            defaultMessage="Change Password"
-                        />
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider/>
-                    <NavDropdown.Item href="void()" onClick={this.logout.bind(this)}>
-                        <FormattedMessage id="nav.logout" defaultMessage="Logout"/>
-                    </NavDropdown.Item>
-                </NavDropdown>
-            </Container>
+            <Nav activeKey={location.pathname}>
+                {homeLink}
+                <Nav.Link as={Link} className="ml-lg-3" to="/my-deliveries" href="/my-deliveries">
+                    <FormattedMessage id="nav.my.deliveries" defaultMessage="my deliveries"/>
+                </Nav.Link>
+                {commonLinks}
+            </Nav>
         );
+
+        const userDropDown = (
+            <NavDropdown
+                drop="down"
+                alignRight
+                className="mr-1"
+                title={<><Image src={avatar} width={40} height={40} roundedCircle/> <span
+                    className="text-info">{username}</span></>}
+                id="basic-nav-dropdown"
+            >
+                <NavDropdown.Item disabled>{user}</NavDropdown.Item>
+                <NavDropdown.Divider/>
+                <NavDropdown.Item as={Link} to="/profile">
+                    <FormattedMessage id="nav.profile" defaultMessage="Profile"/>
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/profile">
+                    <FormattedMessage
+                        id="nav.changePassword"
+                        defaultMessage="Change Password"
+                    />
+                </NavDropdown.Item>
+                <NavDropdown.Divider/>
+                <NavDropdown.Item href="void()" onClick={this.logout.bind(this)}>
+                    <FormattedMessage id="nav.logout" defaultMessage="Logout"/>
+                </NavDropdown.Item>
+            </NavDropdown>
+        )
 
         const guestLinks = (
             <Nav className="mr-auto">
-                <Nav.Link className="ml-3" onClick={this.showLogin}>
+                {homeLink}
+                <Nav.Link className="ml-lg-3" onClick={this.showLogin}>
                     <FormattedMessage id="nav.login" defaultMessage="Login"/>
                 </Nav.Link>
-                <Nav.Link className="ml-3" onClick={this.showSignUp}>
+                <Nav.Link className="ml-lg-3" onClick={this.showSignUp}>
                     <FormattedMessage id="nav.signUp" defaultMessage="Sign Up"/>
                 </Nav.Link>
                 {commonLinks}
@@ -138,24 +130,41 @@ class NavigationBar extends Component {
                            onHide={this.hideLogin}
                 />
                 <SignupPage show={this.state.isSignUpOpen} onHide={this.hideSignUp}/>
-                <Navbar bg="white" className="p-0" expand="lg">
-                    <Container fluid="md">
+
+                <Navbar bg="white" className="py-0" expand="lg">
+                    <Container fluid="md" className="p-0">
                         <Navbar.Brand as={Link} className="text-white" to="/">
-                            <Image src={logo}/>
+                            <Image src={logo} alt="Remini Travel"/>
                         </Navbar.Brand>
-                        <Navbar.Collapse id="basic-navbar-nav" className="mt-auto">
-                            {isAuthenticated ? userLinks : guestLinks}
+                        <div className="d-block d-lg-none userDropDown ml-auto mt-auto">
+                            {isAuthenticated && userDropDown}
+                        </div>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" className="my-1"/>
+                        <Navbar.Collapse className="mt-auto">
+                            <hr className="d-lg-none mb-1 opacity-4 mt-0"/>
+                            <Nav className="mr-auto mt-auto">
+                                <Navbar.Collapse id="basic-navbar-nav" className="mt-auto">
+                                    {isAuthenticated ? userLinks : guestLinks}
+                                </Navbar.Collapse>
+                            </Nav>
+                            <hr className="d-lg-none mb-1 opacity-4"/>
+                            <Nav className="flex-row mr-2 pb-1 ml-auto mt-auto" style={{width: "80px"}}>
+                                <Nav.Link as="button"
+                                          className={classnames("border-0 btn btn-link language mr-1", {active: (lang === "en")})}
+                                          onClick={() => this.props.setLocale("en")}>
+                                    EN
+                                </Nav.Link>{" "}
+                                <Nav.Link as="button"
+                                          className={classnames("border-0 btn btn-link language", {active: (lang === "fa")})}
+                                          onClick={() => this.props.setLocale("fa")}>
+                                    FA
+                                </Nav.Link>
+                            </Nav>
+                            <div className="d-none d-lg-block mt-auto">
+                                {isAuthenticated && userDropDown}
+                            </div>
+
                         </Navbar.Collapse>
-                        <Nav>
-                            <Nav.Link as="button" className={classnames("border-0 btn btn-link language mr-1", {active: (lang === "en")})}
-                                      onClick={() => this.props.setLocale("en")}>
-                                EN
-                            </Nav.Link>{" "}
-                            <Nav.Link as="button" className={classnames("border-0 btn btn-link language", {active: (lang === "fa")})}
-                                      onClick={() => this.props.setLocale("fa")}>
-                                FA
-                            </Nav.Link>
-                        </Nav>
                     </Container>
                 </Navbar>
             </>

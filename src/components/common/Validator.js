@@ -30,6 +30,29 @@ export function ValidateLogin(data) {
 
 }
 
+export function ValidateContactUs(data) {
+    let errors = {};
+
+    if (Validator.isEmpty(data.email)) {
+        errors.email = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
+    } else if (!Validator.isEmail(data.email)) {
+        errors.email = [<FormattedMessage id="validate.invalid.email" defaultMessage="Email is invalid"/>];
+    }
+
+    if (!Validator.isEmpty(data.mobile) && !Validator.isNumeric(data.mobile)) {
+        errors.mobile = ['Cell Number is invalid'];
+    }
+
+    if (Validator.isEmpty(data.text)) {
+        errors.text = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
+    }
+
+    return {
+        errors,
+        isValid: isEmpty(errors),
+    }
+}
+
 export function ValidateDelivery(data) {
     let errors = {};
     if (data.origin_country_id.length === 0) {

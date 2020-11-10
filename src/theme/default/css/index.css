@@ -11,6 +11,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
+  font-size: 17px;
+}
+body.rtl {
+  font-size: 15px;
 }
 @font-face{
   font-family:'sansMed';
@@ -30,10 +34,13 @@ body {
   font-weight:normal;
   font-style:normal
 }
-body.rtl{
-  font-family:sansLight;
+body *  {
+  font-family:Poppins;
 }
 
+body.rtl *{
+  font-family:sansLight;
+}
 #root{
   flex-grow: 1;
 }
@@ -48,7 +55,7 @@ body.rtl{
   font-size: 15px;
 }
 .font-lg{
-  font-size: 19px;
+  font-size: 18px;
 }
 .font-xl{
   font-size: 23px;
@@ -81,7 +88,7 @@ body.rtl{
 
 .navbar {
   box-shadow: 0 0 6px 0 rgba(0,0,0,.08);
-  z-index: 2;
+  z-index: 100;
 }
 .searchPanel .mainContainer{
   box-shadow: -1px 6px 9px 0 rgba(0,0,0,.1);

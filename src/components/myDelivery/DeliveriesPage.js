@@ -22,7 +22,6 @@ function DeliveriesPage() {
     const myDeliveriesCount = myDeliveriesCountSelector(selectState);
 
     const [currentPage, setCurrentPage] = useState(1);
-    // const [totalItems, setTotalItems] = useState(myDeliveriesCount);
     const [loaded, setLoaded] = useState(true);
 
     const handlePageChange = (pageNumber) => {

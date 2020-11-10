@@ -24,6 +24,7 @@
     "lodash": "^4.17.20",
     "moment-timezone": "^0.5.31",
     "normalizr": "^3.6.1",
+    "pluralize": "^8.0.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.6",
     "react": "^16.14.0",

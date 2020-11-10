@@ -12,7 +12,7 @@ class ResetPasswordPage extends Component {
       .then(() => {
         this.props.addFlashMessage({
           type: "success",
-          text: "Your Password has changes successfully!",
+          text: "Your Password changed successfully!",
         });
         this.props.history.push("/login");
       });

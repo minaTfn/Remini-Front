@@ -43,7 +43,7 @@ class SearchDeliveryForm extends Component {
                         defaultValue={origin}
                     />
                 </div>
-                <div className="flex-grow-1 px-3 text-muted">
+                <div className="flex-grow-1 px-lg-3 px-2 text-muted">
                     <SelectFieldGroup
                         label={
                             <FormattedMessage
@@ -72,6 +72,7 @@ class SearchDeliveryForm extends Component {
                         onChange={onQueryChange}
                         placeholder={intl.formatMessage({id: 'search.placeholder'}, {name: 'title', nameFa: 'عنوان'})}
                         field="search"
+                        labelFixedWidth={false}
                         autoComplete="off"
                         classType="inRow"
                         value={searchTitle}

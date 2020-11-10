@@ -14,6 +14,7 @@ export default {
         ResetToken: token => axios.post(`${server}auth/refresh/`, token).then(res => res.data),
         ResetPasswordRequest: email => axios.post(`${server}password/email/`, email).then(res => res.data),
         ValidateToken: data => axios.post(`${server}password/reset/`, data).then(res => res.data),
+        contactUs: data => axios.post(`${server}contactUs/`, data).then((res) => res.data),
 
     },
     delivery: {
@@ -30,6 +31,7 @@ export default {
         getMyDeliveries: (params) => axios.get(`${server}my-deliveries/${params}`).then((res) => res.data),
         deleteDelivery: (slug) => axios.delete(`${server}deliveries/${slug}/`).then((res) => res.data),
         editDelivery: (slug, data) => axios.put(`${server}deliveries/${slug}/`, data).then((res) => res.data),
+        addFavorite:(slug) => axios.post(`${server}deliveries/${slug}/favorites`).then((res) => res.data),
     },
 
 };

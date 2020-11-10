@@ -16,15 +16,16 @@ const TextFieldGroup = ({
   description,
   isRequired,
   placeholder,
+  labelFixedWidth
 }) => {
-  const className = disabled ? "border-0 bg-light" : "";
+  const className = disabled ? "border-0" : "";
   const inRow = classType === "inRow" ? 1 : 0;
 
   return (
     <div className={`form-group ${inRow ? "d-flex" : ""}`}>
       <label
         htmlFor={field}
-        className={`control-label ${inRow ? "mr-2 col-form-label col-sm-2" : ""}`}
+        className={`control-label ${inRow ? (labelFixedWidth ? "col-sm-2 mr-2 col-form-label" : "mr-2 col-form-label") : ""}`}
       >
         {label}
         {isRequired ? <span className="text-danger"> * </span> : ""}
@@ -72,12 +73,14 @@ TextFieldGroup.propTypes = {
   autoComplete: PropTypes.string,
   onBlur: PropTypes.func,
   disabled: PropTypes.bool,
-  description: PropTypes.object,
+  labelFixedWidth: PropTypes.bool,
+  description: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   isRequired: PropTypes.bool,
 };
 TextFieldGroup.defaultProps = {
   type: "text",
   disabled: false,
+  labelFixedWidth: true,
   classType: "inColumn",
   isRequired: false,
 };

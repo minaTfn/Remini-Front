@@ -1,19 +1,14 @@
-import React, {Suspense} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import {FormattedMessage} from "react-intl";
+import {useSelector} from "react-redux";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
-    faShippingFast,
     faAngleDoubleRight,
-    faPlaneArrival,
-    faPlaneDeparture,
     faMapMarkerAlt,
-    faLongArrowAltRight
 } from '@fortawesome/free-solid-svg-icons';
 import MyDeliveryItem from "../myDelivery/MyDeliveryItem";
 import DeliveryItem from "./DeliveryItem";
-import path from "../../theme/default/images/path2.png";
-import {Image} from "react-bootstrap";
 
 const DeliveriesList = (props) => {
     const {deliveryItems, cities} = props.deliveries;
@@ -23,16 +18,17 @@ const DeliveriesList = (props) => {
     const translatedDate = (lang === 'fa') ? `${lang}_request_date` : 'request_date';
     const iconDir = lang === 'fa' && `fa-flip-horizontal`;
 
+
+    const isAuthenticated = useSelector((state) => !!state.user.email);
+
     const direction = (fromCity, toCity) => {
         return <>
-            {/*<Image src={path} width={50} className="mr-2 p-1" /><br/>*/}
-            <FontAwesomeIcon icon={faMapMarkerAlt} className="font-md mx-2"/>
+            <FontAwesomeIcon icon={faMapMarkerAlt} className="font-lg mx-2 text-info"/>
             <span>
-                <b className="px-1">{cities[fromCity].country[translatedTitle]},</b>
+                <b className="px-1 text-info">{cities[fromCity].country[translatedTitle]},</b>
                 <span className="mx-1 font-sm">{cities[fromCity].title}</span>
                 <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-sm mx-2 ${iconDir}`}/>
-
-                <b className="px-1">{cities[toCity].country[translatedTitle]} ,</b>
+                <b className="px-1 text-info">{cities[toCity].country[translatedTitle]} ,</b>
                 <span className="mx-1 font-sm">{cities[toCity].title}</span>
             </span>
         </>
@@ -62,6 +58,7 @@ const DeliveriesList = (props) => {
                                         )}
                                     />
                                     : <DeliveryItem
+                                        isAuthenticated={isAuthenticated}
                                         delivery={deliveryItems[keyName]}
                                         translatedDate={translatedDate}
                                         direction={direction(
@@ -83,40 +80,6 @@ const DeliveriesList = (props) => {
             }
         </>
     );
-};
-
-DeliveriesList.propTypes = {
-    totalItems: PropTypes.number.isRequired,
-    myDelivery: PropTypes.bool,
-    deliveries: PropTypes.objectOf(
-        PropTypes.shape({
-            deliveryItems: PropTypes.objectOf(
-                PropTypes.shape({
-                    key: PropTypes.objectOf(
-                        PropTypes.shape({
-                            slug: PropTypes.string.isRequired,
-                            title: PropTypes.string.isRequired,
-                        })
-                    ),
-                })
-            ),
-            cities: PropTypes.objectOf(
-                PropTypes.shape({
-                    key: PropTypes.objectOf(
-                        PropTypes.shape({
-                            id: PropTypes.number.isRequired,
-                            title: PropTypes.string.isRequired,
-                            title_fa: PropTypes.string.isRequired,
-                        })
-                    ),
-                })
-            ),
-        })
-    ),
-};
-DeliveriesList.defaultProps = {
-    myDelivery: false,
-    deliveries: {},
 };
 
 

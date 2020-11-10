@@ -1,9 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import {FormattedMessage} from "react-intl";
 import PropTypes from "prop-types";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleDoubleRight, faShippingFast} from "@fortawesome/free-solid-svg-icons";
-import api from "../../utils/api";
+import {faAngleDoubleRight, faMapMarkerAlt} from "@fortawesome/free-solid-svg-icons";
 import {Link} from "react-router-dom";
 
 function ShowMyDelivery(props) {
@@ -40,15 +39,16 @@ function ShowMyDelivery(props) {
                 </div>
                 <div className="card-body">
                     <div className="my-2">
-                        <b className="font-md px-1">{delivery.origin.country[translatedTitle]}</b>
-                        <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-md ${iconDir}`}/>
-                        <span className="text-primary font-md mx-1">{delivery.origin.title}</span>
-                        <FontAwesomeIcon icon={faShippingFast} className={`mx-2 ${iconDir}`}/>
-                        <b className="font-md px-1">{delivery.destination.country[translatedTitle]} </b>
-                        <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-md ${iconDir}`}/>
-                        <span className="text-primary font-md mx-1">{delivery.destination.title}</span>
+                        <FontAwesomeIcon icon={faMapMarkerAlt} className="font-lg mx-2 text-info"/>
+                        <span>
+                        <b className="px-1 text-info">{delivery.origin.country[translatedTitle]},</b>
+                        <span className="mx-1 font-sm">{delivery.origin.title}</span>
+                        <FontAwesomeIcon icon={faAngleDoubleRight} className={`font-sm mx-2 ${iconDir}`}/>
+                        <b className="px-1 text-info">{delivery.destination.country[translatedTitle]} ,</b>
+                        <span className="mx-1 font-sm">{delivery.destination.title}</span>
+                    </span>
                     </div>
-                    <div className="my-2">
+                    <div className="ml-2 my-2">
                         {
                             delivery.deadline_date && <>
                             <span className="font-weight-bold">
@@ -61,26 +61,26 @@ function ShowMyDelivery(props) {
                             </>
                         }
                     </div>
-                    <div className="my-2">
-                    <span className="font-weight-bold">
-                        <FormattedMessage
-                            id="delivery.payment_method"
-                            defaultMessage="delivery.payment_method"
-                        />:
-                    </span>
+                    <div className="ml-2 my-2">
+                        <span className="font-weight-bold">
+                            <FormattedMessage
+                                id="delivery.payment_method"
+                                defaultMessage="delivery.payment_method"
+                            />:
+                        </span>
                         {` ${delivery.payment_method[translatedTitle]}`}
                     </div>
-                    <div className="my-2">
-                    <span className="font-weight-bold">
-                        <FormattedMessage
-                            id="delivery.delivery_method"
-                            defaultMessage="delivery.delivery_method"
-                        />:
-                    </span>
+                    <div className="ml-2 my-2">
+                        <span className="font-weight-bold">
+                            <FormattedMessage
+                                id="delivery.delivery_method"
+                                defaultMessage="delivery.delivery_method"
+                            />:
+                        </span>
                         {` ${delivery.delivery_method[translatedTitle]}`}
                     </div>
                     <div className="mt-1 px-2 py-3">{delivery.description}</div>
-                </div>
+                    </div>
             </div>
         </>
     );
