@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Image} from "react-bootstrap";
 import {FormattedMessage} from "react-intl";
 import PropTypes from "prop-types";
-import banner from "../../theme/default/images/8.jpg";
+import banner from "../../theme/default/images/remini_about.jpg";
 import ContactForm from "./partials/_contactForm";
 import api from "../../utils/api";
 import { addFlashMessage } from "../../actions/flashMessages";

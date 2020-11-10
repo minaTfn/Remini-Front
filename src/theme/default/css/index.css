@@ -82,7 +82,7 @@ body.rtl *{
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url(../images/15.jpg) no-repeat center -110px;
+  background: url(../images/pattern.jpg) repeat-x center -110px;
   z-index: 0;
 }
 
