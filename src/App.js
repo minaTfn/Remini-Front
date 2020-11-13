@@ -25,6 +25,7 @@ import EditDeliveryPage from "./components/myDelivery/EditDeliveryPage";
 import ShowDeliveryPage from "./components/delivery/ShowDeliveryPage";
 import AboutPage from "./components/pages/AboutPage";
 import ContactPage from "./components/pages/ContactPage";
+import InProgressPage from "./components/pages/InProgressPage";
 
 
 class App extends Component {
@@ -83,6 +84,12 @@ class App extends Component {
                                         path="/delivery/:slug"
                                         exact
                                         component={ShowDeliveryPage}
+                                    />
+                                    <Route
+                                        location={location}
+                                        path="/in-progress"
+                                        exact
+                                        component={InProgressPage}
                                     />
                                     <UserRoute
                                         location={location}

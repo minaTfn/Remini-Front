@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {FormattedMessage} from "react-intl";
 import {useSelector} from "react-redux";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';

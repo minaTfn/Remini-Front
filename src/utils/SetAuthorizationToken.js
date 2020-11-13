@@ -9,4 +9,5 @@ export function setAuthorizationToken(token) {
 }
 export function setAxiosLanguage(language) {
     axios.defaults.headers.common['Accept-Language'] = language;
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 }

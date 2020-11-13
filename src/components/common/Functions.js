@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 
 export function convertToSelect(data, lang = 'en') {
     const resultArray = [];

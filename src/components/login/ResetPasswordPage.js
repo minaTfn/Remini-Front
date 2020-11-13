@@ -14,7 +14,7 @@ class ResetPasswordPage extends Component {
           type: "success",
           text: "Your Password changed successfully!",
         });
-        this.props.history.push("/login");
+        this.props.history.push("/");
       });
 
   render() {

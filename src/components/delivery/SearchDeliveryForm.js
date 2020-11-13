@@ -2,18 +2,16 @@ import React, {Component} from 'react';
 import SelectFieldGroup from "../common/SelectFieldGroup";
 import {FormattedMessage, injectIntl} from "react-intl";
 import TextFieldGroup from "../common/TextFieldGroup";
-import api from "../../utils/api";
-import {convertToSelect} from "../common/Functions";
 import {connect} from "react-redux";
 
 class SearchDeliveryForm extends Component {
     state = {
         countriesList: [],
     }
-
-    componentDidMount() {
-        const {lang} = localStorage;
-    }
+    //
+    // componentDidMount() {
+    //     const {lang} = localStorage;
+    // }
 
     render() {
         const {onOriginChange, origin, onDestinationChange, destination, onQueryChange, searchTitle, intl} = this.props;

@@ -115,3 +115,4 @@ body.rtl *{
 .min190{
   min-width: 190px;
 }
+a {outline : none !important;}
