@@ -42,6 +42,7 @@ body.rtl *{
   font-family:sansLight;
 }
 #root{
+  width: 100%;
   flex-grow: 1;
 }
 .loadedContent{
