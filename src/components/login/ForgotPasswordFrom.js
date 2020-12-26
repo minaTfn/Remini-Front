@@ -34,7 +34,7 @@ class ForgotPasswordFrom extends Component {
         const field = e.target.name;
         const {errors, isValid} = ValidateForgotPassword(this.state.data);
         if (!isValid) {
-            let varErrors = this.state.errors;
+            const varErrors = this.state.errors;
             if (!isValid) {
                 varErrors[field] = errors[field];
             } else {

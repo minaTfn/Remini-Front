@@ -9,7 +9,6 @@ import {Container} from "react-bootstrap";
 import GuestRoute from "./utils/GuestRoute";
 import UserRoute from "./utils/UserRoute";
 import {fetchCurrentUser} from "./actions/users";
-import {fetchCountries, fetchDeliveryMethods, fetchPaymentMethods, fetchContactMethods} from "./actions/delivery";
 import messages from "./utils/messages";
 import NavigationBar from "./components/NavigationBar";
 import Footer from "./components/Footer";
@@ -67,12 +66,6 @@ class App extends Component {
                                         exact
                                         component={AboutPage}
                                     />
-                                    {/*<GuestRoute*/}
-                                    {/*    location={location}*/}
-                                    {/*    path="/forgot_password"*/}
-                                    {/*    exact*/}
-                                    {/*    component={ForgotPasswordPage}*/}
-                                    {/*/>*/}
                                     <GuestRoute
                                         location={location}
                                         path="/passwordReset/:token/:email"
@@ -148,10 +141,6 @@ App.propTypes = {
     user: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     fetchCurrentUser: PropTypes.func.isRequired,
-    fetchCountries: PropTypes.func.isRequired,
-    fetchDeliveryMethods: PropTypes.func.isRequired,
-    fetchPaymentMethods: PropTypes.func.isRequired,
-    fetchContactMethods: PropTypes.func.isRequired,
     loaded: PropTypes.bool.isRequired,
     lang: PropTypes.string.isRequired
 };
@@ -168,8 +157,4 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
     fetchCurrentUser,
-    fetchCountries,
-    fetchDeliveryMethods,
-    fetchPaymentMethods,
-    fetchContactMethods
 })(App);

@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import {FormattedMessage} from "react-intl";
 
 export function ValidateLogin(data) {
-    let errors = {};
+    const errors = {};
 
     const required = ['email', 'password'];
 
@@ -31,7 +31,7 @@ export function ValidateLogin(data) {
 }
 
 export function ValidateContactUs(data) {
-    let errors = {};
+    const errors = {};
 
     if (Validator.isEmpty(data.email)) {
         errors.email = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
@@ -54,7 +54,7 @@ export function ValidateContactUs(data) {
 }
 
 export function ValidateDelivery(data) {
-    let errors = {};
+    const errors = {};
     if (data.origin_country_id.length === 0) {
         errors.origin_country_id = [<FormattedMessage id="validate.required"
                                                       defaultMessage="This field is required"/>];
@@ -97,7 +97,7 @@ export function ValidateDelivery(data) {
 }
 
 export function ValidateChangePassword(data) {
-    let errors = {};
+    const errors = {};
 
     const required = ['old_password', 'password', 'password_confirmation'];
 
@@ -126,7 +126,7 @@ export function ValidateChangePassword(data) {
 }
 
 export function ValidateForgotPassword(data) {
-    let errors = {};
+    const errors = {};
     if (Validator.isEmpty(data.email)) {
         errors.email = [<FormattedMessage id="validate.required" defaultMessage="This field is required"/>];
     } else if (!Validator.isEmail(data.email)) {
@@ -139,7 +139,7 @@ export function ValidateForgotPassword(data) {
 }
 
 export function ValidateResetPassword(data) {
-    let errors = {};
+    const errors = {};
 
     const required = ['password', 'password_confirmation'];
 
@@ -165,7 +165,7 @@ export function ValidateResetPassword(data) {
 }
 
 export function ValidateProfile(data) {
-    let errors = {};
+    const errors = {};
 
     if (!Validator.isLength(toString(data.name), {min: 3})) {
         errors.name = [<FormattedMessage id="validate.invalid.name" defaultMessage="Name is invalid"/>];
@@ -183,7 +183,7 @@ export function ValidateProfile(data) {
 }
 
 export function ValidateSignUp(data) {
-    let errors = {};
+    const errors = {};
 
     const required = ['name', 'email', 'password'];
 

@@ -2,7 +2,7 @@
 import { localeSet } from '../reducers/localeSlice';
 import {setAxiosLanguage} from "../utils/SetAuthorizationToken";
 
-export const setLocale = lang => dispatch => {
+const setLocale = lang => dispatch => {
     if (lang === 'fa') {
         document.body.classList.add('rtl');
     } else {
@@ -13,3 +13,5 @@ export const setLocale = lang => dispatch => {
     dispatch(localeSet(lang));
     setAxiosLanguage(localStorage.lang);
 };
+
+export default setLocale();

@@ -6,7 +6,7 @@ import {FormattedMessage} from "react-intl";
 import classnames from "classnames"
 import {Navbar, NavDropdown, Nav, Container, Image} from "react-bootstrap";
 import {logout} from "../actions/users";
-import {setLocale} from "../actions/locale";
+import setLocale from "../actions/locale";
 import avatar from "../theme/default/images/avatar.png";
 import logo from "../theme/default/images/logo.jpg";
 import LoginPage from "./login/LoginPage";
@@ -104,6 +104,7 @@ class NavigationBar extends Component {
                     />
                 </NavDropdown.Item>
                 <NavDropdown.Divider/>
+                {/* eslint-disable-next-line react/jsx-no-bind */}
                 <NavDropdown.Item href="void()" onClick={this.logout.bind(this)}>
                     <FormattedMessage id="nav.logout" defaultMessage="Logout"/>
                 </NavDropdown.Item>
