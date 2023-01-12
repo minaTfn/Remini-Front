@@ -1,11 +1,11 @@
-This project is made with [ReactJs 17.0.1](https://reactjs.org/)
+This project has been implemented with [ReactJs 17.0.1](https://reactjs.org/)
 
 ## About Project:
-This is my project's frontend made with ReactJS.
+This is my project's frontend with ReactJS.
 
-It has used both FP and OOP Programming paradigms.
+It uses both FP and OOP Programming paradigms.
 
-The project is Bilingual, persian and english; in order to implement the Persian language, it has two templates, one rtl bootstrap template for persian language and one ltr bootstrap template for english.
+The project is Bilingual, Persian and English; in order to implement the Persian language, it has two templates, one rtl bootstrap template for the Persian language and one ltr bootstrap template for the English.
 
 ### The project was created using:
 * React v17.0.1
